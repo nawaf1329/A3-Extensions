@@ -405,12 +405,16 @@ function triggerSearch() { searchInput.dispatchEvent(new Event('input')); }
 
 searchInput.addEventListener('input', function(){
   const q = this.value.toLowerCase().trim();
+  const regex = new RegExp(`\\b${q}\\b`);
+
   const filtered = data.filter(row => {
     const cat = String(row.category || '').toLowerCase();
     const svc = String(row.service || '').toLowerCase();
     const ext = String(row.extension || '').toLowerCase();
-    return cat.includes(q) || svc.includes(q) || ext.includes(q);
+
+    return regex.test(cat) || regex.test(svc) || regex.test(ext);
   });
+
   renderRows(filtered);
 });
 
