@@ -3,359 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>A3 Extensions · Directory (TEST)</title>
+<title>A3 Extensions · Directory</title>
 <link rel="icon" type="image/png" href="logo.png">
 
 <style>
-  :root {
-    --bg-dark: #020617;
-    --bg-gradient: radial-gradient(circle at top, #1f2937 0, #020617 55%, #020617 100%);
-    --card-bg: radial-gradient(circle at top left, rgba(30, 41, 59, 0.4), rgba(15,23,42, 0.6));
-    --primary: #0ea5e9;
-    --border: rgba(148, 163, 184, 0.2);
-    --text-main: #e5e7eb;
-    --text-muted: #9ca3af;
-    --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-  }
-
-  * { box-sizing: border-box; }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;          /* يمنع اللف يمين/يسار للصفحة */
-    overscroll-behavior-y: none; /* يقلل مطاط الصفحة كاملة */
-  }
-
-  body {
-    font-family: var(--font-stack);
-    height: 100vh;
-    background: var(--bg-gradient);
-    color: var(--text-main);
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .container {
-    width: 90%;
-    max-width: 1400px;
-    height: 90vh;
-    margin: auto;
-    background: linear-gradient(145deg, rgba(15,23,42,0.9), rgba(15,23,42,0.98));
-    border-radius: 24px;
-    padding: 24px;
-    border: 1px solid var(--border);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-
-  header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-
-  .avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 1px solid rgba(56, 189, 248, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--primary);
-    background: radial-gradient(circle at 30% 0, #1e293b 0, #020617 60%);
-    box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
-    overflow: hidden;
-  }
-
-  .avatar img {
-    width: 32px;
-    height: 32px;
-  }
-
-  .titles h1 {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: #e5e7eb;
-    margin: 0 0 2px 0;
-  }
-
-  .titles p {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin: 0;
-  }
-
-  .status-dot {
-    margin-left: auto;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #3b82f6;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .status-dot.active {
-    opacity: 1;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-    100% { opacity: 0.5; }
-  }
-
-  .controls-area {
-    flex-shrink: 0;
-    margin-bottom: 15px;
-  }
-
-  .search-wrap {
-    position: relative;
-    margin-bottom: 6px;
-  }
-
-  .search-wrap input {
-    width: 100%;
-    padding: 12px 15px 12px 40px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    font-size: 14px;
-    outline: none;
-    background: #0b1120;
-    color: var(--text-main);
-    transition: all 0.2s;
-  }
-
-  .search-wrap input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
-  }
-
-  .search-icon {
-    position: absolute;
-    left: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 14px;
-    color: var(--text-muted);
-  }
-
-  .helper {
-    font-size: 12px;
-    color: var(--primary);
-    text-align: center;
-    margin-top: 4px;
-    font-weight: 600;
-  }
-
-  .fav-toggle-bar {
-    display: flex;
-    justify-content: flex-end;
-    gap: 6px;
-    margin-top: 8px;
-  }
-
-  .fav-filter {
-    padding: 4px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(148, 163, 184, 0.4);
-    background: rgba(15, 23, 42, 0.8);
-    color: var(--text-muted);
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .fav-filter.active {
-    border-color: var(--primary);
-    color: var(--primary);
-    background: rgba(14, 165, 233, 0.12);
-  }
-
-  .table-wrapper {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;          /* يمنع اللف يمين/يسار داخل الجدول */
-    position: relative;
-    border-radius: 12px;
-    overscroll-behavior: contain;/* يمنع تمرير اللف لباقي الصفحة */
-    touch-action: pan-y;         /* يسمح فقط باللف العمودي */
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;         /* يثبت عرض الأعمدة */
-  }
-
-  thead {
-    position: sticky;
-    top: 0;
-    background: #0f172a;
-    z-index: 10;
-    border-bottom: 1px solid var(--border);
-  }
-
-  th {
-    text-align: left;
-    padding: 12px 10px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-  }
-
-  th.fav-col {
-    width: 40px;
-    text-align: center;
-  }
-
-  th:nth-child(2) { width: 22%; }
-  th:nth-child(3) { width: 48%; }
-  th:nth-child(4) { width: 30%; }
-
-  td {
-    padding: 10px 10px;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-    vertical-align: middle;
-    font-size: 13px;
-    color: var(--text-main);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;   /* يمنع نزول السطر ويخلي الجدول ثابت */
-  }
-
-  td:nth-child(3) .service-name {
-    display: inline-block;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .category-pill {
-    display: inline-block;
-    padding: 3px 9px;
-    border-radius: 6px;
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: #cbd5e1;
-    background: rgba(30, 41, 59, 0.5);
-  }
-
-  .service-name {
-    font-weight: 600;
-    color: #f3f4f6;
-  }
-
-  .ext-number {
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-weight: 700;
-    color: var(--primary);
-    background: rgba(14, 165, 233, 0.1);
-    padding: 4px 8px;
-    border-radius: 4px;
-    white-space: nowrap;
-  }
-
-  .fav-btn {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 1;
-    padding: 0;
-    color: #4b5563;
-  }
-
-  .fav-btn.active {
-    color: #facc15;
-    text-shadow: 0 0 6px rgba(250, 204, 21, 0.7);
-  }
-
-  .footer {
-    flex-shrink: 0;
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    font-size: 10px;
-    color: var(--text-muted);
-  }
-
-  .tag {
-    padding: 2px 8px;
-    border-radius: 999px;
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    color: var(--primary);
-    white-space: nowrap;
-  }
-
-  @media (max-width: 768px) {
-    .container {
-      width: 100%;
-      height: 100dvh;
-      max-width: none;
-      border-radius: 0;
-      border: none;
-      padding: 16px;
-    }
-
-    header {
-      gap: 10px;
-    }
-
-    .titles h1 {
-      font-size: 15px;
-    }
-
-    .titles p {
-      font-size: 11px;
-    }
-
-    th, td {
-      padding-left: 8px;
-      padding-right: 8px;
-    }
-  }
-  /* تثبيت الأعمدة ومنع تحرك الأرقام */
-td:last-child {
-  text-align: right;
-  white-space: nowrap;
+:root {
+  --bg-dark: #020617;
+  --bg-gradient: radial-gradient(circle at top, #1f2937 0, #020617 55%, #020617 100%);
+  --card-bg: radial-gradient(circle at top left, rgba(30, 41, 59, 0.4), rgba(15,23,42, 0.6));
+  --primary: #0ea5e9;
+  --border: rgba(148, 163, 184, 0.2);
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+  --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
 }
 
-/* تصغير الاسم تلقائيًا إذا طال */
-.service-name {
-  font-size: clamp(11px, 1.2vw, 14px);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-/* منع الصفحة بالكامل تتحرك */
+/* منع الحركة الأفقية تماماً */
 html, body {
-  overscroll-behavior: none;
+  width: 100%;
   overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-stack);
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 95%;
+  max-width: 1400px;
+  height: 95vh;
+  margin: auto;
+  background: linear-gradient(145deg, rgba(15,23,42,0.9), rgba(15,23,42,0.98));
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* HEADER ثابت */
+header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #020617;
+}
+
+.titles {
+  text-align: center;
+  width: 100%;
+}
+
+.controls-area {
+  flex-shrink: 0;
+}
+
+/* البحث */
+.search-wrap {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 12px 15px 12px 40px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  background: #0b1120;
+  color: var(--text-main);
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.helper {
+  font-size: 12px;
+  color: var(--primary);
+  text-align: center;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* الجدول ثابت عرضياً */
+.table-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  background: #0f172a;
+  z-index: 10;
+}
+
+/* الأعمدة */
+th, td {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(148,163,184,0.15);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* عمود النجمة أقرب */
+th.fav-col, td:first-child {
+  width: 36px;
+  text-align: center;
+}
+
+/* الكاتقوري حجم ثابت */
+th:nth-child(2), td:nth-child(2) {
+  width: 18%;
+}
+
+/* السيرفس يتكيف تلقائي */
+th:nth-child(3), td:nth-child(3) {
+  width: auto;
+  font-size: clamp(11px, 1.3vw, 13px);
+  text-overflow: ellipsis;
+}
+
+/* الاكستنشن */
+th:nth-child(4), td:nth-child(4) {
+  width: 90px;
+  text-align: center;
+}
+
+.category-pill {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: rgba(30,41,59,0.6);
+}
+
+/* الرقم */
+.ext-number {
+  font-family: ui-monospace;
+  font-weight: 700;
+  color: var(--primary);
+  background: rgba(14,165,233,0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* النجمة */
+.fav-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 15px;
+  color: #4b5563;
+}
+.fav-btn.active {
+  color: #facc15;
+}
+
+/* الفوتر ثابت */
+.footer {
+  flex-shrink: 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+.tag {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(56,189,248,0.3);
+  color: var(--primary);
 }
 </style>
 </head>
@@ -365,7 +226,7 @@ html, body {
 
   <header>
     <div class="avatar">
-      <img src="logo.png" alt="logo">
+      <img src="logo.png" alt="logo" width="50" height="50">
     </div>
     <div class="titles" style="text-align:center; width:100%;">
       <h1>A3 INTERNAL EXTENSIONS</h1>
@@ -407,7 +268,7 @@ html, body {
 
   <div class="footer">
     <span>This project is a personal initiative and is not an official hospital system.</span>
-    <span class="tag">TEST BUILD</span>
+    <span class="tag">LIVE</span>
   </div>
 
 </div>
@@ -417,13 +278,16 @@ const tbody       = document.getElementById('tbody');
 const searchInput = document.getElementById('search');
 const btnAll      = document.getElementById('filter-all');
 const btnFav      = document.getElementById('filter-fav');
+const syncDot     = document.getElementById('sync-indicator');
 
-const STORAGE_KEY_FAV = 'a3_directory_favorites_v1_test';
+const STORAGE_KEY_DATA = 'a3_directory_data_v1';
+const STORAGE_KEY_FAV  = 'a3_directory_favorites_v1';
 
 let data = [];
 let favorites = new Set();
 let currentView = 'all';
 
+// Unique key per row
 function makeKey(row) {
   return `${row.category}||${row.service}||${row.extension}`;
 }
@@ -441,24 +305,38 @@ function saveFavorites() {
   localStorage.setItem(STORAGE_KEY_FAV, JSON.stringify(Array.from(favorites)));
 }
 
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function getFilteredData() {
   const q = searchInput.value.toLowerCase().trim();
-  return data.filter(row => {
-    const match =
-      row.category.toLowerCase().includes(q) ||
-      row.service.toLowerCase().includes(q)  ||
-      String(row.extension).toLowerCase().includes(q);
+  let re = null;
+  if (q) {
+    re = new RegExp('\\b' + escapeRegex(q));
+  }
 
-    if (!match) return false;
-    if (currentView === 'fav') return favorites.has(makeKey(row));
-    return true;
+  return data.filter(row => {
+    const inView =
+      currentView === 'all' ||
+      (currentView === 'fav' && favorites.has(makeKey(row)));
+
+    if (!inView) return false;
+    if (!q) return true;
+
+    const cat = String(row.category || '').toLowerCase();
+    const svc = String(row.service || '').toLowerCase();
+    const ext = String(row.extension || '').toLowerCase();
+
+    return re.test(cat) || re.test(svc) || re.test(ext);
   });
 }
 
 function renderRows(list) {
   tbody.innerHTML = "";
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 40px; color: #9ca3af;">No results found.</td></tr>`;
+    tbody.innerHTML =
+      `<tr><td colspan="4" style="text-align:center; padding:40px; color:#9ca3af;">No results found.</td></tr>`;
     return;
   }
 
@@ -469,16 +347,19 @@ function renderRows(list) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td style="text-align:center;">
-        <button class="fav-btn${isFav ? ' active' : ''}" data-key="${key}" aria-label="Toggle favorite">★</button>
+        <button class="fav-btn${isFav ? ' active' : ''}" data-key="${key}" aria-label="Toggle favorite">
+          ★
+        </button>
       </td>
-      <td><span class="category-pill">${row.category}</span></td>
-      <td><span class="service-name">${row.service}</span></td>
-      <td><span class="ext-number">${row.extension}</span></td>
+      <td><span class="category-pill">${row.category || ''}</span></td>
+      <td class="service-name">${row.service || ''}</td>
+      <td><span class="ext-number">${row.extension || ''}</span></td>
     `;
     tbody.appendChild(tr);
   });
 }
 
+// Toggle favorite on click
 tbody.addEventListener('click', (e) => {
   if (!e.target.classList.contains('fav-btn')) return;
 
@@ -493,6 +374,7 @@ tbody.addEventListener('click', (e) => {
   saveFavorites();
 });
 
+// All / Favorites filter
 btnAll.addEventListener('click', () => {
   currentView = 'all';
   btnAll.classList.add('active');
@@ -507,81 +389,50 @@ btnFav.addEventListener('click', () => {
   renderRows(getFilteredData());
 });
 
+// Search
 searchInput.addEventListener('input', () => {
   renderRows(getFilteredData());
 });
 
-// بيانات تجريبية فقط للتست
-data = [
-  data = [
-  {category:"RRT", service:"Rapid Response Team – Adult Emergency Coverage", extension:"49337"},
-  {category:"RRT", service:"Rapid Response Team – Pediatric Emergency Response", extension:"45381"},
+// Google Apps Script callback
+function callback(response) {
+  const prev = localStorage.getItem(STORAGE_KEY_DATA);
+  const next = JSON.stringify(response);
 
-  {category:"WOUND CARE", service:"Advanced Wound Care and Ostomy Management Services", extension:"47193"},
-  {category:"STOMA", service:"Senior Stoma Nurse Specialist and Patient Education", extension:"48971"},
+  syncDot.classList.remove('active');
 
-  {category:"PHARMACY", service:"Central Intensive Care Unit Pharmacy (CSICU)", extension:"35289"},
-  {category:"PHARMACY", service:"Narcotic Controlled Drugs Pharmacy Services and Inventory", extension:"38616"},
-  {category:"PHARMACY", service:"Intravenous Preparation and Compounding Room", extension:"38665"},
-  {category:"PHARMACY", service:"Total Parenteral Nutrition (TPN) Compounding Pharmacy", extension:"49261"},
-  {category:"PHARMACY", service:"Pyxis Automated Dispensing System Support and On-Call", extension:"27609"},
-  {category:"PHARMACY", service:"Emergency Medication Supply and Crash Cart Refill", extension:"38066"},
+  if (prev !== next) {
+    localStorage.setItem(STORAGE_KEY_DATA, next);
+    data = response;
+  } else if (!data.length) {
+    data = response;
+  }
 
-  {category:"LABORATORY", service:"Hematology and Coagulation Laboratory Services Department", extension:"33670"},
-  {category:"LABORATORY", service:"Clinical Chemistry and Blood Gas Analysis Section", extension:"34192"},
-  {category:"LABORATORY", service:"Microbiology Culture, Sensitivity and Infection Control", extension:"34822"},
-  {category:"LABORATORY", service:"Histopathology and Cytology Diagnostic Services", extension:"35988"},
+  renderRows(getFilteredData());
+}
 
-  {category:"IMAGING & RADIOLOGY", service:"In-Patient Radiology and Diagnostic Imaging Services", extension:"78887"},
-  {category:"IMAGING & RADIOLOGY", service:"Computed Tomography (CT) Scan and Emergency Imaging", extension:"77231"},
-  {category:"IMAGING & RADIOLOGY", service:"Magnetic Resonance Imaging (MRI) Appointment Desk", extension:"74410"},
-  {category:"IMAGING & RADIOLOGY", service:"Interventional Radiology Procedure Scheduling Office", extension:"75029"},
+function loadData() {
+  syncDot.classList.add('active');
 
-  {category:"SURGICAL SERVICES", service:"Operating Theater Main Control and Case Coordination", extension:"44219"},
-  {category:"SURGICAL SERVICES", service:"Post-Anesthesia Care Unit (PACU) and Recovery Room", extension:"45128"},
-  {category:"SURGICAL SERVICES", service:"Central Sterile Services Department (CSSD)", extension:"46001"},
+  loadFavorites();
 
-  {category:"GENERAL SERVICES", service:"Patient Relations and Complaints Management Office", extension:"45111"},
-  {category:"GENERAL SERVICES", service:"Medical Records and Archives Department", extension:"46220"},
-  {category:"GENERAL SERVICES", service:"Hospital Transportation and Patient Transfer Services", extension:"47590"},
-  {category:"GENERAL SERVICES", service:"Facilities Maintenance and Engineering Support", extension:"48832"},
-  {category:"GENERAL SERVICES", service:"Biomedical Equipment Maintenance and Calibration Unit", extension:"49901"},
+  const cached = localStorage.getItem(STORAGE_KEY_DATA);
+  if (cached) {
+    try {
+      data = JSON.parse(cached) || [];
+    } catch (e) {
+      data = [];
+    }
+  }
 
-  {category:"IT & SYSTEMS", service:"Hospital Information System Support and Technical Helpdesk", extension:"40001"},
-  {category:"IT & SYSTEMS", service:"Clinical Application Support and User Access Management", extension:"40012"},
-  {category:"IT & SYSTEMS", service:"Network Operations Center and Connectivity Issues", extension:"40023"},
-  {category:"IT & SYSTEMS", service:"Cybersecurity and Digital Access Control Services", extension:"40033"},
+  renderRows(getFilteredData());
 
-  {category:"NURSING ADMIN", service:"Nursing Supervisor Office – Day and Night Shift", extension:"45570"},
-  {category:"NURSING ADMIN", service:"Staff Scheduling and Duty Roster Management", extension:"45880"},
-  {category:"NURSING ADMIN", service:"Nursing Education and Continuous Professional Development", extension:"46110"},
-  {category:"NURSING ADMIN", service:"Infection Control Nursing Coordination Unit", extension:"46330"},
+  const script = document.createElement('script');
+  script.src = "https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec";
+  document.body.appendChild(script);
+}
 
-  {category:"OUTPATIENT", service:"Outpatient Appointment Booking and Registration Office", extension:"50110"},
-  {category:"OUTPATIENT", service:"Referral Management and Inter-Facility Coordination", extension:"50320"},
-  {category:"OUTPATIENT", service:"Patient Admission, Transfer and Discharge Office", extension:"50530"},
-
-  {category:"EMERGENCY", service:"Emergency Department Triage and Case Allocation Desk", extension:"2222"},
-  {category:"EMERGENCY", service:"Emergency Ultrasound and FAST Assessment Team", extension:"23111"},
-  {category:"EMERGENCY", service:"Ambulance Dispatch and Paramedics Operations Center", extension:"7777"},
-
-  {category:"CARDIOLOGY", service:"Cardiac Catheterization Laboratory Scheduling Office", extension:"61234"},
-  {category:"CARDIOLOGY", service:"Echocardiography and Cardiac Diagnostic Services", extension:"61345"},
-  {category:"CARDIOLOGY", service:"Electrophysiology Study and Ablation Unit", extension:"61456"},
-
-  {category:"NEUROSCIENCES", service:"Neurophysiology Laboratory and EEG Monitoring Unit", extension:"48582"},
-  {category:"NEUROSCIENCES", service:"Stroke Response Team and Acute Neuro Support", extension:"49300"},
-  {category:"NEUROSCIENCES", service:"Neurosurgery Ward and Critical Care Coordination", extension:"49410"},
-
-  {category:"ONCOLOGY", service:"Radiation Therapy Appointment and Planning Desk", extension:"70110"},
-  {category:"ONCOLOGY", service:"Chemotherapy Day Care Unit Coordination Office", extension:"70220"},
-  {category:"ONCOLOGY", service:"Oncology Inpatient Ward and Case Management", extension:"70330"}
-];
-  
-];
-
-loadFavorites();
-renderRows(getFilteredData());
+loadData();
 </script>
 
 </body>
