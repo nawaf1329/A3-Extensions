@@ -56,6 +56,15 @@ body {
   overflow: hidden;
 }
 
+/* منطقة السكول الوحيدة داخل الصفحة */
+.scroll-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 /* ================== HEADER (اللوقو + العنوان) ================== */
 
 header {
@@ -67,7 +76,7 @@ header {
   flex-shrink: 0;
 }
 
-/* اللوقو أكبر ويعبّي الفراغ */
+/* اللوقو */
 .avatar {
   width: 60px;
   height: 60px;
@@ -137,6 +146,8 @@ header {
   margin-top: 10px;
 }
 
+/* لاحقاً على الموبايل نخليها sticky */
+
 .search-wrap {
   position: relative;
   margin-bottom: 6px;
@@ -176,9 +187,6 @@ header {
 }
 
 /* أزرار All / Favorites */
-/* ============================== */
-/* ✅ NEW ALL / FAVORITES STYLE  */
-/* ============================== */
 .fav-toggle-bar {
   display: flex;
   justify-content: center;
@@ -213,14 +221,10 @@ header {
 /* ================== TABLE ================== */
 
 .table-wrapper {
-  flex: 1;
   margin-top: 8px;
   border-radius: 12px;
-  overflow-y: auto;
-  overflow-x: hidden; /* يمنع اللف يمين ويسار أثناء التمرير */
 }
 
-/* تثبيت عرض الجدول داخل الشاشة */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -228,10 +232,7 @@ table {
 }
 
 thead {
-  position: sticky;
-  top: 0;
   background: #0f172a;
-  z-index: 10;
   border-bottom: 1px solid var(--border);
 }
 
@@ -249,17 +250,39 @@ th.fav-col {
   text-align: center;
 }
 
+/* هيدرات قابلة للفرز */
+th.sortable {
+  position: relative;
+  cursor: pointer;
+  padding-right: 18px;
+}
+th.sortable::after {
+  content: '';
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  opacity: 0.45;
+}
+th.sortable.sort-asc::after {
+  content: '▲';
+}
+th.sortable.sort-desc::after {
+  content: '▼';
+}
+
 td {
   padding: 10px 10px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.1);
   vertical-align: middle;
   font-size: 13px;
   color: var(--text-main);
+  line-height: 1.4;
 }
 
 /* ================== CATEGORY / SERVICE / EXT ================== */
 
-/* الكاتقوري: يظهر الكلام كامل، ولو طويل يلف على سطرين بدل ما ينقص */
 .category-pill {
   display: inline-block;
   padding: 3px 8px;
@@ -269,19 +292,24 @@ td {
   text-transform: uppercase;
   color: #cbd5e1;
   background: rgba(30, 41, 59, 0.7);
-  white-space: normal;      /* يلف على سطرين */
-  word-break: keep-all;     /* ما يقص الكلمة نفسها */
+  white-space: normal;
+  word-break: keep-all;
 }
 
-/* الاسم يلتف إذا كان طويل لكن بدون تشويه */
+/* خلية السيرفس */
+.service-cell {
+  vertical-align: middle;
+}
+
 .service-name {
+  display: block;
   font-weight: 600;
   color: #f3f4f6;
   white-space: normal;
   word-break: break-word;
 }
 
-/* رقم الاكستنشن ثابت وواضح */
+/* رقم الاكستنشن */
 .ext-number {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-weight: 700;
@@ -327,31 +355,29 @@ td {
   color: var(--primary);
 }
 
-/* ================== موبايل تحسين بسيط ================== */
-/* =========================
-   MOBILE FIX — iPHONE / ANDROID
-   ========================= */
-/* =========================
-   MOBILE FIX — iPHONE / ANDROID
-   ========================= */
+/* ================== موبايل ================== */
+
 @media (max-width: 768px) {
 
-  /* الصفحة ما تتمدد يمين ويسار، والكرت يبدأ من فوق */
   body {
     overflow-x: hidden;
-    overflow-y: hidden;
-    display: block;              /* نلغي flex حق الديسكتوب */
+    overflow-y: hidden;        /* يمنع حركة الصفحة نفسها */
+    display: block;
   }
 
   .container {
     width: 100%;
     height: 100dvh;
-    padding: 4px 12px 10px;      /* قللنا الفراغ فوق وتحت */
+    padding: 4px 12px 10px;
     border-radius: 0;
     margin: 0 auto;
   }
 
-  /* الهيدر فوق ومضغوط */
+  .scroll-area {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
   header {
     flex-direction: column;
     align-items: center;
@@ -377,7 +403,6 @@ td {
     margin: 0;
   }
 
-  /* خانة البحث قريبة من العنوان ومافي فراغ فاضي */
   .search-wrap {
     margin-top: 4px;
     margin-bottom: 2px;
@@ -392,7 +417,6 @@ td {
     margin-top: 0;
   }
 
-  /* أزرار All / Favorites وسط وبحجم مناسب */
   .fav-toggle-bar {
     justify-content: center;
     margin-top: 4px;
@@ -403,7 +427,15 @@ td {
     padding: 4px 12px;
   }
 
-  /* الجدول ثابت وما يلف يمين ويسار */
+  /* نخلي خانة البحث و RRT و All/Fav ثابتة أعلى منطقة السكول */
+  .controls-area {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: linear-gradient(180deg, #020617 0, #020617 40%, rgba(15,23,42,0.96) 100%);
+    padding-bottom: 4px;
+  }
+
   table {
     table-layout: fixed;
   }
@@ -418,7 +450,6 @@ td {
     vertical-align: middle;
   }
 
-  /* الكاتقوري: سطر واحد ومعه ... إذا طول */
   .category-pill {
     max-width: 90px;
     display: inline-block;
@@ -428,20 +459,18 @@ td {
     font-size: 10px;
   }
 
-  /* السيرفس: خط أصغر، أقصى شي سطرين */
   .service-name {
     display: -webkit-box;
     font-size: 12px;
     line-height: 1.3;
-    white-space: normal;         /* يسمح ينزل سطر */
+    white-space: normal;
     word-break: break-word;
-    overflow: hidden;            /* ما يطلع برا العمود */
-    text-overflow: ellipsis;     /* نقاط لو زاد */
-    -webkit-line-clamp: 2;       /* سطرين كحد أقصى */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
 
-  /* الإكستنشن ثابت وواضح */
   .ext-number {
     white-space: nowrap;
     padding: 4px 6px;
@@ -452,15 +481,8 @@ td {
     text-align: right;
   }
 
-  /* عمود النجمة */
   .fav-col {
     width: 30px;
-  }
-
-  /* منع اهتزاز الصفحة عند السحب */
-  .table-wrapper {
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
   }
 }
 </style>
@@ -469,46 +491,48 @@ td {
 
 <div class="container">
 
-  <header>
-    <div class="avatar">
-      <img src="logo.png" alt="logo" width="50" height="50">
-    </div>
-    <div class="titles" style="text-align:center; width:100%;">
-      <h1>A3 INTERNAL EXTENSIONS</h1>
-      <p>For internal A3 use at King Faisal Specialist Hospital</p>
-      <p style="font-size:11px;opacity:0.7;">Compiled by F1520110 – Nawaf Alshammari</p>
-    </div>
-    <div id="sync-indicator" class="status-dot"></div>
-  </header>
+  <div class="scroll-area">
+    <header>
+      <div class="avatar">
+        <img src="logo.png" alt="logo" width="50" height="50">
+      </div>
+      <div class="titles" style="text-align:center; width:100%;">
+        <h1>A3 INTERNAL EXTENSIONS</h1>
+        <p>For internal A3 use at King Faisal Specialist Hospital</p>
+        <p style="font-size:11px;opacity:0.7;">Created by F1520110 – Nawaf Alshammari</p>
+      </div>
+      <div id="sync-indicator" class="status-dot"></div>
+    </header>
 
-  <div class="controls-area">
-    <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input id="search" type="search" placeholder="Search..." autocomplete="off">
+    <div class="controls-area">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input id="search" type="search" placeholder="Search..." autocomplete="off">
+      </div>
+
+      <div class="helper">
+        RRT Extensions | Adult: <strong>49337</strong>&nbsp;&nbsp; Pediatric: <strong>45381</strong>
+      </div>
+
+      <div class="fav-toggle-bar">
+        <button id="filter-all" class="fav-filter active">All</button>
+        <button id="filter-fav" class="fav-filter">Favorites</button>
+      </div>
     </div>
 
-    <div class="helper">
-      RRT Extensions | Adult: <strong>49337</strong>&nbsp;&nbsp; Pediatric: <strong>45381</strong>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th class="fav-col">★</th>
+            <th class="sortable" data-col="category">Category</th>
+            <th class="sortable" data-col="service">Service</th>
+            <th class="sortable" data-col="extension">Extension</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
     </div>
-
-    <div class="fav-toggle-bar">
-      <button id="filter-all" class="fav-filter active">All</button>
-      <button id="filter-fav" class="fav-filter">Favorites</button>
-    </div>
-  </div>
-
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th class="fav-col">★</th>
-          <th>Category</th>
-          <th>Service</th>
-          <th>Extension</th>
-        </tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
   </div>
 
   <div class="footer">
@@ -524,6 +548,7 @@ const searchInput = document.getElementById('search');
 const btnAll      = document.getElementById('filter-all');
 const btnFav      = document.getElementById('filter-fav');
 const syncDot     = document.getElementById('sync-indicator');
+const sortHeaders = document.querySelectorAll('th.sortable');
 
 const STORAGE_KEY_DATA = 'a3_directory_data_v1';
 const STORAGE_KEY_FAV  = 'a3_directory_favorites_v1';
@@ -531,6 +556,11 @@ const STORAGE_KEY_FAV  = 'a3_directory_favorites_v1';
 let data = [];
 let favorites = new Set();
 let currentView = 'all';
+
+let sortState = {
+  column: null,   // 'category' | 'service' | 'extension'
+  dir: 1          // 1 = تصاعدي, -1 = تنازلي
+};
 
 // Unique key per row
 function makeKey(row) {
@@ -577,6 +607,32 @@ function getFilteredData() {
   });
 }
 
+/* تطبيق الفرز حسب حالة sortState */
+function applySort(list) {
+  if (!sortState.column) return list;
+  const col = sortState.column;
+  const dir = sortState.dir;
+
+  const sorted = [...list].sort((a, b) => {
+    let va = a[col] ?? '';
+    let vb = b[col] ?? '';
+
+    if (col === 'extension') {
+      va = parseInt(va, 10) || 0;
+      vb = parseInt(vb, 10) || 0;
+    } else {
+      va = va.toString().toLowerCase();
+      vb = vb.toString().toLowerCase();
+    }
+
+    if (va < vb) return -1 * dir;
+    if (va > vb) return  1 * dir;
+    return 0;
+  });
+
+  return sorted;
+}
+
 function renderRows(list) {
   tbody.innerHTML = "";
   if (!list.length) {
@@ -597,11 +653,29 @@ function renderRows(list) {
         </button>
       </td>
       <td><span class="category-pill">${row.category || ''}</span></td>
-      <td class="service-name">${row.service || ''}</td>
+      <td class="service-cell"><span class="service-name">${row.service || ''}</span></td>
       <td><span class="ext-number">${row.extension || ''}</span></td>
     `;
     tbody.appendChild(tr);
   });
+}
+
+/* تحديث السهم في الهيدر حسب حالة الفرز */
+function updateSortIndicators() {
+  sortHeaders.forEach(th => {
+    th.classList.remove('sort-asc', 'sort-desc');
+    const col = th.dataset.col;
+    if (col === sortState.column) {
+      th.classList.add(sortState.dir === 1 ? 'sort-asc' : 'sort-desc');
+    }
+  });
+}
+
+/* إعادة بناء الجدول حسب الفلتر + الفرز */
+function updateView() {
+  const filtered = getFilteredData();
+  const sorted   = applySort(filtered);
+  renderRows(sorted);
 }
 
 // Toggle favorite on click
@@ -624,19 +698,36 @@ btnAll.addEventListener('click', () => {
   currentView = 'all';
   btnAll.classList.add('active');
   btnFav.classList.remove('active');
-  renderRows(getFilteredData());
+  updateView();
 });
 
 btnFav.addEventListener('click', () => {
   currentView = 'fav';
   btnFav.classList.add('active');
   btnAll.classList.remove('active');
-  renderRows(getFilteredData());
+  updateView();
 });
 
 // Search
 searchInput.addEventListener('input', () => {
-  renderRows(getFilteredData());
+  updateView();
+});
+
+// Sorting handlers
+sortHeaders.forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (!col) return;
+
+    if (sortState.column === col) {
+      sortState.dir *= -1; // عكس الاتجاه
+    } else {
+      sortState.column = col;
+      sortState.dir = 1;   // يبدأ بتصاعدي
+    }
+    updateSortIndicators();
+    updateView();
+  });
 });
 
 // Google Apps Script callback
@@ -653,7 +744,7 @@ function callback(response) {
     data = response;
   }
 
-  renderRows(getFilteredData());
+  updateView();
 }
 
 function loadData() {
@@ -670,7 +761,7 @@ function loadData() {
     }
   }
 
-  renderRows(getFilteredData());
+  updateView();
 
   const script = document.createElement('script');
   script.src = "https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec";
