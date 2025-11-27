@@ -437,7 +437,7 @@ td {
   }
 
   table {
-    table-layout: fixed;
+    table-layout: auto;
   }
 
   th {
@@ -462,29 +462,29 @@ td {
 
   /* ===== الشكل الجديد: كل صف كرت عمودي ===== */
 
-  tbody tr {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 8px 10px;
-  }
+  ttbody tr {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;      /* يخلي كل الخلايا تاخذ عرض الكرت */
+  padding: 8px 10px;
+}
 
-  tbody td {
-    display: block;
-    padding: 2px 0;
-    border-bottom: none;
-  }
+tbody td {
+  display: block;
+  padding: 2px 0;
+  border-bottom: none;
+  width: 100%;              /* كل خلية مبدئياً عرضها كامل */
+}
 
   /* ترتيب العناصر داخل الكرت:
      1) الكاتقوري
      2) رقم التحويلة (بوكس أزرق كبير)
      3) اسم السيرفس
      4) النجمة */
-  tbody td:nth-child(2) { order: 1; } /* Category */
-  tbody td:nth-child(4) { order: 2; } /* Extension */
-  tbody td:nth-child(3) { order: 3; } /* Service */
-  tbody td:nth-child(1) { order: 4; align-self: flex-end; } /* Star */
-
+  tbody td:nth-child(2) { order: 1; }                    /* Category */
+tbody td:nth-child(4) { order: 2; width: auto; }       /* Extension */
+tbody td:nth-child(3) { order: 3; width: 100%; }       /* Service */
+tbody td:nth-child(1) { order: 4; width: auto; align-self: flex-end; } /* Star */
   /* رقم التحويلة هو البطل */
   .ext-number {
     display: inline-block;
