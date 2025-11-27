@@ -450,35 +450,66 @@ td {
     vertical-align: middle;
   }
 
+  /* الكاتقوري صغيرة جدًا */
   .category-pill {
     max-width: 90px;
     display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 10px;
+    font-size: 9px;
   }
 
+  /* ===== الشكل الجديد: كل صف كرت عمودي ===== */
+
+  tbody tr {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 10px;
+  }
+
+  tbody td {
+    display: block;
+    padding: 2px 0;
+    border-bottom: none;
+  }
+
+  /* ترتيب العناصر داخل الكرت:
+     1) الكاتقوري
+     2) رقم التحويلة (بوكس أزرق كبير)
+     3) اسم السيرفس
+     4) النجمة */
+  tbody td:nth-child(2) { order: 1; } /* Category */
+  tbody td:nth-child(4) { order: 2; } /* Extension */
+  tbody td:nth-child(3) { order: 3; } /* Service */
+  tbody td:nth-child(1) { order: 4; align-self: flex-end; } /* Star */
+
+  /* رقم التحويلة هو البطل */
+  .ext-number {
+    display: inline-block;
+    font-size: 16px;        /* كبر الرقم هنا على كيفك */
+    padding: 6px 14px;
+    border-radius: 10px;
+    margin: 3px 0 4px;
+    white-space: nowrap;
+  }
+
+  /* اسم السيرفس يطلع كامل بدون ... */
   .service-name {
-    display: -webkit-box;
-    font-size: 12px;
-    line-height: 1.3;
+    display: block;
+    font-size: 11px;
+    line-height: 1.25;
     white-space: normal;
     word-break: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    overflow: visible;
+    text-overflow: clip;
   }
 
-  .ext-number {
-    white-space: nowrap;
-    padding: 4px 6px;
-  }
-
+  /* عشان ما يجبر آخر عمود يكون يمين/عريض */
   td:last-child {
-    min-width: 80px;
-    text-align: right;
+    min-width: auto;
+    text-align: left;
   }
 
   .fav-col {
