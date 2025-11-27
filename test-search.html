@@ -18,26 +18,28 @@
   --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
 }
 
-/* منع الحركة الأفقية تماماً */
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-}
-
 * {
   box-sizing: border-box;
+}
+
+/* يمنع الحركة الأفقية للصفحة كلها */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   font-family: var(--font-stack);
   height: 100vh;
-  margin: 0;
-  padding: 0;
   background: var(--bg-gradient);
   color: var(--text-main);
   display: flex;
   justify-content: center;
 }
+
+/* ================== CONTAINER ================== */
 
 .container {
   width: 95%;
@@ -48,46 +50,96 @@ body {
   border-radius: 20px;
   padding: 20px;
   border: 1px solid var(--border);
-  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-/* HEADER ثابت */
+/* ================== HEADER (اللوقو + العنوان) ================== */
+
 header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding-bottom: 12px;
+  gap: 14px;
+  padding-bottom: 14px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
 
+/* اللوقو أكبر ويعبّي الفراغ */
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  border: 1px solid rgba(56, 189, 248, 0.5);
+  border: 1px solid rgba(56, 189, 248, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #020617;
+  background: radial-gradient(circle at 30% 0, #1e293b 0, #020617 70%);
+  box-shadow: 0 0 18px rgba(15, 23, 42, 0.9);
+}
+.avatar img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
 }
 
+/* ترتيب الهيدر بشكل أنظف */
 .titles {
+  flex: 1;
   text-align: center;
-  width: 100%;
 }
+
+.titles h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: #f9fafb;
+}
+
+.titles p {
+  margin: 3px 0 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.titles p:nth-of-type(2) {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.status-dot {
+  margin-left: auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.status-dot.active {
+  opacity: 1;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+/* ================== SEARCH + RRT + FILTER ================== */
 
 .controls-area {
   flex-shrink: 0;
+  margin-top: 10px;
 }
 
-/* البحث */
 .search-wrap {
   position: relative;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .search-wrap input {
@@ -96,8 +148,15 @@ header {
   border-radius: 999px;
   border: 1px solid var(--border);
   font-size: 14px;
+  outline: none;
   background: #0b1120;
   color: var(--text-main);
+  transition: all 0.2s;
+}
+
+.search-wrap input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
 }
 
 .search-icon {
@@ -105,6 +164,7 @@ header {
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 14px;
   color: var(--text-muted);
 }
 
@@ -112,17 +172,44 @@ header {
   font-size: 12px;
   color: var(--primary);
   text-align: center;
-  margin-top: 4px;
   font-weight: 600;
 }
 
-/* الجدول ثابت عرضياً */
-.table-wrapper {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
+/* أزرار All / Favorites */
+.fav-toggle-bar {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-top: 8px;
 }
 
+.fav-filter {
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.fav-filter.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(14, 165, 233, 0.18);
+}
+
+/* ================== TABLE ================== */
+
+.table-wrapper {
+  flex: 1;
+  margin-top: 8px;
+  border-radius: 12px;
+  overflow-y: auto;
+  overflow-x: hidden; /* يمنع اللف يمين ويسار أثناء التمرير */
+}
+
+/* تثبيت عرض الجدول داخل الشاشة */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -134,77 +221,87 @@ thead {
   top: 0;
   background: #0f172a;
   z-index: 10;
+  border-bottom: 1px solid var(--border);
 }
 
-/* الأعمدة */
-th, td {
+th {
   text-align: left;
-  padding: 10px 12px;
-  font-size: 12px;
-  border-bottom: 1px solid rgba(148,163,184,0.15);
-  overflow: hidden;
+  padding: 12px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: var(--text-muted);
+}
+th.fav-col {
+  width: 40px;
+  text-align: center;
+}
+
+td {
+  padding: 10px 10px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  vertical-align: middle;
+  font-size: 13px;
+  color: var(--text-main);
+}
+
+/* ================== CATEGORY / SERVICE / EXT ================== */
+
+/* الكاتقوري: يظهر الكلام كامل، ولو طويل يلف على سطرين بدل ما ينقص */
+.category-pill {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #cbd5e1;
+  background: rgba(30, 41, 59, 0.7);
+  white-space: normal;      /* يلف على سطرين */
+  word-break: keep-all;     /* ما يقص الكلمة نفسها */
+}
+
+/* الاسم يلتف إذا كان طويل لكن بدون تشويه */
+.service-name {
+  font-weight: 600;
+  color: #f3f4f6;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* رقم الاكستنشن ثابت وواضح */
+.ext-number {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 700;
+  color: var(--primary);
+  background: rgba(14, 165, 233, 0.1);
+  padding: 4px 10px;
+  border-radius: 8px;
   white-space: nowrap;
 }
 
-/* عمود النجمة أقرب */
-th.fav-col, td:first-child {
-  width: 36px;
-  text-align: center;
-}
+/* ================== FAVORITE STAR ================== */
 
-/* الكاتقوري حجم ثابت */
-th:nth-child(2), td:nth-child(2) {
-  width: 18%;
-}
-
-/* السيرفس يتكيف تلقائي */
-th:nth-child(3), td:nth-child(3) {
-  width: auto;
-  font-size: clamp(11px, 1.3vw, 13px);
-  text-overflow: ellipsis;
-}
-
-/* الاكستنشن */
-th:nth-child(4), td:nth-child(4) {
-  width: 90px;
-  text-align: center;
-}
-
-.category-pill {
-  display: inline-block;
-  padding: 2px 6px;
-  border-radius: 5px;
-  font-size: 9px;
-  font-weight: 600;
-  text-transform: uppercase;
-  background: rgba(30,41,59,0.6);
-}
-
-/* الرقم */
-.ext-number {
-  font-family: ui-monospace;
-  font-weight: 700;
-  color: var(--primary);
-  background: rgba(14,165,233,0.1);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-/* النجمة */
 .fav-btn {
   border: none;
   background: transparent;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
   color: #4b5563;
 }
 .fav-btn.active {
   color: #facc15;
+  text-shadow: 0 0 6px rgba(250, 204, 21, 0.7);
 }
 
-/* الفوتر ثابت */
+/* ================== FOOTER ================== */
+
 .footer {
   flex-shrink: 0;
+  margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid var(--border);
   display: flex;
@@ -215,8 +312,109 @@ th:nth-child(4), td:nth-child(4) {
 .tag {
   padding: 2px 8px;
   border-radius: 999px;
-  border: 1px solid rgba(56,189,248,0.3);
+  border: 1px solid rgba(56, 189, 248, 0.3);
   color: var(--primary);
+}
+
+/* ================== موبايل تحسين بسيط ================== */
+/* =========================
+   MOBILE FIX — iPHONE / ANDROID
+   ========================= */
+@media (max-width: 768px) {
+
+  /* اجعل الصفحة لا تتمدد */
+  body {
+    overflow: hidden;
+  }
+
+  .container {
+    width: 100%;
+    height: 100dvh;
+    padding: 14px;
+    border-radius: 0;
+  }
+
+  /* ضبط الهيدر */
+  header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .avatar img {
+    width: 72px;
+    height: 72px;
+  }
+
+  .titles h1 {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .titles p {
+    font-size: 11px;
+  }
+
+  /* تحسين البحث */
+  .search-wrap input {
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+
+  /* توحيد زر Favorites مع التصميم */
+  .fav-toggle-bar {
+    justify-content: center;
+  }
+
+  .fav-filter {
+    font-size: 10px;
+    padding: 5px 12px;
+  }
+
+  /* ✅ إيقاف تمدد الأعمدة */
+  table {
+    table-layout: fixed;
+  }
+
+  td, th {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ✅ تثبيت الExtension */
+  td:last-child {
+    min-width: 85px;
+    text-align: right;
+  }
+
+  /* ✅ الكاتقوري لا يطلع خارج الجدول */
+  .category-pill {
+    max-width: 90px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ✅ اسم السيرفس ما يكسر التنسيق */
+  .service-name {
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ✅ النجمة بجانب الكاتقوري */
+  .fav-col {
+    width: 30px;
+  }
+
+  /* ✅ منع اهتزاز الصفحة */
+  .table-wrapper {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
 }
 </style>
 </head>
