@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>A3 Extensions · Directory</title>
+<title>A3 Extensions · Directory (TEST)</title>
 <link rel="icon" type="image/png" href="logo.png">
 
 <style>
@@ -20,11 +20,16 @@
 
   * { box-sizing: border-box; }
 
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;          /* يمنع اللف يمين/يسار للصفحة */
+    overscroll-behavior-y: none; /* يقلل مطاط الصفحة كاملة */
+  }
+
   body {
     font-family: var(--font-stack);
     height: 100vh;
-    margin: 0;
-    padding: 0;
     background: var(--bg-gradient);
     color: var(--text-main);
     display: flex;
@@ -70,6 +75,12 @@
     color: var(--primary);
     background: radial-gradient(circle at 30% 0, #1e293b 0, #020617 60%);
     box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
+    overflow: hidden;
+  }
+
+  .avatar img {
+    width: 32px;
+    height: 32px;
   }
 
   .titles h1 {
@@ -115,7 +126,7 @@
 
   .search-wrap {
     position: relative;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   .search-wrap input {
@@ -179,13 +190,17 @@
   .table-wrapper {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;          /* يمنع اللف يمين/يسار داخل الجدول */
     position: relative;
     border-radius: 12px;
+    overscroll-behavior: contain;/* يمنع تمرير اللف لباقي الصفحة */
+    touch-action: pan-y;         /* يسمح فقط باللف العمودي */
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;         /* يثبت عرض الأعمدة */
   }
 
   thead {
@@ -198,7 +213,7 @@
 
   th {
     text-align: left;
-    padding: 15px;
+    padding: 12px 10px;
     font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
@@ -211,19 +226,34 @@
     text-align: center;
   }
 
+  th:nth-child(2) { width: 22%; }
+  th:nth-child(3) { width: 48%; }
+  th:nth-child(4) { width: 30%; }
+
   td {
-    padding: 12px 15px;
+    padding: 10px 10px;
     border-bottom: 1px solid rgba(148, 163, 184, 0.1);
     vertical-align: middle;
     font-size: 13px;
     color: var(--text-main);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;   /* يمنع نزول السطر ويخلي الجدول ثابت */
+  }
+
+  td:nth-child(3) .service-name {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .category-pill {
     display: inline-block;
-    padding: 4px 10px;
+    padding: 3px 9px;
     border-radius: 6px;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 600;
     text-transform: uppercase;
     color: #cbd5e1;
@@ -267,6 +297,7 @@
     border-top: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
+    gap: 10px;
     font-size: 10px;
     color: var(--text-muted);
   }
@@ -276,6 +307,35 @@
     border-radius: 999px;
     border: 1px solid rgba(56, 189, 248, 0.3);
     color: var(--primary);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      width: 100%;
+      height: 100dvh;
+      max-width: none;
+      border-radius: 0;
+      border: none;
+      padding: 16px;
+    }
+
+    header {
+      gap: 10px;
+    }
+
+    .titles h1 {
+      font-size: 15px;
+    }
+
+    .titles p {
+      font-size: 11px;
+    }
+
+    th, td {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
   }
 </style>
 </head>
@@ -285,7 +345,7 @@
 
   <header>
     <div class="avatar">
-      <img src="logo.png" alt="logo" width="50" height="50">
+      <img src="logo.png" alt="logo">
     </div>
     <div class="titles" style="text-align:center; width:100%;">
       <h1>A3 INTERNAL EXTENSIONS</h1>
@@ -327,7 +387,7 @@
 
   <div class="footer">
     <span>This project is a personal initiative and is not an official hospital system.</span>
-    <span class="tag">LIVE</span>
+    <span class="tag">TEST BUILD</span>
   </div>
 
 </div>
@@ -338,14 +398,12 @@ const searchInput = document.getElementById('search');
 const btnAll      = document.getElementById('filter-all');
 const btnFav      = document.getElementById('filter-fav');
 
-const STORAGE_KEY_DATA  = 'a3_directory_data_v1';      // لو حاب ترجع تربطه مع قوقل شيت
-const STORAGE_KEY_FAV   = 'a3_directory_favorites_v1';
+const STORAGE_KEY_FAV = 'a3_directory_favorites_v1_test';
 
 let data = [];
 let favorites = new Set();
 let currentView = 'all';
 
-// مفتاح ثابت لكل صف
 function makeKey(row) {
   return `${row.category}||${row.service}||${row.extension}`;
 }
@@ -353,10 +411,7 @@ function makeKey(row) {
 function loadFavorites() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_FAV);
-    if (raw) {
-      const arr = JSON.parse(raw);
-      favorites = new Set(arr);
-    }
+    if (raw) favorites = new Set(JSON.parse(raw));
   } catch (e) {
     favorites = new Set();
   }
@@ -375,10 +430,7 @@ function getFilteredData() {
       String(row.extension).toLowerCase().includes(q);
 
     if (!match) return false;
-
-    if (currentView === 'fav') {
-      return favorites.has(makeKey(row));
-    }
+    if (currentView === 'fav') return favorites.has(makeKey(row));
     return true;
   });
 }
@@ -391,25 +443,22 @@ function renderRows(list) {
   }
 
   list.forEach(row => {
-    const key = makeKey(row);
+    const key   = makeKey(row);
     const isFav = favorites.has(key);
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td style="text-align:center;">
-        <button class="fav-btn${isFav ? ' active' : ''}" data-key="${key}" aria-label="Toggle favorite">
-          ★
-        </button>
+        <button class="fav-btn${isFav ? ' active' : ''}" data-key="${key}" aria-label="Toggle favorite">★</button>
       </td>
       <td><span class="category-pill">${row.category}</span></td>
-      <td class="service-name">${row.service}</td>
+      <td><span class="service-name">${row.service}</span></td>
       <td><span class="ext-number">${row.extension}</span></td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-// تعامل مع الضغط على النجمة
 tbody.addEventListener('click', (e) => {
   if (!e.target.classList.contains('fav-btn')) return;
 
@@ -424,7 +473,6 @@ tbody.addEventListener('click', (e) => {
   saveFavorites();
 });
 
-// فلتر All / Favorites
 btnAll.addEventListener('click', () => {
   currentView = 'all';
   btnAll.classList.add('active');
@@ -439,20 +487,20 @@ btnFav.addEventListener('click', () => {
   renderRows(getFilteredData());
 });
 
-// البحث
 searchInput.addEventListener('input', () => {
   renderRows(getFilteredData());
 });
 
-// هنا الداتا المؤقتة للتجربة فقط
+// بيانات تجريبية فقط للتست
 data = [
-  {category:"RRT", service:"RRT Adult",    extension:"49337"},
-  {category:"RRT", service:"RRT Pediatric", extension:"45381"},
-  {category:"WCN", service:"Wound Care Nurse", extension:"47193"},
-  {category:"STOMA", service:"Stoma Nurse", extension:"48971"}
+  {category:"RRT",   service:"RRT Adult",          extension:"49337"},
+  {category:"RRT",   service:"RRT Pediatric",      extension:"45381"},
+  {category:"WCN",   service:"Wound Care Nurse",   extension:"47193"},
+  {category:"STOMA", service:"Stoma Nurse",        extension:"48971"},
+  {category:"ENT",   service:"ENT Resident 1",     extension:"34101"},
+  {category:"ENT",   service:"ENT Consultant",     extension:"34164"}
 ];
 
-// تحميل المفضّلة من localStorage وعرض الجدول
 loadFavorites();
 renderRows(getFilteredData());
 </script>
