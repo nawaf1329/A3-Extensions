@@ -115,7 +115,7 @@
 
   .search-wrap {
     position: relative;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .search-wrap input {
@@ -148,8 +148,32 @@
     font-size: 12px;
     color: var(--primary);
     text-align: center;
-    margin-top: 5px;
+    margin-top: 4px;
     font-weight: 600;
+  }
+
+  .fav-toggle-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .fav-filter {
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: rgba(15, 23, 42, 0.8);
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .fav-filter.active {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(14, 165, 233, 0.12);
   }
 
   .table-wrapper {
@@ -180,8 +204,11 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--text-muted);
-    cursor: pointer;
-    user-select: none;
+  }
+
+  th.fav-col {
+    width: 40px;
+    text-align: center;
   }
 
   td {
@@ -215,6 +242,22 @@
     background: rgba(14, 165, 233, 0.1);
     padding: 4px 8px;
     border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .fav-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+    color: #4b5563;
+  }
+
+  .fav-btn.active {
+    color: #facc15;
+    text-shadow: 0 0 6px rgba(250, 204, 21, 0.7);
   }
 
   .footer {
@@ -234,7 +277,6 @@
     border: 1px solid rgba(56, 189, 248, 0.3);
     color: var(--primary);
   }
-
 </style>
 </head>
 <body>
@@ -245,11 +287,11 @@
     <div class="avatar">
       <img src="logo.png" alt="logo" width="50" height="50">
     </div>
-   <div class="titles" style="text-align:center; width:100%;">
-  <h1>A3 INTERNAL EXTENSIONS</h1>
-  <p>King Faisal Specialist Hospital & Research Centre</p>
-  <p style="font-size:11px;opacity:0.7;">Compiled by F1520110 – Nawaf Alshammari</p>
-</div>
+    <div class="titles" style="text-align:center; width:100%;">
+      <h1>A3 INTERNAL EXTENSIONS</h1>
+      <p>King Faisal Specialist Hospital & Research Centre</p>
+      <p style="font-size:11px;opacity:0.7;">Compiled by F1520110 – Nawaf Alshammari</p>
+    </div>
     <div id="sync-indicator" class="status-dot"></div>
   </header>
 
@@ -259,9 +301,13 @@
       <input id="search" type="search" placeholder="Search..." autocomplete="off">
     </div>
 
-    <!-- ✅ تم التعديل هنا فقط -->
     <div class="helper">
-      RRT Extensions | Adult: <strong>49337</strong> &nbsp;&nbsp; Pediatric: <strong>45381</strong>
+      RRT Extensions | Adult: <strong>49337</strong>&nbsp;&nbsp; Pediatric: <strong>45381</strong>
+    </div>
+
+    <div class="fav-toggle-bar">
+      <button id="filter-all" class="fav-filter active">All</button>
+      <button id="filter-fav" class="fav-filter">Favorites</button>
     </div>
   </div>
 
@@ -269,6 +315,7 @@
     <table>
       <thead>
         <tr>
+          <th class="fav-col">★</th>
           <th>Category</th>
           <th>Service</th>
           <th>Extension</th>
@@ -286,16 +333,74 @@
 </div>
 
 <script>
-const tbody = document.getElementById('tbody');
+const tbody       = document.getElementById('tbody');
 const searchInput = document.getElementById('search');
+const btnAll      = document.getElementById('filter-all');
+const btnFav      = document.getElementById('filter-fav');
+
+const STORAGE_KEY_DATA  = 'a3_directory_data_v1';      // لو حاب ترجع تربطه مع قوقل شيت
+const STORAGE_KEY_FAV   = 'a3_directory_favorites_v1';
 
 let data = [];
+let favorites = new Set();
+let currentView = 'all';
+
+// مفتاح ثابت لكل صف
+function makeKey(row) {
+  return `${row.category}||${row.service}||${row.extension}`;
+}
+
+function loadFavorites() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_FAV);
+    if (raw) {
+      const arr = JSON.parse(raw);
+      favorites = new Set(arr);
+    }
+  } catch (e) {
+    favorites = new Set();
+  }
+}
+
+function saveFavorites() {
+  localStorage.setItem(STORAGE_KEY_FAV, JSON.stringify(Array.from(favorites)));
+}
+
+function getFilteredData() {
+  const q = searchInput.value.toLowerCase().trim();
+  return data.filter(row => {
+    const match =
+      row.category.toLowerCase().includes(q) ||
+      row.service.toLowerCase().includes(q)  ||
+      String(row.extension).toLowerCase().includes(q);
+
+    if (!match) return false;
+
+    if (currentView === 'fav') {
+      return favorites.has(makeKey(row));
+    }
+    return true;
+  });
+}
 
 function renderRows(list) {
   tbody.innerHTML = "";
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 40px; color: #9ca3af;">No results found.</td></tr>`;
+    return;
+  }
+
   list.forEach(row => {
+    const key = makeKey(row);
+    const isFav = favorites.has(key);
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
+      <td style="text-align:center;">
+        <button class="fav-btn${isFav ? ' active' : ''}" data-key="${key}" aria-label="Toggle favorite">
+          ★
+        </button>
+      </td>
       <td><span class="category-pill">${row.category}</span></td>
       <td class="service-name">${row.service}</td>
       <td><span class="ext-number">${row.extension}</span></td>
@@ -304,23 +409,52 @@ function renderRows(list) {
   });
 }
 
-searchInput.addEventListener('input', function(){
-  const q = this.value.toLowerCase().trim();
-  const filtered = data.filter(row =>
-    row.category.toLowerCase().includes(q) ||
-    row.service.toLowerCase().includes(q) ||
-    row.extension.includes(q)
-  );
-  renderRows(filtered);
+// تعامل مع الضغط على النجمة
+tbody.addEventListener('click', (e) => {
+  if (!e.target.classList.contains('fav-btn')) return;
+
+  const key = e.target.getAttribute('data-key');
+  if (favorites.has(key)) {
+    favorites.delete(key);
+    e.target.classList.remove('active');
+  } else {
+    favorites.add(key);
+    e.target.classList.add('active');
+  }
+  saveFavorites();
 });
 
-// Demo Data (Just for test if sheet is offline)
+// فلتر All / Favorites
+btnAll.addEventListener('click', () => {
+  currentView = 'all';
+  btnAll.classList.add('active');
+  btnFav.classList.remove('active');
+  renderRows(getFilteredData());
+});
+
+btnFav.addEventListener('click', () => {
+  currentView = 'fav';
+  btnFav.classList.add('active');
+  btnAll.classList.remove('active');
+  renderRows(getFilteredData());
+});
+
+// البحث
+searchInput.addEventListener('input', () => {
+  renderRows(getFilteredData());
+});
+
+// هنا الداتا المؤقتة للتجربة فقط
 data = [
-  {category:"RRT", service:"RRT Adult", extension:"49337"},
-  {category:"RRT", service:"RRT Pediatric", extension:"45381"}
+  {category:"RRT", service:"RRT Adult",    extension:"49337"},
+  {category:"RRT", service:"RRT Pediatric", extension:"45381"},
+  {category:"WCN", service:"Wound Care Nurse", extension:"47193"},
+  {category:"STOMA", service:"Stoma Nurse", extension:"48971"}
 ];
 
-renderRows(data);
+// تحميل المفضّلة من localStorage وعرض الجدول
+loadFavorites();
+renderRows(getFilteredData());
 </script>
 
 </body>
