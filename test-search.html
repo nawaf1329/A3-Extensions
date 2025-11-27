@@ -487,13 +487,13 @@ tbody td:nth-child(3) { order: 3; width: 100%; }       /* Service */
 tbody td:nth-child(1) { order: 4; width: auto; align-self: flex-end; } /* Star */
   /* رقم التحويلة هو البطل */
   .ext-number {
-    display: inline-block;
-    font-size: 16px;        /* كبر الرقم هنا على كيفك */
-    padding: 6px 14px;
-    border-radius: 10px;
-    margin: 3px 0 4px;
-    white-space: nowrap;
-  }
+  display: block;       /* يخلي البوكس ياخذ سطر كامل */
+  font-size: 16px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  white-space: nowrap;
+  margin: 4px auto;     /* يوسّط البوكس أفقياً */
+}
 
   /* اسم السيرفس يطلع كامل بدون ... */
  .service-name {
@@ -509,9 +509,9 @@ tbody td:nth-child(1) { order: 4; width: auto; align-self: flex-end; } /* Star *
 
   /* عشان ما يجبر آخر عمود يكون يمين/عريض */
   td:last-child {
-    min-width: auto;
-    text-align: left;
-  }
+  min-width: auto;
+  text-align: center;   /* خلي الخلية نفسها في النص */
+}
 
   .fav-col {
     width: 30px;
