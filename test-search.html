@@ -333,16 +333,18 @@ td {
    ========================= */
 @media (max-width: 768px) {
 
-  /* الصفحة ما تتمدد يمين ويسار */
+  /* الصفحة ما تتمدد يمين ويسار، والكرت يبدأ من فوق */
   body {
     overflow: hidden;
+    display: block;      /* يلغي الـ flex القديم */
   }
 
   .container {
     width: 100%;
     height: 100dvh;
-    padding: 10px 14px 14px; /* قلّلنا الـ top padding عشان الهيدر يطلع فوق */
+    padding: 8px 14px 14px; /* قلّلنا الـ top padding أكثر */
     border-radius: 0;
+    margin: 0 auto;         /* يلغي التوسيط العمودي القديم */
   }
 
   /* الهيدر فوق ومضغوط شوي */
@@ -350,8 +352,8 @@ td {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-bottom: 10px;
-    padding-bottom: 8px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
   }
 
   .avatar img {
@@ -360,24 +362,26 @@ td {
   }
 
   .titles h1 {
-    font-size: 16px;
-    letter-spacing: 0.16em;
-    margin-bottom: 4px;
+    font-size: 15px;
+    letter-spacing: 0.14em;
+    margin-bottom: 2px;
     white-space: nowrap;
   }
 
   .titles p {
     font-size: 11px;
+    margin: 0;
   }
 
   /* رفع خانة البحث وتقليل الفراغ */
   .search-wrap {
-    margin-bottom: 4px;
+    margin-top: 4px;
+    margin-bottom: 2px;
   }
 
   .search-wrap input {
     font-size: 14px;
-    padding: 10px 14px 10px 38px;
+    padding: 9px 14px 9px 38px;
   }
 
   .helper {
@@ -387,12 +391,12 @@ td {
   /* أزرار All / Favorites وسط وتناسب التصميم */
   .fav-toggle-bar {
     justify-content: center;
-    margin-top: 6px;
+    margin-top: 4px;
   }
 
   .fav-filter {
     font-size: 10px;
-    padding: 5px 12px;
+    padding: 4px 12px;
   }
 
   /* تثبيت عرض الأعمدة وعدم تحرك الجدول يمين/يسار */
@@ -411,7 +415,7 @@ td {
     vertical-align: middle;
   }
 
-  /* الكاتقوري: يظل في سطر واحد ولو طول يصير عليه ... */
+  /* الكاتقوري: سطر واحد ومعه ... إذا طول */
   .category-pill {
     max-width: 90px;
     display: inline-block;
@@ -420,15 +424,17 @@ td {
     white-space: nowrap;
   }
 
-  /* اسم السيرفس: يبان كامل، ينزل سطرين لو احتاج */
+  /* اسم السيرفس: خط أصغر، لحد أقصى سطرين */
   .service-name {
-    display: block;
-    font-size: 13px;
-    white-space: normal;       /* يسمح ينزل سطور */
-    word-break: break-word;    /* يكسر الكلمات الطويلة */
-    overflow: visible;         /* لا يقص */
-    text-overflow: unset;      /* بدون ... */
+    display: -webkit-box;
+    font-size: 12px;
     line-height: 1.3;
+    white-space: normal;        /* يسمح ينزل سطر */
+    word-break: break-word;
+    overflow: hidden;           /* ما يطلع لبرا */
+    text-overflow: ellipsis;    /* نقاط لو زاد */
+    -webkit-line-clamp: 2;      /* أقصى شي سطرين */
+    -webkit-box-orient: vertical;
   }
 
   /* الإكستنشن ثابت وما ينضغط */
@@ -448,7 +454,7 @@ td {
   }
 
   /* منع اهتزاز الصفحة عند السحب */
-    .table-wrapper {
+  .table-wrapper {
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
   }
