@@ -3,532 +3,440 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>A3 Extensions · Directory</title>
+<title>A3 Directory</title>
 <link rel="icon" type="image/png" href="logo.png">
 
 <style>
+/* --- ORIGINAL COLOR PALETTE & VARIABLES --- */
 :root {
   --bg-dark: #020617;
   --bg-gradient: radial-gradient(circle at top, #1f2937 0, #020617 55%, #020617 100%);
-  --card-bg: radial-gradient(circle at top left, rgba(30, 41, 59, 0.4), rgba(15,23,42, 0.6));
+  --surface: rgba(15, 23, 42, 0.6);
+  --surface-border: rgba(148, 163, 184, 0.15);
+  
   --primary: #0ea5e9;
-  --border: rgba(148, 163, 184, 0.2);
+  --primary-glow: rgba(14, 165, 233, 0.15);
+  
+  --alert-red: #ff4d4d;
+  
   --text-main: #e5e7eb;
   --text-muted: #9ca3af;
-  --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  
+  --font-stack: system-ui, -apple-system, "Segoe UI", sans-serif;
+  
+  /* Initial Base Size */
+  --base-size: 10px; 
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-/* يمنع الحركة الأفقية للصفحة كلها */
-html, body {
+html {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden;
+  height: 100%;
+  overflow: hidden;
+  font-size: var(--base-size);
+  transition: font-size 0.2s ease;
+  
+  /* --- FIX: BACKGROUND MOVED HERE --- */
+  /* This prevents white edges during overscroll or in safe-areas */
+  background-color: var(--bg-dark); 
+  background-image: var(--bg-gradient);
+  background-attachment: fixed; /* Ensures gradient stays put */
 }
 
 body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
   font-family: var(--font-stack);
-  height: 100vh;
-  background: var(--bg-gradient);
+  
+  /* Removed background from body to avoid duplication/gaps */
+  background: transparent;
+  
   color: var(--text-main);
   display: flex;
   justify-content: center;
 }
 
-/* ================== CONTAINER ================== */
+/* ================= APP SHELL ================= */
 
-.container {
-  width: 95%;
-  max-width: 1400px;
-  height: 95vh;
-  margin: auto;
-  background: linear-gradient(145deg, rgba(15,23,42,0.9), rgba(15,23,42,0.98));
-  border-radius: 20px;
-  padding: 20px;
-  border: 1px solid var(--border);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+.app-container {
+  width: 100%;
+  max-width: 1600px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  position: relative;
+  background: transparent;
 }
 
-/* منطقة السكول الوحيدة داخل الصفحة */
-.scroll-area {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-/* ================== HEADER (اللوقو + العنوان) ================== */
+/* ================= HEADER SECTION ================= */
 
 header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  padding: 1.2rem 2rem;
+  border-bottom: 1px solid var(--surface-border);
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 50;
+  
+  display: grid; 
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
 }
 
-.avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 1px solid rgba(56, 189, 248, 0.6);
+/* Left: Identity */
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-self: start;
+}
+.logo-box {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 12px;
+  background: radial-gradient(circle at 30% 0, #1e293b 0, #020617 70%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 30% 0, #1e293b 0, #020617 70%);
-  box-shadow: 0 0 18px rgba(15, 23, 42, 0.9);
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.15);
 }
-.avatar img {
-  width: 80%;
-  height: 80%;
-  object-fit: contain;
-}
-
-.titles {
-  flex: 1;
-  text-align: center;
-}
+.logo-box img { width: 180%; height: 180%; object-fit: contain; }
 
 .titles h1 {
   margin: 0;
-  font-size: 22px;
+  font-size: 1.4rem;
   font-weight: 700;
-  letter-spacing: 0.20em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #f9fafb;
+  color: #fff;
+  white-space: nowrap;
 }
-
 .titles p {
-  margin: 3px 0 0 0;
-  font-size: 12px;
+  margin: 0;
+  font-size: 0.85rem;
   color: var(--text-muted);
+  white-space: nowrap;
 }
 
-.titles p:nth-of-type(2) {
-  font-size: 11px;
-  opacity: 0.8;
+/* Middle: RRT Badge */
+.rrt-badge {
+  position: static; 
+  transform: none;
+  justify-self: center; 
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 1.1rem;
+  color: var(--alert-red);
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  color: #c21010;
+
+}
+.rrt-badge strong { 
+  color: #c21010;
+  font-weight: 900;
 }
 
-.status-dot {
-  margin-left: auto;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #3b82f6;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.status-dot.active {
-  opacity: 1;
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0% { opacity: 0.5; }
-  50% { opacity: 1; }
-  100% { opacity: 0.5; }
-}
-
-/* ================== SEARCH + RRT + FILTER ================== */
-
+/* Right: Controls */
 .controls-area {
-  flex-shrink: 0;
-  margin-top: 10px;
-}
-
-.search-wrap {
-  position: relative;
-  margin-bottom: 6px;
-}
-
-.search-wrap input {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-self: end;
   width: 100%;
-  padding: 12px 15px 12px 40px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  font-size: 14px;
-  outline: none;
-  background: #0b1120;
+  justify-content: flex-end;
+}
+
+/* Search Bar */
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+}
+.search-box input {
+  width: 100%;
+  background: #0f172a;
+  border: 1px solid var(--surface-border);
+  border-radius: 8px;
+  padding: 0.6rem 1rem 0.6rem 2.4rem;
   color: var(--text-main);
+  font-size: 0.95rem;
   transition: all 0.2s;
 }
-
-.search-wrap input:focus {
+.search-box input:focus {
+  outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
+  box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
 }
-
 .search-icon {
   position: absolute;
-  left: 14px;
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 14px;
   color: var(--text-muted);
+  font-size: 0.9rem;
 }
 
-.helper {
-  font-size: 12px;
-  color: var(--primary);
-  text-align: center;
-  font-weight: 600;
-}
-
-.fav-toggle-bar {
+/* Button Group */
+.btn-group {
   display: flex;
+  background: #0f172a;
+  border: 1px solid var(--surface-border);
+  border-radius: 8px;
+  padding: 4px;
+}
+.btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn:hover { color: #fff; }
+.btn.active {
+  background: rgba(30, 41, 59, 0.8);
+  color: var(--primary);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Text Resizer */
+.resizer {
+  display: flex;
+  gap: 2px;
+}
+.resizer button {
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
+  font-weight: bold;
+}
+.resizer button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
-.fav-filter {
-  border-radius: 12px;
-  padding: 6px 14px;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(15,23,42, 0.7);
-  color: #94a3b8;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(10px);
+/* ================= MAIN CONTENT ================= */
+
+.content-wrapper {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.fav-filter:hover {
-  background: rgba(14,165,233,0.15);
-  color: #fff;
+.table-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 2rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(14, 165, 233, 0.3) transparent;
 }
 
-.fav-filter.active {
-  background: linear-gradient(145deg, rgba(14,165,233,.25), rgba(2,6,23,.9));
-  color: #38bdf8;
-  border-color: rgba(56,189,248,.4);
-  box-shadow: inset 0 0 8px rgba(56,189,248,.3);
+.table-scroll-area::-webkit-scrollbar { width: 6px; }
+.table-scroll-area::-webkit-scrollbar-track { background: transparent; }
+.table-scroll-area::-webkit-scrollbar-thumb {
+  background-color: rgba(14, 165, 233, 0.3);
+  border-radius: 20px;
 }
-
-/* ================== TABLE ================== */
-
-.table-wrapper {
-  margin-top: 8px;
-  border-radius: 12px;
+.table-scroll-area::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(14, 165, 233, 0.6);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  margin-top: 1rem;
 }
 
-thead {
-  background: #0f172a;
-  border-bottom: 1px solid var(--border);
-}
-
-th {
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--bg-dark);
+  z-index: 10;
   text-align: left;
-  padding: 12px 10px;
-  font-size: 11px;
+  padding: 1rem 1rem;
+  font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.10em;
+  letter-spacing: 0.1em;
   color: var(--text-muted);
-}
-th.fav-col {
-  width: 40px;
-  text-align: center;
-}
-
-th.sortable {
-  position: relative;
+  border-bottom: 1px solid var(--surface-border);
   cursor: pointer;
-  padding-right: 18px;
+  user-select: none;
 }
-th.sortable::after {
-  content: '';
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 10px;
-  opacity: 0.45;
+thead th:hover { color: var(--primary); }
+
+tbody tr {
+  transition: background 0.15s;
 }
-th.sortable.sort-asc::after {
-  content: '▲';
-}
-th.sortable.sort-desc::after {
-  content: '▼';
+tbody tr:hover {
+  background: rgba(30, 41, 59, 0.4);
 }
 
 td {
-  padding: 10px 10px;
+  padding: 1rem 1rem;
   border-bottom: 1px solid rgba(148, 163, 184, 0.1);
   vertical-align: middle;
-  font-size: 13px;
-  color: var(--text-main);
-  line-height: 1.4;
 }
 
-/* ================== CATEGORY / SERVICE / EXT ================== */
-
-..category-pill {
+/* Cell Styles */
+.cat-pill {
   display: inline-block;
-  padding: 3px 8px;
-  border-radius: 999px;
-  font-size: 9px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #cbd5e1;
   background: rgba(30, 41, 59, 0.7);
-
-  /* التعديل المهم */
-  white-space: normal;     /* يسمح يلف على أكثر من سطر */
-  overflow: visible;       /* يمنع القص */
-  text-overflow: clip;     /* يلغي (...) */
-  max-width: none;         /* يلغي أي حد عرض */
+  color: #cbd5e1;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
-.service-cell {
-  vertical-align: middle;
-}
-
-.service-name {
-  display: block;
+.svc-name {
   font-weight: 600;
   color: #f3f4f6;
-  white-space: normal;
-  word-break: break-word;   /* كان عندك word-k غلط */
+  font-size: 1rem;
 }
 
-.ext-number {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+.ext-box {
+  display: inline-block;
+  font-family: monospace;
   font-weight: 700;
+  font-size: 1rem;
   color: var(--primary);
   background: rgba(14, 165, 233, 0.1);
-  padding: 4px 10px;
-  border-radius: 8px;
-  white-space: nowrap;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid rgba(14, 165, 233, 0.2);
 }
-
-/* ================== FAVORITE STAR ================== */
 
 .fav-btn {
+  background: none;
   border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
-  padding: 0;
+  font-size: 1.2rem;
   color: #4b5563;
+  cursor: pointer;
+  padding: 0;
 }
-.fav-btn.active {
-  color: #facc15;
-  text-shadow: 0 0 6px rgba(250, 204, 21, 0.7);
-}
+.fav-btn.active { color: #facc15; text-shadow: 0 0 10px rgba(250, 204, 21, 0.5); }
+.fav-btn:hover { transform: scale(1.1); }
 
-/* ================== FOOTER ================== */
+/* ================= FOOTER ================= */
 
-.footer {
+footer {
   flex-shrink: 0;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border);
+  padding: 0.8rem 2rem;
+  border-top: 1px solid var(--surface-border);
   display: flex;
   justify-content: space-between;
-  font-size: 10px;
+  align-items: center;
+  font-size: 0.8rem;
   color: var(--text-muted);
-}
-.tag {
-  padding: 2px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  color: var(--primary);
+  background: rgba(2, 6, 23, 0.9);
 }
 
-/* ================== موبايل ================== */
+/* ================= MOBILE / HIGH ZOOM ADAPTATION ================= */
 
-@media (max-width: 768px) {
-
-  body {
-    overflow-x: hidden;
-    overflow-y: hidden;
-    display: block;
-  }
-
-  .container {
-    width: 100%;
-    height: 100dvh;
-    padding: 4px 12px 10px;
-    border-radius: 0;
-    margin: 0 auto;
-  }
-
-  .scroll-area {
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-  }
-
+@media (max-width: 1100px) {
   header {
+    display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 1rem;
+    gap: 1rem;
     text-align: center;
-    margin-bottom: 6px;
-    padding-bottom: 4px;
   }
-
-  .avatar img {
-    width: 64px;
-    height: 64px;
+  
+  .brand-area { justify-content: center; width: 100%; }
+  
+  .rrt-badge { 
+    margin: 0.2rem 0;
+    font-size: 1.2rem;
   }
-
-  .titles h1 {
-    font-size: 14px;
-    letter-spacing: 0.14em;
-    margin-bottom: 2px;
-    white-space: nowrap;
-  }
-
-  .titles p {
-    font-size: 11px;
-    margin: 0;
-  }
-
-  .search-wrap {
-    margin-top: 4px;
-    margin-bottom: 2px;
-  }
-
-  .search-wrap input {
-    font-size: 14px;
-    padding: 9px 14px 9px 38px;
-  }
-
-  .helper {
-    margin-top: 0;
-  }
-
-  .fav-toggle-bar {
-    justify-content: center;
-    margin-top: 4px;
-  }
-
-  .fav-filter {
-    font-size: 10px;
-    padding: 4px 12px;
-  }
-
+  
   .controls-area {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: linear-gradient(180deg, #020617 0, #020617 40%, rgba(15,23,42,0.96) 100%);
-    padding-bottom: 4px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+    width: 100%;
   }
-
-  /* نخليه auto عشان يعطي عرض أفضل لـ Service */
-  table {
-    table-layout: auto;
-  }
-
-  th {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  td {
-    vertical-align: middle;
-    padding: 8px 6px;
-  }
-
-  .category-pill {
-    max-width: 90px;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 9px;
-  }
-
-  /* رقم التحويلة: بوكس أزرق واضح ومتمركز في عمود Extension */
-  .ext-number {
-    display: inline-block;
-    font-size: 12px;
-    padding: 0.3em 0.6em;
-    border-radius: 10px;
-    white-space: nowrap;
-    margin: 0 auto;
-  }
-
-  td:last-child {
-    min-width: 80px;
-    text-align: center;   /* يخلي البوكس في النص */
-  }
-
-  /* اسم السيرفس: يطلع كامل بدون ... */
-  .service-name {
-    display: block;
-    font-size: 9px;
-    line-height: 1.25;
-    white-space: normal;
-    word-break: break-word;
-    overflow: visible;
-    text-overflow: clip;
-  }
-
-  .fav-col {
-    width: 30px;
-  }
+  
+  .search-box { max-width: none; }
+  .btn-group, .resizer { justify-content: center; }
+  .table-scroll-area { padding: 0 0.5rem; }
+  td, th { padding: 0.8rem 0.5rem; }
 }
 </style>
 </head>
 <body>
 
-<div class="container">
+<div class="app-container">
 
-  <div class="scroll-area">
-    <header>
-      <div class="avatar">
-        <img src="logo.png" alt="logo" width="50" height="50">
+  <header>
+    <div class="brand-area">
+      <div class="logo-box">
+        <img src="logo.png" alt="A3">
       </div>
-      <div class="titles" style="text-align:center; width:100%;">
+      <div class="titles">
         <h1>A3 INTERNAL EXTENSIONS</h1>
         <p>For internal A3 use at King Faisal Specialist Hospital</p>
-        <p style="font-size:11px;opacity:0.7;">Created by F1520110 – Nawaf Alshammari</p>
-      </div>
-      <div id="sync-indicator" class="status-dot"></div>
-    </header>
-
-    <div class="controls-area">
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input id="search" type="search" placeholder="Search..." autocomplete="off">
-      </div>
-
-      <div class="helper">
-        RRT Extensions | Adult: <strong>49337</strong>&nbsp;&nbsp; Pediatric: <strong>45381</strong>
-      </div>
-
-      <div class="fav-toggle-bar">
-        <button id="filter-all" class="fav-filter active">All</button>
-        <button id="filter-fav" class="fav-filter">Favorites</button>
+        <p>Created by F1520110 — Nawaf Alshammari</p>
       </div>
     </div>
 
-    <div class="table-wrapper">
+    <div class="rrt-badge">
+      RRT: Adult <strong>49337</strong> | Pediatric <strong>45381</strong>
+    </div>
+
+    <div class="controls-area">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input id="search" type="text" placeholder="Search..." autocomplete="off">
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content: center;">
+        <div class="btn-group">
+          <button id="filter-all" class="btn active">All</button>
+          <button id="filter-fav" class="btn">Favorites</button>
+        </div>
+
+        <div class="resizer">
+          <button onclick="resize(-1)">A-</button>
+          <button onclick="resize(1)">A+</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="content-wrapper">
+    <div class="table-scroll-area">
       <table>
         <thead>
           <tr>
-            <th class="fav-col">★</th>
+            <th width="40" style="text-align:center">★</th>
             <th class="sortable" data-col="category">Category</th>
             <th class="sortable" data-col="service">Service</th>
-            <th class="sortable" data-col="extension">Extension</th>
+            <th class="sortable" data-col="extension" style="text-align:right">Extensions</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
@@ -536,231 +444,174 @@ td {
     </div>
   </div>
 
-  <div class="footer">
+  <footer>
     <span>This project is a personal initiative and is not an official hospital system.</span>
-    <span class="tag">LIVE</span>
-  </div>
+    <span style="display:flex; align-items:center; gap:6px;">
+      LIVE <span id="sync-dot" style="width:8px; height:8px; background:#22c55e; border-radius:50%; box-shadow:0 0 5px #22c55e;"></span>
+    </span>
+  </footer>
 
 </div>
 
 <script>
-const tbody       = document.getElementById('tbody');
-const searchInput = document.getElementById('search');
-const btnAll      = document.getElementById('filter-all');
-const btnFav      = document.getElementById('filter-fav');
-const syncDot     = document.getElementById('sync-indicator');
-const sortHeaders = document.querySelectorAll('th.sortable');
-
-const STORAGE_KEY_DATA = 'a3_directory_data_v1';
-const STORAGE_KEY_FAV  = 'a3_directory_favorites_v1';
+// --- CONFIG & STATE ---
+const STORAGE_KEY_DATA = 'a3_data_v4';
+const STORAGE_KEY_FAV  = 'a3_fav_v4';
+const STORAGE_KEY_SIZE = 'a3_size_v4';
 
 let data = [];
 let favorites = new Set();
 let currentView = 'all';
+let sortState = { col: null, dir: 1 };
+let baseSize = 14;
 
-let sortState = {
-  column: null,
-  dir: 1
-};
+// --- ELEMENTS ---
+const tbody = document.getElementById('tbody');
+const searchInput = document.getElementById('search');
+const btnAll = document.getElementById('filter-all');
+const btnFav = document.getElementById('filter-fav');
+const syncDot = document.getElementById('sync-dot');
 
-function makeKey(row) {
-  return `${row.category}||${row.service}||${row.extension}`;
-}
-
-function loadFavorites() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_FAV);
-    if (raw) favorites = new Set(JSON.parse(raw));
-  } catch (e) {
-    favorites = new Set();
-  }
-}
-
-function saveFavorites() {
-  localStorage.setItem(STORAGE_KEY_FAV, JSON.stringify(Array.from(favorites)));
-}
-
+// --- HELPER FOR REGEX ---
 function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function getFilteredData() {
+// --- INIT ---
+function init() {
+  const s = localStorage.getItem(STORAGE_KEY_SIZE);
+  if(s) baseSize = parseInt(s);
+  applySize();
+
+  const f = localStorage.getItem(STORAGE_KEY_FAV);
+  if(f) favorites = new Set(JSON.parse(f));
+
+  const d = localStorage.getItem(STORAGE_KEY_DATA);
+  if(d) {
+    try { data = JSON.parse(d)||[]; } catch(e){ data=[]; }
+    render();
+  }
+
+  fetchData();
+}
+
+// --- LOGIC ---
+function resize(delta) {
+  baseSize += delta;
+  if(baseSize < 12) baseSize = 12;
+  if(baseSize > 24) baseSize = 24; 
+  applySize();
+  localStorage.setItem(STORAGE_KEY_SIZE, baseSize);
+}
+
+function applySize() {
+  document.documentElement.style.setProperty('--base-size', baseSize + 'px');
+}
+
+function fetchData() {
+  syncDot.style.opacity = '0.4';
+  const script = document.createElement('script');
+  script.src = "https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec";
+  document.body.appendChild(script);
+}
+
+function callback(response) {
+  syncDot.style.opacity = '1';
+  const prev = localStorage.getItem(STORAGE_KEY_DATA);
+  const next = JSON.stringify(response);
+  if(prev !== next) {
+    localStorage.setItem(STORAGE_KEY_DATA, next);
+    data = response;
+    render();
+  } else if (data.length === 0) {
+    data = response;
+    render();
+  }
+}
+
+function render() {
+  tbody.innerHTML = '';
   const q = searchInput.value.toLowerCase().trim();
   let re = null;
   if (q) {
     re = new RegExp('\\b' + escapeRegex(q));
   }
-
-  return data.filter(row => {
-    const inView =
-      currentView === 'all' ||
-      (currentView === 'fav' && favorites.has(makeKey(row)));
-
-    if (!inView) return false;
-    if (!q) return true;
-
+  
+  let list = data.filter(row => {
+    const key = makeKey(row);
+    if(currentView === 'fav' && !favorites.has(key)) return false;
+    if(!q) return true;
+    
     const cat = String(row.category || '').toLowerCase();
     const svc = String(row.service || '').toLowerCase();
     const ext = String(row.extension || '').toLowerCase();
 
     return re.test(cat) || re.test(svc) || re.test(ext);
   });
-}
 
-function applySort(list) {
-  if (!sortState.column) return list;
-  const col = sortState.column;
-  const dir = sortState.dir;
+  if(sortState.col) {
+    const col = sortState.col;
+    const dir = sortState.dir;
+    list.sort((a,b) => {
+      let va = a[col]||''; let vb = b[col]||'';
+      if(col==='extension') { va=parseInt(va)||0; vb=parseInt(vb)||0; }
+      else { va=va.toString().toLowerCase(); vb=vb.toString().toLowerCase(); }
+      return (va < vb ? -1 : 1) * dir;
+    });
+  }
 
-  const sorted = [...list].sort((a, b) => {
-    let va = a[col] ?? '';
-    let vb = b[col] ?? '';
-
-    if (col === 'extension') {
-      va = parseInt(va, 10) || 0;
-      vb = parseInt(vb, 10) || 0;
-    } else {
-      va = va.toString().toLowerCase();
-      vb = vb.toString().toLowerCase();
-    }
-
-    if (va < vb) return -1 * dir;
-    if (va > vb) return  1 * dir;
-    return 0;
-  });
-
-  return sorted;
-}
-
-function renderRows(list) {
-  tbody.innerHTML = "";
-  if (!list.length) {
-    tbody.innerHTML =
-      `<tr><td colspan="4" style="text-align:center; padding:40px; color:#9ca3af;">No results found.</td></tr>`;
+  if(list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:3rem; color:var(--text-muted)">No results found</td></tr>`;
     return;
   }
 
+  const frag = document.createDocumentFragment();
   list.forEach(row => {
-    const key   = makeKey(row);
+    const key = makeKey(row);
     const isFav = favorites.has(key);
-
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td style="text-align:center;">
-        <button class="fav-btn${isFav ? ' active' : ''}" data-key="${key}" aria-label="Toggle favorite">
-          ★
-        </button>
+      <td style="text-align:center">
+        <button class="fav-btn ${isFav?'active':''}" onclick="toggleFav('${key}')">★</button>
       </td>
-      <td><span class="category-pill">${row.category || ''}</span></td>
-      <td class="service-cell"><span class="service-name">${row.service || ''}</span></td>
-      <td><span class="ext-number">${row.extension || ''}</span></td>
+      <td><span class="cat-pill">${row.category||''}</span></td>
+      <td><span class="svc-name">${row.service||''}</span></td>
+      <td style="text-align:right"><span class="ext-box">${row.extension||''}</span></td>
     `;
-    tbody.appendChild(tr);
+    frag.appendChild(tr);
   });
+  tbody.appendChild(frag);
 }
 
-function updateSortIndicators() {
-  sortHeaders.forEach(th => {
-    th.classList.remove('sort-asc', 'sort-desc');
-    const col = th.dataset.col;
-    if (col === sortState.column) {
-      th.classList.add(sortState.dir === 1 ? 'sort-asc' : 'sort-desc');
-    }
-  });
+function toggleFav(key) {
+  if(favorites.has(key)) favorites.delete(key);
+  else favorites.add(key);
+  localStorage.setItem(STORAGE_KEY_FAV, JSON.stringify([...favorites]));
+  render();
 }
 
-function updateView() {
-  const filtered = getFilteredData();
-  const sorted   = applySort(filtered);
-  renderRows(sorted);
-}
+function makeKey(r) { return `${r.category}|${r.service}|${r.extension}`; }
 
-tbody.addEventListener('click', (e) => {
-  if (!e.target.classList.contains('fav-btn')) return;
-
-  const key = e.target.getAttribute('data-key');
-  if (favorites.has(key)) {
-    favorites.delete(key);
-    e.target.classList.remove('active');
-  } else {
-    favorites.add(key);
-    e.target.classList.add('active');
-  }
-  saveFavorites();
-});
+// --- EVENTS ---
+searchInput.addEventListener('input', render);
 
 btnAll.addEventListener('click', () => {
-  currentView = 'all';
-  btnAll.classList.add('active');
-  btnFav.classList.remove('active');
-  updateView();
+  currentView='all'; btnAll.classList.add('active'); btnFav.classList.remove('active'); render();
 });
-
 btnFav.addEventListener('click', () => {
-  currentView = 'fav';
-  btnFav.classList.add('active');
-  btnAll.classList.remove('active');
-  updateView();
+  currentView='fav'; btnFav.classList.add('active'); btnAll.classList.remove('active'); render();
 });
 
-searchInput.addEventListener('input', () => {
-  updateView();
-});
-
-sortHeaders.forEach(th => {
+document.querySelectorAll('.sortable').forEach(th => {
   th.addEventListener('click', () => {
     const col = th.dataset.col;
-    if (!col) return;
-
-    if (sortState.column === col) {
-      sortState.dir *= -1;
-    } else {
-      sortState.column = col;
-      sortState.dir = 1;
-    }
-    updateSortIndicators();
-    updateView();
+    if(sortState.col === col) sortState.dir *= -1;
+    else { sortState.col = col; sortState.dir = 1; }
+    render();
   });
 });
 
-function callback(response) {
-  const prev = localStorage.getItem(STORAGE_KEY_DATA);
-  const next = JSON.stringify(response);
-
-  syncDot.classList.remove('active');
-
-  if (prev !== next) {
-    localStorage.setItem(STORAGE_KEY_DATA, next);
-    data = response;
-  } else if (!data.length) {
-    data = response;
-  }
-
-  updateView();
-}
-
-function loadData() {
-  syncDot.classList.add('active');
-
-  loadFavorites();
-
-  const cached = localStorage.getItem(STORAGE_KEY_DATA);
-  if (cached) {
-    try {
-      data = JSON.parse(cached) || [];
-    } catch (e) {
-      data = [];
-    }
-  }
-
-  updateView();
-
-  const script = document.createElement('script');
-  script.src = "https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec";
-  document.body.appendChild(script);
-}
-
-loadData();
+init();
 </script>
 
 </body>
