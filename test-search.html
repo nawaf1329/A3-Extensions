@@ -337,6 +337,26 @@
       padding-right: 8px;
     }
   }
+  /* تثبيت الأعمدة ومنع تحرك الأرقام */
+td:last-child {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* تصغير الاسم تلقائيًا إذا طال */
+.service-name {
+  font-size: clamp(11px, 1.2vw, 14px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* منع الصفحة بالكامل تتحرك */
+html, body {
+  overscroll-behavior: none;
+  overflow-x: hidden;
+}
 </style>
 </head>
 <body>
@@ -493,6 +513,18 @@ searchInput.addEventListener('input', () => {
 
 // بيانات تجريبية فقط للتست
 data = [
+  {category:"RRT",   service:"RRT Aduoijijnoijoijkjlkjlt",          extension:"49337"},
+  {category:"RRT",   service:"RRT Pediatric",      extension:"45381"},
+  {category:"WCN",   service:"Wound Carekjhbhbjhbjhbjbkjb Nurse",   extension:"47193"},
+  {category:"STOMA", service:"Stoma Nurse",        extension:"48971"},
+  {category:"ENT",   service:"ENT Resident 1",     extension:"34101"},
+  {category:"ENT",   service:"ENTkjnhkhhknkjkk Consultant",     extension:"34164"}
+  {category:"RRT",   service:"RRT Aduoijijnoijoijkjlkjlt",          extension:"49337"},
+  {category:"RRT",   service:"RRT Pediatric",      extension:"45381"},
+  {category:"WCN",   service:"Wound Carekjhbhbjhbjhbjbkjb Nurse",   extension:"47193"},
+  {category:"STOMA", service:"Stoma Nurse",        extension:"48971"},
+  {category:"ENT",   service:"ENT Resident 1",     extension:"34101"},
+  {category:"ENT",   service:"ENTkjnhkhhknkjkk Consultant",     extension:"34164"}
   {category:"RRT",   service:"RRT Aduoijijnoijoijkjlkjlt",          extension:"49337"},
   {category:"RRT",   service:"RRT Pediatric",      extension:"45381"},
   {category:"WCN",   service:"Wound Carekjhbhbjhbjhbjbkjb Nurse",   extension:"47193"},
