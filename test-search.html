@@ -76,7 +76,6 @@ header {
   flex-shrink: 0;
 }
 
-/* اللوقو */
 .avatar {
   width: 60px;
   height: 60px;
@@ -94,7 +93,6 @@ header {
   object-fit: contain;
 }
 
-/* ترتيب الهيدر بشكل أنظف */
 .titles {
   flex: 1;
   text-align: center;
@@ -146,8 +144,6 @@ header {
   margin-top: 10px;
 }
 
-/* لاحقاً على الموبايل نخليها sticky */
-
 .search-wrap {
   position: relative;
   margin-bottom: 6px;
@@ -186,7 +182,6 @@ header {
   font-weight: 600;
 }
 
-/* أزرار All / Favorites */
 .fav-toggle-bar {
   display: flex;
   justify-content: center;
@@ -250,7 +245,6 @@ th.fav-col {
   text-align: center;
 }
 
-/* هيدرات قابلة للفرز */
 th.sortable {
   position: relative;
   cursor: pointer;
@@ -296,7 +290,6 @@ td {
   word-break: keep-all;
 }
 
-/* خلية السيرفس */
 .service-cell {
   vertical-align: middle;
 }
@@ -306,10 +299,9 @@ td {
   font-weight: 600;
   color: #f3f4f6;
   white-space: normal;
-  word-k: k-word;
+  word-break: break-word;   /* كان عندك word-k غلط */
 }
 
-/* رقم الاكستنشن */
 .ext-number {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-weight: 700;
@@ -361,7 +353,7 @@ td {
 
   body {
     overflow-x: hidden;
-    overflow-y: hidden;        /* يمنع حركة الصفحة نفسها */
+    overflow-y: hidden;
     display: block;
   }
 
@@ -427,7 +419,6 @@ td {
     padding: 4px 12px;
   }
 
-  /* نخلي خانة البحث و RRT و All/Fav ثابتة أعلى منطقة السكول */
   .controls-area {
     position: sticky;
     top: 0;
@@ -436,6 +427,7 @@ td {
     padding-bottom: 4px;
   }
 
+  /* نخليه auto عشان يعطي عرض أفضل لـ Service */
   table {
     table-layout: auto;
   }
@@ -448,9 +440,9 @@ td {
 
   td {
     vertical-align: middle;
+    padding: 8px 6px;
   }
 
-  /* الكاتقوري صغيرة جدًا */
   .category-pill {
     max-width: 90px;
     display: inline-block;
@@ -460,58 +452,31 @@ td {
     font-size: 9px;
   }
 
-  /* ===== الشكل الجديد: كل صف كرت عمودي ===== */
-
-  ttbody tr {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;      /* يخلي كل الخلايا تاخذ عرض الكرت */
-  padding: 8px 10px;
-}
-
-tbody td {
-  display: block;
-  padding: 2px 0;
-  border-bottom: none;
-  width: 100%;              /* كل خلية مبدئياً عرضها كامل */
-}
-
-  /* ترتيب العناصر داخل الكرت:
-     1) الكاتقوري
-     2) رقم التحويلة (بوكس أزرق كبير)
-     3) اسم السيرفس
-     4) النجمة */
-  tbody td:nth-child(2) { order: 1; }                    /* Category */
-tbody td:nth-child(4) { order: 2; width: auto; }       /* Extension */
-tbody td:nth-child(3) { order: 3; width: 100%; }       /* Service */
-tbody td:nth-child(1) { order: 4; width: auto; align-self: flex-end; } /* Star */
-  /* رقم التحويلة هو البطل */
+  /* رقم التحويلة: بوكس أزرق واضح ومتمركز في عمود Extension */
   .ext-number {
-  display: block;       /* يخلي البوكس ياخذ سطر كامل */
-  font-size: 16px;
-  padding: 6px 14px;
-  border-radius: 10px;
-  white-space: nowrap;
-  margin: 4px auto;     /* يوسّط البوكس أفقياً */
-}
+    display: inline-block;
+    font-size: 16px;
+    padding: 6px 14px;
+    border-radius: 10px;
+    white-space: nowrap;
+    margin: 0 auto;
+  }
 
-  /* اسم السيرفس يطلع كامل بدون ... */
- .service-name {
-  display: block;
-  font-size: 11px;
-  line-height: 1.25;
-  white-space: normal;
-  word-break: break-word;
-  overflow: visible;
-  text-overflow: clip;
-  width: 100%;             /* مهم */
-}
-
-  /* عشان ما يجبر آخر عمود يكون يمين/عريض */
   td:last-child {
-  min-width: auto;
-  text-align: center;   /* خلي الخلية نفسها في النص */
-}
+    min-width: 80px;
+    text-align: center;   /* يخلي البوكس في النص */
+  }
+
+  /* اسم السيرفس: يطلع كامل بدون ... */
+  .service-name {
+    display: block;
+    font-size: 9px;
+    line-height: 1.25;
+    white-space: normal;
+    word-break: break-word;
+    overflow: visible;
+    text-overflow: clip;
+  }
 
   .fav-col {
     width: 30px;
@@ -590,11 +555,10 @@ let favorites = new Set();
 let currentView = 'all';
 
 let sortState = {
-  column: null,   // 'category' | 'service' | 'extension'
-  dir: 1          // 1 = تصاعدي, -1 = تنازلي
+  column: null,
+  dir: 1
 };
 
-// Unique key per row
 function makeKey(row) {
   return `${row.category}||${row.service}||${row.extension}`;
 }
@@ -639,7 +603,6 @@ function getFilteredData() {
   });
 }
 
-/* تطبيق الفرز حسب حالة sortState */
 function applySort(list) {
   if (!sortState.column) return list;
   const col = sortState.column;
@@ -692,7 +655,6 @@ function renderRows(list) {
   });
 }
 
-/* تحديث السهم في الهيدر حسب حالة الفرز */
 function updateSortIndicators() {
   sortHeaders.forEach(th => {
     th.classList.remove('sort-asc', 'sort-desc');
@@ -703,14 +665,12 @@ function updateSortIndicators() {
   });
 }
 
-/* إعادة بناء الجدول حسب الفلتر + الفرز */
 function updateView() {
   const filtered = getFilteredData();
   const sorted   = applySort(filtered);
   renderRows(sorted);
 }
 
-// Toggle favorite on click
 tbody.addEventListener('click', (e) => {
   if (!e.target.classList.contains('fav-btn')) return;
 
@@ -725,7 +685,6 @@ tbody.addEventListener('click', (e) => {
   saveFavorites();
 });
 
-// All / Favorites filter
 btnAll.addEventListener('click', () => {
   currentView = 'all';
   btnAll.classList.add('active');
@@ -740,29 +699,26 @@ btnFav.addEventListener('click', () => {
   updateView();
 });
 
-// Search
 searchInput.addEventListener('input', () => {
   updateView();
 });
 
-// Sorting handlers
 sortHeaders.forEach(th => {
   th.addEventListener('click', () => {
     const col = th.dataset.col;
     if (!col) return;
 
     if (sortState.column === col) {
-      sortState.dir *= -1; // عكس الاتجاه
+      sortState.dir *= -1;
     } else {
       sortState.column = col;
-      sortState.dir = 1;   // يبدأ بتصاعدي
+      sortState.dir = 1;
     }
     updateSortIndicators();
     updateView();
   });
 });
 
-// Google Apps Script callback
 function callback(response) {
   const prev = localStorage.getItem(STORAGE_KEY_DATA);
   const next = JSON.stringify(response);
