@@ -513,24 +513,71 @@ searchInput.addEventListener('input', () => {
 
 // بيانات تجريبية فقط للتست
 data = [
-  {category:"RRT",   service:"RRT Aduoijijnoijoijkjlkjlt",          extension:"49337"},
-  {category:"RRT",   service:"RRT Pediatric",      extension:"45381"},
-  {category:"WCN",   service:"Wound Carekjhbhbjhbjhbjbkjb Nurse",   extension:"47193"},
-  {category:"STOMA", service:"Stoma Nurse",        extension:"48971"},
-  {category:"ENT",   service:"ENT Resident 1",     extension:"34101"},
-  {category:"ENT",   service:"ENTkjnhkhhknkjkk Consultant",     extension:"34164"}
-  {category:"RRT",   service:"RRT Aduoijijnoijoijkjlkjlt",          extension:"49337"},
-  {category:"RRT",   service:"RRT Pediatric",      extension:"45381"},
-  {category:"WCN",   service:"Wound Carekjhbhbjhbjhbjbkjb Nurse",   extension:"47193"},
-  {category:"STOMA", service:"Stoma Nurse",        extension:"48971"},
-  {category:"ENT",   service:"ENT Resident 1",     extension:"34101"},
-  {category:"ENT",   service:"ENTkjnhkhhknkjkk Consultant",     extension:"34164"}
-  {category:"RRT",   service:"RRT Aduoijijnoijoijkjlkjlt",          extension:"49337"},
-  {category:"RRT",   service:"RRT Pediatric",      extension:"45381"},
-  {category:"WCN",   service:"Wound Carekjhbhbjhbjhbjbkjb Nurse",   extension:"47193"},
-  {category:"STOMA", service:"Stoma Nurse",        extension:"48971"},
-  {category:"ENT",   service:"ENT Resident 1",     extension:"34101"},
-  {category:"ENT",   service:"ENTkjnhkhhknkjkk Consultant",     extension:"34164"}
+  data = [
+  {category:"RRT", service:"Rapid Response Team – Adult Emergency Coverage", extension:"49337"},
+  {category:"RRT", service:"Rapid Response Team – Pediatric Emergency Response", extension:"45381"},
+
+  {category:"WOUND CARE", service:"Advanced Wound Care and Ostomy Management Services", extension:"47193"},
+  {category:"STOMA", service:"Senior Stoma Nurse Specialist and Patient Education", extension:"48971"},
+
+  {category:"PHARMACY", service:"Central Intensive Care Unit Pharmacy (CSICU)", extension:"35289"},
+  {category:"PHARMACY", service:"Narcotic Controlled Drugs Pharmacy Services and Inventory", extension:"38616"},
+  {category:"PHARMACY", service:"Intravenous Preparation and Compounding Room", extension:"38665"},
+  {category:"PHARMACY", service:"Total Parenteral Nutrition (TPN) Compounding Pharmacy", extension:"49261"},
+  {category:"PHARMACY", service:"Pyxis Automated Dispensing System Support and On-Call", extension:"27609"},
+  {category:"PHARMACY", service:"Emergency Medication Supply and Crash Cart Refill", extension:"38066"},
+
+  {category:"LABORATORY", service:"Hematology and Coagulation Laboratory Services Department", extension:"33670"},
+  {category:"LABORATORY", service:"Clinical Chemistry and Blood Gas Analysis Section", extension:"34192"},
+  {category:"LABORATORY", service:"Microbiology Culture, Sensitivity and Infection Control", extension:"34822"},
+  {category:"LABORATORY", service:"Histopathology and Cytology Diagnostic Services", extension:"35988"},
+
+  {category:"IMAGING & RADIOLOGY", service:"In-Patient Radiology and Diagnostic Imaging Services", extension:"78887"},
+  {category:"IMAGING & RADIOLOGY", service:"Computed Tomography (CT) Scan and Emergency Imaging", extension:"77231"},
+  {category:"IMAGING & RADIOLOGY", service:"Magnetic Resonance Imaging (MRI) Appointment Desk", extension:"74410"},
+  {category:"IMAGING & RADIOLOGY", service:"Interventional Radiology Procedure Scheduling Office", extension:"75029"},
+
+  {category:"SURGICAL SERVICES", service:"Operating Theater Main Control and Case Coordination", extension:"44219"},
+  {category:"SURGICAL SERVICES", service:"Post-Anesthesia Care Unit (PACU) and Recovery Room", extension:"45128"},
+  {category:"SURGICAL SERVICES", service:"Central Sterile Services Department (CSSD)", extension:"46001"},
+
+  {category:"GENERAL SERVICES", service:"Patient Relations and Complaints Management Office", extension:"45111"},
+  {category:"GENERAL SERVICES", service:"Medical Records and Archives Department", extension:"46220"},
+  {category:"GENERAL SERVICES", service:"Hospital Transportation and Patient Transfer Services", extension:"47590"},
+  {category:"GENERAL SERVICES", service:"Facilities Maintenance and Engineering Support", extension:"48832"},
+  {category:"GENERAL SERVICES", service:"Biomedical Equipment Maintenance and Calibration Unit", extension:"49901"},
+
+  {category:"IT & SYSTEMS", service:"Hospital Information System Support and Technical Helpdesk", extension:"40001"},
+  {category:"IT & SYSTEMS", service:"Clinical Application Support and User Access Management", extension:"40012"},
+  {category:"IT & SYSTEMS", service:"Network Operations Center and Connectivity Issues", extension:"40023"},
+  {category:"IT & SYSTEMS", service:"Cybersecurity and Digital Access Control Services", extension:"40033"},
+
+  {category:"NURSING ADMIN", service:"Nursing Supervisor Office – Day and Night Shift", extension:"45570"},
+  {category:"NURSING ADMIN", service:"Staff Scheduling and Duty Roster Management", extension:"45880"},
+  {category:"NURSING ADMIN", service:"Nursing Education and Continuous Professional Development", extension:"46110"},
+  {category:"NURSING ADMIN", service:"Infection Control Nursing Coordination Unit", extension:"46330"},
+
+  {category:"OUTPATIENT", service:"Outpatient Appointment Booking and Registration Office", extension:"50110"},
+  {category:"OUTPATIENT", service:"Referral Management and Inter-Facility Coordination", extension:"50320"},
+  {category:"OUTPATIENT", service:"Patient Admission, Transfer and Discharge Office", extension:"50530"},
+
+  {category:"EMERGENCY", service:"Emergency Department Triage and Case Allocation Desk", extension:"2222"},
+  {category:"EMERGENCY", service:"Emergency Ultrasound and FAST Assessment Team", extension:"23111"},
+  {category:"EMERGENCY", service:"Ambulance Dispatch and Paramedics Operations Center", extension:"7777"},
+
+  {category:"CARDIOLOGY", service:"Cardiac Catheterization Laboratory Scheduling Office", extension:"61234"},
+  {category:"CARDIOLOGY", service:"Echocardiography and Cardiac Diagnostic Services", extension:"61345"},
+  {category:"CARDIOLOGY", service:"Electrophysiology Study and Ablation Unit", extension:"61456"},
+
+  {category:"NEUROSCIENCES", service:"Neurophysiology Laboratory and EEG Monitoring Unit", extension:"48582"},
+  {category:"NEUROSCIENCES", service:"Stroke Response Team and Acute Neuro Support", extension:"49300"},
+  {category:"NEUROSCIENCES", service:"Neurosurgery Ward and Critical Care Coordination", extension:"49410"},
+
+  {category:"ONCOLOGY", service:"Radiation Therapy Appointment and Planning Desk", extension:"70110"},
+  {category:"ONCOLOGY", service:"Chemotherapy Day Care Unit Coordination Office", extension:"70220"},
+  {category:"ONCOLOGY", service:"Oncology Inpatient Ward and Case Management", extension:"70330"}
+];
+  
 ];
 
 loadFavorites();
