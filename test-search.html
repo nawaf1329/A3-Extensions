@@ -277,17 +277,21 @@ td {
 
 /* ================== CATEGORY / SERVICE / EXT ================== */
 
-.category-pill {
+..category-pill {
   display: inline-block;
   padding: 3px 8px;
   border-radius: 999px;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
   text-transform: uppercase;
   color: #cbd5e1;
   background: rgba(30, 41, 59, 0.7);
-  white-space: normal;
-  word-break: keep-all;
+
+  /* التعديل المهم */
+  white-space: normal;     /* يسمح يلف على أكثر من سطر */
+  overflow: visible;       /* يمنع القص */
+  text-overflow: clip;     /* يلغي (...) */
+  max-width: none;         /* يلغي أي حد عرض */
 }
 
 .service-cell {
@@ -455,8 +459,8 @@ td {
   /* رقم التحويلة: بوكس أزرق واضح ومتمركز في عمود Extension */
   .ext-number {
     display: inline-block;
-    font-size: 16px;
-    padding: 6px 14px;
+    font-size: 12px;
+    padding: 0.3em 0.6em;
     border-radius: 10px;
     white-space: nowrap;
     margin: 0 auto;
