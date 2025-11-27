@@ -18,26 +18,28 @@
   --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
 }
 
-/* منع الحركة الأفقية تماماً */
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-}
-
 * {
   box-sizing: border-box;
+}
+
+/* يمنع الحركة الأفقية للصفحة كلها */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   font-family: var(--font-stack);
   height: 100vh;
-  margin: 0;
-  padding: 0;
   background: var(--bg-gradient);
   color: var(--text-main);
   display: flex;
   justify-content: center;
 }
+
+/* ================== CONTAINER ================== */
 
 .container {
   width: 95%;
@@ -48,46 +50,103 @@ body {
   border-radius: 20px;
   padding: 20px;
   border: 1px solid var(--border);
-  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-/* HEADER ثابت */
+/* منطقة السكول الوحيدة داخل الصفحة */
+.scroll-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ================== HEADER (اللوقو + العنوان) ================== */
+
 header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding-bottom: 12px;
+  gap: 14px;
+  padding-bottom: 14px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  border: 1px solid rgba(56, 189, 248, 0.5);
+  border: 1px solid rgba(56, 189, 248, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #020617;
+  background: radial-gradient(circle at 30% 0, #1e293b 0, #020617 70%);
+  box-shadow: 0 0 18px rgba(15, 23, 42, 0.9);
+}
+.avatar img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
 }
 
 .titles {
+  flex: 1;
   text-align: center;
-  width: 100%;
 }
+
+.titles h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: #f9fafb;
+}
+
+.titles p {
+  margin: 3px 0 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.titles p:nth-of-type(2) {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.status-dot {
+  margin-left: auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.status-dot.active {
+  opacity: 1;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+/* ================== SEARCH + RRT + FILTER ================== */
 
 .controls-area {
   flex-shrink: 0;
+  margin-top: 10px;
 }
 
-/* البحث */
 .search-wrap {
   position: relative;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .search-wrap input {
@@ -96,8 +155,15 @@ header {
   border-radius: 999px;
   border: 1px solid var(--border);
   font-size: 14px;
+  outline: none;
   background: #0b1120;
   color: var(--text-main);
+  transition: all 0.2s;
+}
+
+.search-wrap input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
 }
 
 .search-icon {
@@ -105,6 +171,7 @@ header {
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 14px;
   color: var(--text-muted);
 }
 
@@ -112,15 +179,45 @@ header {
   font-size: 12px;
   color: var(--primary);
   text-align: center;
-  margin-top: 4px;
   font-weight: 600;
 }
 
-/* الجدول ثابت عرضياً */
+.fav-toggle-bar {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.fav-filter {
+  border-radius: 12px;
+  padding: 6px 14px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(15,23,42, 0.7);
+  color: #94a3b8;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.fav-filter:hover {
+  background: rgba(14,165,233,0.15);
+  color: #fff;
+}
+
+.fav-filter.active {
+  background: linear-gradient(145deg, rgba(14,165,233,.25), rgba(2,6,23,.9));
+  color: #38bdf8;
+  border-color: rgba(56,189,248,.4);
+  box-shadow: inset 0 0 8px rgba(56,189,248,.3);
+}
+
+/* ================== TABLE ================== */
+
 .table-wrapper {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
+  margin-top: 8px;
+  border-radius: 12px;
 }
 
 table {
@@ -130,81 +227,116 @@ table {
 }
 
 thead {
-  position: sticky;
-  top: 0;
   background: #0f172a;
-  z-index: 10;
+  border-bottom: 1px solid var(--border);
 }
 
-/* الأعمدة */
-th, td {
+th {
   text-align: left;
-  padding: 10px 12px;
-  font-size: 12px;
-  border-bottom: 1px solid rgba(148,163,184,0.15);
-  overflow: hidden;
-  white-space: nowrap;
+  padding: 12px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: var(--text-muted);
 }
-
-/* عمود النجمة أقرب */
-th.fav-col, td:first-child {
-  width: 36px;
+th.fav-col {
+  width: 40px;
   text-align: center;
 }
 
-/* الكاتقوري حجم ثابت */
-th:nth-child(2), td:nth-child(2) {
-  width: 18%;
+th.sortable {
+  position: relative;
+  cursor: pointer;
+  padding-right: 18px;
+}
+th.sortable::after {
+  content: '';
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  opacity: 0.45;
+}
+th.sortable.sort-asc::after {
+  content: '▲';
+}
+th.sortable.sort-desc::after {
+  content: '▼';
 }
 
-/* السيرفس يتكيف تلقائي */
-th:nth-child(3), td:nth-child(3) {
-  width: auto;
-  font-size: clamp(11px, 1.3vw, 13px);
-  text-overflow: ellipsis;
+td {
+  padding: 10px 10px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  vertical-align: middle;
+  font-size: 13px;
+  color: var(--text-main);
+  line-height: 1.4;
 }
 
-/* الاكستنشن */
-th:nth-child(4), td:nth-child(4) {
-  width: 90px;
-  text-align: center;
-}
+/* ================== CATEGORY / SERVICE / EXT ================== */
 
-.category-pill {
+..category-pill {
   display: inline-block;
-  padding: 2px 6px;
-  border-radius: 5px;
+  padding: 3px 8px;
+  border-radius: 999px;
   font-size: 9px;
   font-weight: 600;
   text-transform: uppercase;
-  background: rgba(30,41,59,0.6);
+  color: #cbd5e1;
+  background: rgba(30, 41, 59, 0.7);
+
+  /* التعديل المهم */
+  white-space: normal;     /* يسمح يلف على أكثر من سطر */
+  overflow: visible;       /* يمنع القص */
+  text-overflow: clip;     /* يلغي (...) */
+  max-width: none;         /* يلغي أي حد عرض */
 }
 
-/* الرقم */
+.service-cell {
+  vertical-align: middle;
+}
+
+.service-name {
+  display: block;
+  font-weight: 600;
+  color: #f3f4f6;
+  white-space: normal;
+  word-break: break-word;   /* كان عندك word-k غلط */
+}
+
 .ext-number {
-  font-family: ui-monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-weight: 700;
   color: var(--primary);
-  background: rgba(14,165,233,0.1);
-  padding: 2px 6px;
-  border-radius: 4px;
+  background: rgba(14, 165, 233, 0.1);
+  padding: 4px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
 }
 
-/* النجمة */
+/* ================== FAVORITE STAR ================== */
+
 .fav-btn {
   border: none;
   background: transparent;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
   color: #4b5563;
 }
 .fav-btn.active {
   color: #facc15;
+  text-shadow: 0 0 6px rgba(250, 204, 21, 0.7);
 }
 
-/* الفوتر ثابت */
+/* ================== FOOTER ================== */
+
 .footer {
   flex-shrink: 0;
+  margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid var(--border);
   display: flex;
@@ -215,8 +347,144 @@ th:nth-child(4), td:nth-child(4) {
 .tag {
   padding: 2px 8px;
   border-radius: 999px;
-  border: 1px solid rgba(56,189,248,0.3);
+  border: 1px solid rgba(56, 189, 248, 0.3);
   color: var(--primary);
+}
+
+/* ================== موبايل ================== */
+
+@media (max-width: 768px) {
+
+  body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    display: block;
+  }
+
+  .container {
+    width: 100%;
+    height: 100dvh;
+    padding: 4px 12px 10px;
+    border-radius: 0;
+    margin: 0 auto;
+  }
+
+  .scroll-area {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+  }
+
+  .avatar img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .titles h1 {
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    margin-bottom: 2px;
+    white-space: nowrap;
+  }
+
+  .titles p {
+    font-size: 11px;
+    margin: 0;
+  }
+
+  .search-wrap {
+    margin-top: 4px;
+    margin-bottom: 2px;
+  }
+
+  .search-wrap input {
+    font-size: 14px;
+    padding: 9px 14px 9px 38px;
+  }
+
+  .helper {
+    margin-top: 0;
+  }
+
+  .fav-toggle-bar {
+    justify-content: center;
+    margin-top: 4px;
+  }
+
+  .fav-filter {
+    font-size: 10px;
+    padding: 4px 12px;
+  }
+
+  .controls-area {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: linear-gradient(180deg, #020617 0, #020617 40%, rgba(15,23,42,0.96) 100%);
+    padding-bottom: 4px;
+  }
+
+  /* نخليه auto عشان يعطي عرض أفضل لـ Service */
+  table {
+    table-layout: auto;
+  }
+
+  th {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  td {
+    vertical-align: middle;
+    padding: 8px 6px;
+  }
+
+  .category-pill {
+    max-width: 90px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 9px;
+  }
+
+  /* رقم التحويلة: بوكس أزرق واضح ومتمركز في عمود Extension */
+  .ext-number {
+    display: inline-block;
+    font-size: 12px;
+    padding: 0.3em 0.6em;
+    border-radius: 10px;
+    white-space: nowrap;
+    margin: 0 auto;
+  }
+
+  td:last-child {
+    min-width: 80px;
+    text-align: center;   /* يخلي البوكس في النص */
+  }
+
+  /* اسم السيرفس: يطلع كامل بدون ... */
+  .service-name {
+    display: block;
+    font-size: 9px;
+    line-height: 1.25;
+    white-space: normal;
+    word-break: break-word;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .fav-col {
+    width: 30px;
+  }
 }
 </style>
 </head>
@@ -224,46 +492,48 @@ th:nth-child(4), td:nth-child(4) {
 
 <div class="container">
 
-  <header>
-    <div class="avatar">
-      <img src="logo.png" alt="logo" width="50" height="50">
-    </div>
-    <div class="titles" style="text-align:center; width:100%;">
-      <h1>A3 INTERNAL EXTENSIONS</h1>
-      <p>For internal A3 use at King Faisal Specialist Hospital</p>
-      <p style="font-size:11px;opacity:0.7;">Compiled by F1520110 – Nawaf Alshammari</p>
-    </div>
-    <div id="sync-indicator" class="status-dot"></div>
-  </header>
+  <div class="scroll-area">
+    <header>
+      <div class="avatar">
+        <img src="logo.png" alt="logo" width="50" height="50">
+      </div>
+      <div class="titles" style="text-align:center; width:100%;">
+        <h1>A3 INTERNAL EXTENSIONS</h1>
+        <p>For internal A3 use at King Faisal Specialist Hospital</p>
+        <p style="font-size:11px;opacity:0.7;">Created by F1520110 – Nawaf Alshammari</p>
+      </div>
+      <div id="sync-indicator" class="status-dot"></div>
+    </header>
 
-  <div class="controls-area">
-    <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input id="search" type="search" placeholder="Search..." autocomplete="off">
+    <div class="controls-area">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input id="search" type="search" placeholder="Search..." autocomplete="off">
+      </div>
+
+      <div class="helper">
+        RRT Extensions | Adult: <strong>49337</strong>&nbsp;&nbsp; Pediatric: <strong>45381</strong>
+      </div>
+
+      <div class="fav-toggle-bar">
+        <button id="filter-all" class="fav-filter active">All</button>
+        <button id="filter-fav" class="fav-filter">Favorites</button>
+      </div>
     </div>
 
-    <div class="helper">
-      RRT Extensions | Adult: <strong>49337</strong>&nbsp;&nbsp; Pediatric: <strong>45381</strong>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th class="fav-col">★</th>
+            <th class="sortable" data-col="category">Category</th>
+            <th class="sortable" data-col="service">Service</th>
+            <th class="sortable" data-col="extension">Extension</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
     </div>
-
-    <div class="fav-toggle-bar">
-      <button id="filter-all" class="fav-filter active">All</button>
-      <button id="filter-fav" class="fav-filter">Favorites</button>
-    </div>
-  </div>
-
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th class="fav-col">★</th>
-          <th>Category</th>
-          <th>Service</th>
-          <th>Extension</th>
-        </tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
   </div>
 
   <div class="footer">
@@ -279,6 +549,7 @@ const searchInput = document.getElementById('search');
 const btnAll      = document.getElementById('filter-all');
 const btnFav      = document.getElementById('filter-fav');
 const syncDot     = document.getElementById('sync-indicator');
+const sortHeaders = document.querySelectorAll('th.sortable');
 
 const STORAGE_KEY_DATA = 'a3_directory_data_v1';
 const STORAGE_KEY_FAV  = 'a3_directory_favorites_v1';
@@ -287,7 +558,11 @@ let data = [];
 let favorites = new Set();
 let currentView = 'all';
 
-// Unique key per row
+let sortState = {
+  column: null,
+  dir: 1
+};
+
 function makeKey(row) {
   return `${row.category}||${row.service}||${row.extension}`;
 }
@@ -332,6 +607,31 @@ function getFilteredData() {
   });
 }
 
+function applySort(list) {
+  if (!sortState.column) return list;
+  const col = sortState.column;
+  const dir = sortState.dir;
+
+  const sorted = [...list].sort((a, b) => {
+    let va = a[col] ?? '';
+    let vb = b[col] ?? '';
+
+    if (col === 'extension') {
+      va = parseInt(va, 10) || 0;
+      vb = parseInt(vb, 10) || 0;
+    } else {
+      va = va.toString().toLowerCase();
+      vb = vb.toString().toLowerCase();
+    }
+
+    if (va < vb) return -1 * dir;
+    if (va > vb) return  1 * dir;
+    return 0;
+  });
+
+  return sorted;
+}
+
 function renderRows(list) {
   tbody.innerHTML = "";
   if (!list.length) {
@@ -352,14 +652,29 @@ function renderRows(list) {
         </button>
       </td>
       <td><span class="category-pill">${row.category || ''}</span></td>
-      <td class="service-name">${row.service || ''}</td>
+      <td class="service-cell"><span class="service-name">${row.service || ''}</span></td>
       <td><span class="ext-number">${row.extension || ''}</span></td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-// Toggle favorite on click
+function updateSortIndicators() {
+  sortHeaders.forEach(th => {
+    th.classList.remove('sort-asc', 'sort-desc');
+    const col = th.dataset.col;
+    if (col === sortState.column) {
+      th.classList.add(sortState.dir === 1 ? 'sort-asc' : 'sort-desc');
+    }
+  });
+}
+
+function updateView() {
+  const filtered = getFilteredData();
+  const sorted   = applySort(filtered);
+  renderRows(sorted);
+}
+
 tbody.addEventListener('click', (e) => {
   if (!e.target.classList.contains('fav-btn')) return;
 
@@ -374,27 +689,40 @@ tbody.addEventListener('click', (e) => {
   saveFavorites();
 });
 
-// All / Favorites filter
 btnAll.addEventListener('click', () => {
   currentView = 'all';
   btnAll.classList.add('active');
   btnFav.classList.remove('active');
-  renderRows(getFilteredData());
+  updateView();
 });
 
 btnFav.addEventListener('click', () => {
   currentView = 'fav';
   btnFav.classList.add('active');
   btnAll.classList.remove('active');
-  renderRows(getFilteredData());
+  updateView();
 });
 
-// Search
 searchInput.addEventListener('input', () => {
-  renderRows(getFilteredData());
+  updateView();
 });
 
-// Google Apps Script callback
+sortHeaders.forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (!col) return;
+
+    if (sortState.column === col) {
+      sortState.dir *= -1;
+    } else {
+      sortState.column = col;
+      sortState.dir = 1;
+    }
+    updateSortIndicators();
+    updateView();
+  });
+});
+
 function callback(response) {
   const prev = localStorage.getItem(STORAGE_KEY_DATA);
   const next = JSON.stringify(response);
@@ -408,7 +736,7 @@ function callback(response) {
     data = response;
   }
 
-  renderRows(getFilteredData());
+  updateView();
 }
 
 function loadData() {
@@ -425,7 +753,7 @@ function loadData() {
     }
   }
 
-  renderRows(getFilteredData());
+  updateView();
 
   const script = document.createElement('script');
   script.src = "https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec";
