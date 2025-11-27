@@ -306,7 +306,7 @@ td {
   font-weight: 600;
   color: #f3f4f6;
   white-space: normal;
-  word-break: break-word;
+  word-k: k-word;
 }
 
 /* رقم الاكستنشن */
@@ -496,15 +496,16 @@ tbody td:nth-child(1) { order: 4; width: auto; align-self: flex-end; } /* Star *
   }
 
   /* اسم السيرفس يطلع كامل بدون ... */
-  .service-name {
-    display: block;
-    font-size: 11px;
-    line-height: 1.25;
-    white-space: normal;
-    word-break: break-word;
-    overflow: visible;
-    text-overflow: clip;
-  }
+ .service-name {
+  display: block;
+  font-size: 11px;
+  line-height: 1.25;
+  white-space: normal;
+  word-break: break-word;
+  overflow: visible;
+  text-overflow: clip;
+  width: 100%;             /* مهم */
+}
 
   /* عشان ما يجبر آخر عمود يكون يمين/عريض */
   td:last-child {
