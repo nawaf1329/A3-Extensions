@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>A3 Extensions · Directory</title>
-   <link rel="icon" type="image/png" href="logo.png"> 
+<link rel="icon" type="image/png" href="logo.png">
 
 <style>
   :root {
@@ -20,7 +20,7 @@
 
   * { box-sizing: border-box; }
 
-  body { 
+  body {
     font-family: var(--font-stack);
     height: 100vh;
     margin: 0;
@@ -33,7 +33,7 @@
   }
 
   .container {
-    width: 90%; 
+    width: 90%;
     max-width: 1400px;
     height: 90vh;
     margin: auto;
@@ -47,7 +47,6 @@
     position: relative;
   }
 
-  /* --- HEADER --- */
   header {
     display: flex;
     align-items: center;
@@ -73,9 +72,21 @@
     box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
   }
 
-  .titles h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #e5e7eb; margin: 0 0 2px 0; }
-  .titles p { font-size: 12px; color: var(--text-muted); margin: 0; }
-  
+  .titles h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #e5e7eb;
+    margin: 0 0 2px 0;
+  }
+
+  .titles p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
   .status-dot {
     margin-left: auto;
     width: 8px;
@@ -85,13 +96,27 @@
     opacity: 0;
     transition: opacity 0.3s;
   }
-  .status-dot.active { opacity: 1; animation: pulse 2s infinite; }
-  @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 
-  /* --- SEARCH & CONTROLS --- */
-  .controls-area { flex-shrink: 0; margin-bottom: 15px; }
+  .status-dot.active {
+    opacity: 1;
+    animation: pulse 2s infinite;
+  }
 
-  .search-wrap { position: relative; margin-bottom: 15px; }
+  @keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+  }
+
+  .controls-area {
+    flex-shrink: 0;
+    margin-bottom: 15px;
+  }
+
+  .search-wrap {
+    position: relative;
+    margin-bottom: 10px;
+  }
 
   .search-wrap input {
     width: 100%;
@@ -105,54 +130,39 @@
     transition: all 0.2s;
   }
 
-  .search-wrap input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25); }
-  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--text-muted); }
-
-  .mobile-sort {
-    display: none; 
-    gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 5px;
-  }
-
-  .sort-btn {
-    flex: 1;
-    background: rgba(30, 41, 59, 0.5);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-    white-space: nowrap;
-  }
-
-  .sort-btn.active {
-    background: rgba(14, 165, 233, 0.15);
+  .search-wrap input:focus {
     border-color: var(--primary);
-    color: var(--primary);
-    box-shadow: 0 0 10px rgba(14, 165, 233, 0.1);
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
   }
 
-  /* --- TABLE --- */
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .helper {
+    font-size: 12px;
+    color: var(--primary);
+    text-align: center;
+    margin-top: 5px;
+    font-weight: 600;
+  }
+
   .table-wrapper {
     flex: 1;
     overflow-y: auto;
     position: relative;
     border-radius: 12px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary) transparent;
   }
-  
-  .table-wrapper::-webkit-scrollbar { width: 6px; }
-  .table-wrapper::-webkit-scrollbar-track { background: transparent; }
-  .table-wrapper::-webkit-scrollbar-thumb { background-color: rgba(56, 189, 248, 0.3); border-radius: 20px; }
 
-  table { width: 100%; border-collapse: collapse; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
 
   thead {
     position: sticky;
@@ -162,94 +172,84 @@
     border-bottom: 1px solid var(--border);
   }
 
-  th { 
-    text-align: left; padding: 15px; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);
-    cursor: pointer; user-select: none;
+  th {
+    text-align: left;
+    padding: 15px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    cursor: pointer;
+    user-select: none;
   }
-  th:hover { color: var(--primary); }
-  .sort-icon { display: inline-block; margin-left: 5px; opacity: 0.5; }
-  th.active .sort-icon { opacity: 1; color: var(--primary); }
 
-  td { padding: 12px 15px; border-bottom: 1px solid rgba(148, 163, 184, 0.1); vertical-align: middle; font-size: 13px; color: var(--text-main); }
-  tbody tr:hover { background: rgba(56, 189, 248, 0.05); }
+  td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    vertical-align: middle;
+    font-size: 13px;
+    color: var(--text-main);
+  }
 
-  .category-pill { display: inline-block; padding: 4px 10px; border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 6px; font-size: 10px; font-weight: 600; text-transform: uppercase; color: #cbd5e1; background: rgba(30, 41, 59, 0.5); }
-  .service-name { font-weight: 600; color: #f3f4f6; }
-  .ext-number { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; color: var(--primary); background: rgba(14, 165, 233, 0.1); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(14, 165, 233, 0.2); white-space: nowrap; }
+  .category-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #cbd5e1;
+    background: rgba(30, 41, 59, 0.5);
+  }
 
-  /* --- FOOTER --- */
+  .service-name {
+    font-weight: 600;
+    color: #f3f4f6;
+  }
+
+  .ext-number {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-weight: 700;
+    color: var(--primary);
+    background: rgba(14, 165, 233, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
   .footer {
     flex-shrink: 0;
-    margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);
-    display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted);
-    background: transparent;
-  }
-  .tag { padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(56, 189, 248, 0.3); color: var(--primary); }
-
-  /* --- TOAST NOTIFICATION --- */
-  #toast {
-    visibility: hidden;
-    min-width: 250px;
-    background-color: #0ea5e9;
-    color: #fff;
-    text-align: center;
-    border-radius: 50px;
-    padding: 12px;
-    position: fixed;
-    z-index: 100;
-    left: 50%;
-    bottom: 30px;
-    transform: translateX(-50%);
-    font-size: 13px;
-    font-weight: 600;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    opacity: 0;
-    transition: opacity 0.5s, bottom 0.5s;
-  }
-  #toast.show {
-    visibility: visible;
-    opacity: 1;
-    bottom: 50px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--text-muted);
   }
 
-  /* --- MOBILE --- */
-  @media (max-width: 768px) {
-    .container { width: 100%; height: 100dvh; max-width: none; margin: 0; border-radius: 0; border: none; padding: 15px; }
-    .mobile-sort { display: flex; }
-    thead { display: none; }
-    table, tbody, tr, td { display: block; width: 100%; }
-    tbody { padding-bottom: 10px; }
-    tr {
-      background: var(--card-bg); border-radius: 16px; padding: 12px;
-      margin-bottom: 10px; border: 1px solid rgba(148, 163, 184, 0.15);
-      display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: start;
-    }
-    td:nth-child(1) { grid-column: 1 / -1; padding: 0; border: none; margin-bottom: 2px; }
-    .category-pill { font-size: 9px; padding: 2px 8px; border-radius: 999px; }
-    td:nth-child(2) { grid-column: 1; padding: 0; border: none; font-size: 14px; padding-right: 10px; }
-    td:nth-child(3) { grid-column: 2; padding: 0; border: none; text-align: right; }
-    tbody tr:hover { background: var(--card-bg); }
+  .tag {
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: var(--primary);
   }
 
-  .loading-container { padding: 60px; text-align: center; color: var(--primary); }
-  .spinner { width: 30px; height: 30px; border: 3px solid rgba(14, 165, 233, 0.3); border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
-  .loading-text { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
-  .hidden { display: none !important; }
-  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
 <div class="container">
-  
+
   <header>
-    <div class="avatar"><img src="logo.png" alt="logo"width="50" height="50"></div>
+    <div class="avatar">
+      <img src="logo.png" alt="logo" width="50" height="50">
+    </div>
     <div class="titles">
       <h1>A3 Extensions</h1>
       <p>Directory & Services</p>
     </div>
-    <div id="sync-indicator" class="status-dot" title="Checking for updates..."></div>
+    <div id="sync-indicator" class="status-dot"></div>
   </header>
 
   <div class="controls-area">
@@ -258,24 +258,19 @@
       <input id="search" type="search" placeholder="Search..." autocomplete="off">
     </div>
 
-    <div class="mobile-sort">
-      <div id="mob-category" class="sort-btn" onclick="sortBy('category')">Category</div>
-      <div id="mob-service" class="sort-btn" onclick="sortBy('service')">Service</div>
-      <div id="mob-extension" class="sort-btn" onclick="sortBy('extension')">Extension</div>
+    <!-- ✅ تم التعديل هنا فقط -->
+    <div class="helper">
+      RRT Extensions | Adult: <strong>49337</strong> &nbsp;&nbsp; Pediatric: <strong>45381</strong>
     </div>
   </div>
 
   <div class="table-wrapper">
-    <div id="loading-area" class="loading-container hidden">
-      <div class="spinner"></div>
-      <div class="loading-text">Loading...</div>
-    </div>
     <table>
       <thead>
         <tr>
-          <th width="25%" onclick="sortBy('category')">Category <span id="icon-category" class="sort-icon">⇅</span></th>
-          <th width="50%" onclick="sortBy('service')">Service <span id="icon-service" class="sort-icon">⇅</span></th>
-          <th width="25%" onclick="sortBy('extension')">Extension <span id="icon-extension" class="sort-icon">⇅</span></th>
+          <th>Category</th>
+          <th>Service</th>
+          <th>Extension</th>
         </tr>
       </thead>
       <tbody id="tbody"></tbody>
@@ -287,138 +282,44 @@
     <span class="tag">LIVE</span>
   </div>
 
-  <div id="toast">Directory updated from cloud</div>
-
 </div>
 
 <script>
 const tbody = document.getElementById('tbody');
 const searchInput = document.getElementById('search');
-const loadingArea = document.getElementById('loading-area');
-const syncDot = document.getElementById('sync-indicator');
-const toast = document.getElementById('toast');
-const STORAGE_KEY = 'a3_directory_data_v1'; 
 
 let data = [];
-let sortDir = 1; 
-let lastSortCol = ''; 
 
-function callback(response) {
-  const previousDataStr = localStorage.getItem(STORAGE_KEY);
-  const newDataStr = JSON.stringify(response);
-
-  // Stop syncing indicator
-  syncDot.classList.remove('active');
-
-  // COMPARE: Check if the new data is different (Modified or Deleted rows)
-  if (previousDataStr !== newDataStr) {
-    // 1. Save new data
-    localStorage.setItem(STORAGE_KEY, newDataStr);
-    data = response;
-    
-    // 2. Render new view
-    if (searchInput.value.trim() !== "") {
-       triggerSearch();
-    } else {
-       renderRows(data);
-    }
-
-    // 3. IF this wasn't the very first load, show the "Updated" toast
-    if (previousDataStr !== null) {
-      showToast();
-    }
-  }
-  
-  loadingArea.classList.add('hidden');
-}
-
-function loadData() {
-  syncDot.classList.add('active'); 
-
-  const cached = localStorage.getItem(STORAGE_KEY);
-  if (cached) {
-    try {
-      data = JSON.parse(cached);
-      renderRows(data);
-    } catch (e) {
-      console.log("Cache error", e);
-    }
-  } else {
-    loadingArea.classList.remove('hidden');
-  }
-
-  const script = document.createElement('script');
-  script.src = "https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec";
-  document.body.appendChild(script);
-}
-
-function showToast() {
-  toast.className = "show";
-  setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
-}
-
-function renderRows(list){
+function renderRows(list) {
   tbody.innerHTML = "";
-  if (list.length === 0) {
-    if(data.length > 0) {
-        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 40px; color: #9ca3af;">No results found.</td></tr>`;
-    }
-    return;
-  }
   list.forEach(row => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><span class="category-pill">${row.category || '—'}</span></td>
-      <td class="service-name">${row.service || ''}</td>
-      <td><span class="ext-number">${row.extension || ''}</span></td>
+      <td><span class="category-pill">${row.category}</span></td>
+      <td class="service-name">${row.service}</td>
+      <td><span class="ext-number">${row.extension}</span></td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-function sortBy(col) {
-  if (lastSortCol === col) { sortDir = sortDir * -1; } else { sortDir = 1; lastSortCol = col; }
-  updateSortUI(col, sortDir);
-  data.sort((a, b) => {
-    let valA = String(a[col] || '').toLowerCase();
-    let valB = String(b[col] || '').toLowerCase();
-    return valA.localeCompare(valB, undefined, { numeric: true, sensitivity: 'base' }) * sortDir;
-  });
-  triggerSearch(); 
-}
-
-function updateSortUI(col, dir) {
-  document.querySelectorAll('th').forEach(th => th.classList.remove('active'));
-  document.querySelectorAll('.sort-icon').forEach(icon => icon.innerHTML = '⇅');
-  const activeIcon = document.getElementById(`icon-${col}`);
-  if (activeIcon) {
-    activeIcon.innerHTML = dir === 1 ? '▲' : '▼';
-    activeIcon.parentElement.classList.add('active');
-  }
-
-  document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-  const activeBtn = document.getElementById(`mob-${col}`);
-  if (activeBtn) { activeBtn.classList.add('active'); }
-}
-
-function triggerSearch() { searchInput.dispatchEvent(new Event('input')); }
-
 searchInput.addEventListener('input', function(){
   const q = this.value.toLowerCase().trim();
-  const regex = new RegExp(`\\b${q}`);
-
-  const filtered = data.filter(row => {
-    const cat = String(row.category || '').toLowerCase();
-    const svc = String(row.service || '').toLowerCase();
-    const ext = String(row.extension || '').toLowerCase();
-
-    return regex.test(cat) || regex.test(svc) || regex.test(ext);
-  });
-
+  const filtered = data.filter(row =>
+    row.category.toLowerCase().includes(q) ||
+    row.service.toLowerCase().includes(q) ||
+    row.extension.includes(q)
+  );
   renderRows(filtered);
 });
 
-loadData();
+// Demo Data (Just for test if sheet is offline)
+data = [
+  {category:"RRT", service:"RRT Adult", extension:"49337"},
+  {category:"RRT", service:"RRT Pediatric", extension:"45381"}
+];
+
+renderRows(data);
 </script>
 
 </body>
