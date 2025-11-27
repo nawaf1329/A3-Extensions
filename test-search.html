@@ -331,38 +331,42 @@ td {
 /* =========================
    MOBILE FIX — iPHONE / ANDROID
    ========================= */
+/* =========================
+   MOBILE FIX — iPHONE / ANDROID
+   ========================= */
 @media (max-width: 768px) {
 
   /* الصفحة ما تتمدد يمين ويسار، والكرت يبدأ من فوق */
   body {
-    overflow: hidden;
-    display: block;      /* يلغي الـ flex القديم */
+    overflow-x: hidden;
+    overflow-y: hidden;
+    display: block;              /* نلغي flex حق الديسكتوب */
   }
 
   .container {
     width: 100%;
     height: 100dvh;
-    padding: 8px 14px 14px; /* قلّلنا الـ top padding أكثر */
+    padding: 4px 12px 10px;      /* قللنا الفراغ فوق وتحت */
     border-radius: 0;
-    margin: 0 auto;         /* يلغي التوسيط العمودي القديم */
+    margin: 0 auto;
   }
 
-  /* الهيدر فوق ومضغوط شوي */
+  /* الهيدر فوق ومضغوط */
   header {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-bottom: 8px;
-    padding-bottom: 6px;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
   }
 
   .avatar img {
-    width: 72px;
-    height: 72px;
+    width: 64px;
+    height: 64px;
   }
 
   .titles h1 {
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 0.14em;
     margin-bottom: 2px;
     white-space: nowrap;
@@ -373,7 +377,7 @@ td {
     margin: 0;
   }
 
-  /* رفع خانة البحث وتقليل الفراغ */
+  /* خانة البحث قريبة من العنوان ومافي فراغ فاضي */
   .search-wrap {
     margin-top: 4px;
     margin-bottom: 2px;
@@ -385,10 +389,10 @@ td {
   }
 
   .helper {
-    margin-top: 2px;
+    margin-top: 0;
   }
 
-  /* أزرار All / Favorites وسط وتناسب التصميم */
+  /* أزرار All / Favorites وسط وبحجم مناسب */
   .fav-toggle-bar {
     justify-content: center;
     margin-top: 4px;
@@ -399,12 +403,11 @@ td {
     padding: 4px 12px;
   }
 
-  /* تثبيت عرض الأعمدة وعدم تحرك الجدول يمين/يسار */
+  /* الجدول ثابت وما يلف يمين ويسار */
   table {
     table-layout: fixed;
   }
 
-  /* الهيدر ما يكسر سطور */
   th {
     white-space: nowrap;
     overflow: hidden;
@@ -422,22 +425,23 @@ td {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 10px;
   }
 
-  /* اسم السيرفس: خط أصغر، لحد أقصى سطرين */
+  /* السيرفس: خط أصغر، أقصى شي سطرين */
   .service-name {
     display: -webkit-box;
     font-size: 12px;
     line-height: 1.3;
-    white-space: normal;        /* يسمح ينزل سطر */
+    white-space: normal;         /* يسمح ينزل سطر */
     word-break: break-word;
-    overflow: hidden;           /* ما يطلع لبرا */
-    text-overflow: ellipsis;    /* نقاط لو زاد */
-    -webkit-line-clamp: 2;      /* أقصى شي سطرين */
+    overflow: hidden;            /* ما يطلع برا العمود */
+    text-overflow: ellipsis;     /* نقاط لو زاد */
+    -webkit-line-clamp: 2;       /* سطرين كحد أقصى */
     -webkit-box-orient: vertical;
   }
 
-  /* الإكستنشن ثابت وما ينضغط */
+  /* الإكستنشن ثابت وواضح */
   .ext-number {
     white-space: nowrap;
     padding: 4px 6px;
@@ -459,8 +463,6 @@ td {
     -webkit-overflow-scrolling: touch;
   }
 }
-
-/* هنا نهاية الـ CSS */
 </style>
 </head>
 <body>
