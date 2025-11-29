@@ -26,7 +26,7 @@
   --font-stack: system-ui, -apple-system, "Segoe UI", sans-serif;
   
   /* Initial Base Size */
-  --base-size: 10px; 
+  --base-size: 10px;
 }
 
 * { box-sizing: border-box; }
@@ -42,7 +42,7 @@ html {
   
   /* --- FIX: BACKGROUND MOVED HERE --- */
   /* This prevents white edges during overscroll or in safe-areas */
-  background-color: var(--bg-dark); 
+  background-color: var(--bg-dark);
   background-image: var(--bg-gradient);
   background-attachment: fixed; /* Ensures gradient stays put */
 }
@@ -84,7 +84,7 @@ header {
   backdrop-filter: blur(10px);
   z-index: 50;
   
-  display: grid; 
+  display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 1rem;
@@ -128,9 +128,9 @@ header {
 
 /* Middle: RRT Badge */
 .rrt-badge {
-  position: static; 
+  position: static;
   transform: none;
-  justify-self: center; 
+  justify-self: center;
   background: transparent;
   border: none;
   padding: 0;
@@ -142,7 +142,7 @@ header {
   color: #c21010;
 
 }
-.rrt-badge strong { 
+.rrt-badge strong {
   color: #c21010;
   font-weight: 900;
 }
@@ -370,7 +370,7 @@ footer {
   
   .brand-area { justify-content: center; width: 100%; }
   
-  .rrt-badge { 
+  .rrt-badge {
     margin: 0.2rem 0;
     font-size: 1.2rem;
   }
@@ -425,21 +425,20 @@ footer {
   border-radius: 4px;
 }
 
-.pulse-dot {
-  width: 8px;
-  height: 8px;
-  background: #f43f5e; /* var(--accent-red) */
-  border-radius: 50%;
-  box-shadow: 0 0 8px #f43f5e;
-  animation: pulse 2s infinite;
-}
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #0063ff;
+      animation: ambulanceBlink 1.5s steps(1) infinite;
+      box-shadow: none;
+    }
 
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.4; }
-  100% { opacity: 1; }
-}
-
+    @keyframes ambulanceBlink {
+      0%   { background-color: #dc2626; }  /* أحمر صافي */
+      50%  { background-color: #0063ff; }  /* أزرق إسعاف صافي */
+      100% { backgrou nd-color: #dc2626; }
+    }
 </style>
 </head>
 <body>
@@ -557,7 +556,7 @@ function init() {
 function resize(delta) {
   baseSize += delta;
   if(baseSize < 12) baseSize = 12;
-  if(baseSize > 24) baseSize = 24; 
+  if(baseSize > 24) baseSize = 24;
   applySize();
   localStorage.setItem(STORAGE_KEY_SIZE, baseSize);
 }
