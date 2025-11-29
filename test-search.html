@@ -387,6 +387,27 @@ footer {
   .table-scroll-area { padding: 0 0.5rem; }
   td, th { padding: 0.8rem 0.5rem; }
 }
+    /* رفع العناصر عند النزول */
+  header.shrink {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+  }
+
+  header.shrink .brand-area {
+    transform: translateY(-6px);
+  }
+
+  header.shrink .controls-area {
+    transform: translateY(-8px);
+  }
+
+  header.shrink .mid-section {
+    transform: translateY(-6px);
+  }
+
+  header.shrink .search-box {
+    transform: translateY(-10px);
+  }
 .mid-section {
   display: flex;
   flex-direction: column;
@@ -670,6 +691,13 @@ document.querySelectorAll('.sortable').forEach(th => {
 });
 
 init();
+  // shrink header on scroll (mobile)
+const headerEl = document.querySelector('header');
+const scrollBox = document.querySelector('.table-scroll-area');
+
+scrollBox.addEventListener('scroll', () => {
+  headerEl.classList.toggle('shrink', scrollBox.scrollTop > 20);
+}, { passive: true });
 </script>
 
 </body>
