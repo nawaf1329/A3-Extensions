@@ -426,19 +426,18 @@ footer {
 }
 
     .pulse-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #0063ff;
-      animation: ambulanceBlink 1.5s steps(1) infinite;
-      box-shadow: none;
-    }
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  animation: policeBlink 1.5s infinite;
+  background: red;
+}
 
-    @keyframes ambulanceBlink {
-      0%   { background-color: #dc2626; }  /* أحمر صافي */
-      50%  { background-color: #0063ff; }  /* أزرق إسعاف صافي */
-      100% { backgrou nd-color: #dc2626; }
-    }
+@keyframes policeBlink {
+  0%   { background: #ef4444; box-shadow: 0 0 8px #ef4444; }  /* RED */
+  50%  { background: #3b82f6; box-shadow: 0 0 8px #3b82f6; }  /* BLUE */
+  100% { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+}
 </style>
 </head>
 <body>
