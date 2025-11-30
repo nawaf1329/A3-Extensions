@@ -769,11 +769,12 @@ function toggleFav(key) {
 function makeKey(r) { return `${r.category}|${r.service}|${r.extension}`; }
 
 // فتح شيت الطابعات (device / device name) داخل نفس الصفحة
+// فتح شيت الطابعات (device / device name) داخل نفس الصفحة
 function openPrinterSheet() {
   if (!printerFrame.src) {
-    // حط هنا رابط الـ "Publish to web" اللي جوجل أعطاك ياه
+    // هذا رابط الـ "Publish to web" الصحيح اللي انت أعطيتني إياه
     printerFrame.src =
-      'https://docs.google.com/spreadsheets/d/10Gjz6ehBHDBleDaiC162ADpydkhJRO-NCjImxJdJw7g/pubhtml?gid=0&single=true&widget=true&headers=false';
+      'https://docs.google.com/spreadsheets/d/e/2PACX-1vRlEJD8qiZVDM0OlqwGsrNquO3n1ui-wNgf5QWKyOx2UlvIPdPUAo0QII424h7Y_XrmS3puM-mtPtyS/pubhtml?widget=true&headers=false';
   }
   printerOverlay.style.display = 'flex';
 }
