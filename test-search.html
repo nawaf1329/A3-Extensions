@@ -377,7 +377,7 @@ footer {
   inset: 0;
   background: rgba(15, 23, 42, 0.96);
   backdrop-filter: blur(10px);
-  display: none;           /* مخفي افتراضياً */
+  display: none;
   align-items: center;
   justify-content: center;
   z-index: 80;
@@ -437,12 +437,34 @@ footer {
 .printer-frame-wrapper {
   flex: 1;
   background: #020617;
+  overflow: auto;
 }
 
-.printer-frame-wrapper iframe {
+/* جدول البرنترات داخل الأوفرلاي */
+.printer-table {
   width: 100%;
-  height: 100%;
-  border: none;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.printer-table thead th {
+  text-align: left;
+  padding: 0.8rem 1rem;
+  background: #020617;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+}
+
+.printer-table tbody td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(30, 41, 59, 0.7);
+}
+
+.printer-table tbody tr:hover {
+  background: rgba(15, 23, 42, 0.9);
 }
 
 /* ================= MOBILE / HIGH ZOOM ADAPTATION ================= */
@@ -622,7 +644,15 @@ footer {
       </button>
     </div>
     <div class="printer-frame-wrapper">
-      <iframe id="printer-frame" src=""></iframe>
+      <table class="printer-table">
+        <thead>
+          <tr>
+            <th style="width: 35%;">Device</th>
+            <th>Device Name</th>
+          </tr>
+        </thead>
+        <tbody id="printer-tbody"></tbody>
+      </table>
     </div>
   </div>
 </div>
@@ -639,6 +669,15 @@ let currentView = 'all';
 let sortState = { col: null, dir: 1 };
 let baseSize = 14;
 
+// بيانات الطابعات (عدلها على كيفك)
+const printers = [
+  { device: 'RINPA0301B',  name: 'Label Printer A' },
+  { device: 'RNURB0202B',  name: 'Label Printer B' },
+  { device: 'RNURA0301Z',  name: 'Printer (A3)' },
+  { device: 'nurse_a3',    name: 'A3 PC Login' },
+  { device: 'KFSH#3709',    name: 'PC Password' }
+];
+
 // --- ELEMENTS ---
 const tbody = document.getElementById('tbody');
 const searchInput = document.getElementById('search');
@@ -646,7 +685,7 @@ const btnAll = document.getElementById('filter-all');
 const btnFav = document.getElementById('filter-fav');
 const syncDot = document.getElementById('sync-dot');
 const printerOverlay = document.getElementById('printer-overlay');
-const printerFrame = document.getElementById('printer-frame');
+const printerTbody = document.getElementById('printer-tbody');
 
 // --- HELPER FOR REGEX ---
 function escapeRegex(str) {
@@ -768,14 +807,38 @@ function toggleFav(key) {
 
 function makeKey(r) { return `${r.category}|${r.service}|${r.extension}`; }
 
-// فتح شيت الطابعات (device / device name) داخل نفس الصفحة
-// فتح شيت الطابعات (device / device name) داخل نفس الصفحة
-function openPrinterSheet() {
-  if (!printerFrame.src) {
-    // هذا رابط الـ "Publish to web" الصحيح اللي انت أعطيتني إياه
-    printerFrame.src =
-      'https://docs.google.com/spreadsheets/d/e/2PACX-1vRlEJD8qiZVDM0OlqwGsrNquO3n1ui-wNgf5QWKyOx2UlvIPdPUAo0QII424h7Y_XrmS3puM-mtPtyS/pubhtml?widget=true&headers=false';
+// رسم جدول الطابعات داخل الأوفرلاي
+function renderPrinters() {
+  printerTbody.innerHTML = '';
+
+  if (!printers.length) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td colspan="2" style="padding:2rem; text-align:center; color:#9ca3af;">
+        No printers defined yet.
+      </td>
+    `;
+    printerTbody.appendChild(tr);
+    return;
   }
+
+  const frag = document.createDocumentFragment();
+
+  printers.forEach(p => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="ext-box">${p.device || ''}</span></td>
+      <td><span class="svc-name">${p.name || ''}</span></td>
+    `;
+    frag.appendChild(tr);
+  });
+
+  printerTbody.appendChild(frag);
+}
+
+// فتح لوحة الطابعات داخل نفس الصفحة
+function openPrinterSheet() {
+  renderPrinters();
   printerOverlay.style.display = 'flex';
 }
 
