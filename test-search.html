@@ -771,9 +771,9 @@ function makeKey(r) { return `${r.category}|${r.service}|${r.extension}`; }
 // فتح شيت الطابعات (device / device name) داخل نفس الصفحة
 function openPrinterSheet() {
   if (!printerFrame.src) {
-    // رابط الشيت — تقدر تعدله لو غيرت الـgid أو الشيت
+    // حط هنا رابط الـ "Publish to web" اللي جوجل أعطاك ياه
     printerFrame.src =
-      'https://docs.google.com/spreadsheets/d/10Gjz6ehBHDBleDaiC162ADpydkhJRO-NCjImxJdJw7g/edit?rm=minimal&single=true&widget=true&headers=false';
+      'https://docs.google.com/spreadsheets/d/10Gjz6ehBHDBleDaiC162ADpydkhJRO-NCjImxJdJw7g/pubhtml?gid=0&single=true&widget=true&headers=false';
   }
   printerOverlay.style.display = 'flex';
 }
