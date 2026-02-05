@@ -3,1075 +3,561 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>A3 Directory Pro</title>
+<title>A3 Directory</title>
 <link rel="icon" type="image/png" href="logo.png">
 
 <style>
-/* ============================================
-   DESIGN SYSTEM - A3 Directory Pro
-   ============================================ */
+/* --- ORIGINAL COLOR PALETTE & VARIABLES --- */
 :root {
-  /* Colors */
-  --bg-dark: #020617;
-  --bg-gradient: radial-gradient(circle at top, #1f2937 0, #020617 55%, #020617 100%);
-  --surface: rgba(15, 23, 42, 0.6);
-  --surface-hover: rgba(30, 41, 59, 0.8);
-  --surface-border: rgba(148, 163, 184, 0.15);
-  
-  --primary: #0ea5e9;
-  --primary-glow: rgba(14, 165, 233, 0.15);
-  --primary-dark: #0284c7;
-  
-  --alert-red: #ef4444;
-  --alert-red-glow: rgba(239, 68, 68, 0.3);
-  --success: #22c55e;
-  --warning: #f59e0b;
-  
-  --text-main: #e5e7eb;
-  --text-muted: #9ca3af;
-  --text-dark: #6b7280;
-  
-  /* Typography */
-  --font-stack: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --base-size: 14px;
-  
-  /* Spacing */
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  
-  /* Effects */
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.3);
-  --shadow-lg: 0 10px 25px rgba(0,0,0,0.4);
-  --shadow-glow: 0 0 20px var(--primary-glow);
-  
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-full: 9999px;
-  
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
-  --transition-slow: 350ms ease;
+--bg-dark: #020617;
+--bg-gradient: radial-gradient(circle at top, #1f2937 0, #020617 55%, #020617 100%);
+--surface: rgba(15, 23, 42, 0.6);
+--surface-border: rgba(148, 163, 184, 0.15);
+
+--primary: #0ea5e9;
+--primary-glow: rgba(14, 165, 233, 0.15);
+
+--alert-red: #ff4d4d;
+
+--text-main: #e5e7eb;
+--text-muted: #9ca3af;
+
+--font-stack: system-ui, -apple-system, "Segoe UI", sans-serif;
+
+/* Initial Base Size */
+--base-size: 10px;
 }
 
-/* Reset & Base */
-*, *::before, *::after { 
-  box-sizing: border-box; 
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; }
 
 html {
-  font-size: var(--base-size);
-  transition: font-size 0.2s ease;
-  background-color: var(--bg-dark);
-  background-image: var(--bg-gradient);
-  background-attachment: fixed;
-  height: 100%;
-  overflow: hidden;
+margin: 0;
+padding: 0;
+width: 100%;
+height: 100%;
+overflow: hidden;
+font-size: var(--base-size);
+transition: font-size 0.2s ease;
+background-color: var(--bg-dark);
+background-image: var(--bg-gradient);
+background-attachment: fixed;
 }
 
 body {
-  font-family: var(--font-stack);
-  color: var(--text-main);
-  height: 100%;
-  overflow: hidden;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
+margin: 0;
+padding: 0;
+width: 100%;
+height: 100%;
+font-family: var(--font-stack);
+background: transparent;
+color: var(--text-main);
+display: flex;
+justify-content: center;
 }
 
-/* ============================================
-   LAYOUT - App Shell
-   ============================================ */
+/* ================= APP SHELL ================= */
+
 .app-container {
-  width: 100%;
-  max-width: 1600px;
-  height: 100%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  position: relative;
+width: 100%;
+max-width: 1600px;
+height: 100%;
+display: flex;
+flex-direction: column;
+position: relative;
+background: transparent;
 }
 
-/* ============================================
-   HEADER - Three Column Layout
-   ============================================ */
+/* ================= HEADER SECTION ================= */
+
 header {
-  flex-shrink: 0;
-  padding: var(--space-md) var(--space-xl);
-  border-bottom: 1px solid var(--surface-border);
-  background: rgba(2, 6, 23, 0.85);
-  backdrop-filter: blur(12px);
-  z-index: 50;
-  
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: var(--space-lg);
+flex-shrink: 0;
+padding: 1.2rem 2rem;
+border-bottom: 1px solid var(--surface-border);
+background: rgba(2, 6, 23, 0.85);
+backdrop-filter: blur(10px);
+z-index: 50;
+
+display: grid;
+grid-template-columns: 1fr auto 1fr;
+align-items: center;
+gap: 1rem;
 }
 
-/* Brand Area */
+/* Left: Identity */
 .brand-area {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  justify-self: start;
+display: flex;
+align-items: center;
+gap: 1rem;
+justify-self: start;
 }
-
 .logo-box {
-  width: 4rem;
-  height: 4rem;
-  border-radius: var(--radius-lg);
-  background: radial-gradient(circle at 30% 0, #1e293b 0, #020617 70%);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 20px rgba(14, 165, 233, 0.15);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+width: 3.4rem;
+height: 3.4rem;
+border-radius: 12px;
+background: radial-gradient(circle at 30% 0, #1e293b 0, #020617 70%);
+border: 1px solid rgba(56, 189, 248, 0.3);
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 0 15px rgba(14, 165, 233, 0.15);
 }
-
-.logo-box:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 30px rgba(14, 165, 233, 0.25);
-}
-
-.logo-box img { 
-  width: 160%; 
-  height: 160%; 
-  object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-}
+.logo-box img { width: 180%; height: 180%; object-fit: contain; }
 
 .titles h1 {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #fff;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  margin-bottom: var(--space-xs);
+margin: 0;
+font-size: 1.4rem;
+font-weight: 700;
+letter-spacing: 0.05em;
+text-transform: uppercase;
+color: #fff;
+white-space: nowrap;
 }
-
 .titles p {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin: 0;
+margin: 0;
+font-size: 0.85rem;
+color: var(--text-muted);
+white-space: nowrap;
 }
 
-.titles .author {
-  font-size: 0.75rem;
-  color: var(--text-dark);
-  margin-top: var(--space-xs);
+/* Middle: RRT Badge */
+.rrt-badge {
+position: static;
+transform: none;
+justify-self: center;
+background: transparent;
+border: none;
+padding: 0;
+font-size: 1.1rem;
+color: var(--alert-red);
+font-weight: 700;
+white-space: nowrap;
+letter-spacing: 0.5px;
+color: #c21010;
+}
+.rrt-badge strong {
+color: #c21010;
+font-weight: 900;
 }
 
-/* Middle Section - RRT Card */
-.mid-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  align-items: center;
-  justify-self: center;
-}
-
-.rrt-card {
-  display: flex;
-  align-items: center;
-  gap: var(--space-lg);
-  background: linear-gradient(135deg, rgba(17, 24, 39, 0.9), rgba(17, 24, 39, 0.7));
-  border: 1px solid rgba(244, 63, 94, 0.2);
-  padding: var(--space-sm) var(--space-lg);
-  border-radius: var(--radius-full);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(244, 63, 94, 0.1), inset 0 1px 0 rgba(255,255,255,0.05);
-  animation: subtlePulse 3s ease-in-out infinite;
-}
-
-@keyframes subtlePulse {
-  0%, 100% { box-shadow: 0 4px 20px rgba(244, 63, 94, 0.1); }
-  50% { box-shadow: 0 4px 25px rgba(244, 63, 94, 0.2); }
-}
-
-.rrt-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  font-size: 0.95rem;
-  color: #94a3b8;
-  font-weight: 500;
-}
-
-.rrt-item strong {
-  color: #f43f5e;
-  font-weight: 800;
-  font-family: 'SF Mono', monospace;
-  font-size: 1.1rem;
-  background: rgba(244, 63, 94, 0.15);
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(244, 63, 94, 0.3);
-  text-shadow: 0 0 10px rgba(244, 63, 94, 0.3);
-}
-
-.pulse-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  animation: policeBlink 1.5s infinite;
-  box-shadow: 0 0 10px currentColor;
-}
-
-@keyframes policeBlink {
-  0%, 100% { background: #ef4444; box-shadow: 0 0 10px #ef4444; color: #ef4444; }
-  50% { background: #3b82f6; box-shadow: 0 0 10px #3b82f6; color: #3b82f6; }
-}
-
-/* Controls Area */
+/* Right: Controls */
 .controls-area {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  justify-self: end;
-  width: 100%;
-  justify-content: flex-end;
+display: flex;
+align-items: center;
+gap: 1rem;
+justify-self: end;
+width: 100%;
+justify-content: flex-end;
 }
 
-/* Search Box */
+/* Search Bar */
 .search-box {
-  position: relative;
-  width: 100%;
-  max-width: 320px;
-  transition: max-width var(--transition-normal);
+position: relative;
+width: 100%;
+max-width: 350px;
 }
-
-.search-box:focus-within {
-  max-width: 380px;
-}
-
 .search-box input {
-  width: 100%;
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid var(--surface-border);
-  border-radius: var(--radius-md);
-  padding: 0.7rem 1rem 0.7rem 2.8rem;
-  color: var(--text-main);
-  font-size: 0.95rem;
-  transition: all var(--transition-fast);
-  backdrop-filter: blur(4px);
+width: 100%;
+background: #0f172a;
+border: 1px solid var(--surface-border);
+border-radius: 8px;
+padding: 0.6rem 1rem 0.6rem 2.4rem;
+color: var(--text-main);
+font-size: 0.95rem;
+transition: all 0.2s;
 }
-
 .search-box input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-glow), var(--shadow-glow);
-  background: rgba(15, 23, 42, 0.95);
+outline: none;
+border-color: var(--primary);
+box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
 }
-
-.search-box input::placeholder {
-  color: var(--text-dark);
-}
-
 .search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-muted);
-  font-size: 1rem;
-  pointer-events: none;
-  transition: color var(--transition-fast);
+position: absolute;
+left: 10px;
+top: 50%;
+transform: translateY(-50%);
+color: var(--text-muted);
+font-size: 0.9rem;
 }
 
-.search-box:focus-within .search-icon {
-  color: var(--primary);
-}
-
-/* Button Groups */
+/* Button Group */
 .btn-group {
-  display: flex;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--surface-border);
-  border-radius: var(--radius-md);
-  padding: 4px;
-  gap: 2px;
+display: flex;
+background: #0f172a;
+border: 1px solid var(--surface-border);
+border-radius: 8px;
+padding: 4px;
 }
-
 .btn {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  padding: 0.5rem 1rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  position: relative;
-  overflow: hidden;
+background: transparent;
+border: none;
+color: var(--text-muted);
+padding: 0.4rem 0.8rem;
+font-size: 0.85rem;
+font-weight: 600;
+border-radius: 6px;
+cursor: pointer;
+transition: all 0.2s;
+white-space: nowrap;
 }
-
-.btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
-  opacity: 0;
-  transition: opacity var(--transition-fast);
-}
-
-.btn:hover {
-  color: #fff;
-}
-
-.btn:hover::before {
-  opacity: 1;
-}
-
+.btn:hover { color: #fff; }
 .btn.active {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.7));
-  color: var(--primary);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(14, 165, 233, 0.3);
+background: rgba(30, 41, 59, 0.8);
+color: var(--primary);
+box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 /* Text Resizer */
 .resizer {
-  display: flex;
-  gap: 4px;
-  background: rgba(15, 23, 42, 0.6);
-  padding: 4px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--surface-border);
+display: flex;
+gap: 2px;
 }
-
 .resizer button {
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--text-muted);
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.9rem;
-  transition: all var(--transition-fast);
+background: transparent;
+border: 1px solid var(--surface-border);
+color: var(--text-muted);
+width: 32px;
+height: 32px;
+border-radius: 6px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: bold;
 }
-
 .resizer button:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  background: rgba(14, 165, 233, 0.1);
+border-color: var(--primary);
+color: var(--primary);
 }
 
-/* Icon Buttons */
+/* زر الايقونة (Printer) */
 .icon-btn {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--surface-border);
-  color: var(--text-muted);
-  padding: 0.5rem 1rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  transition: all var(--transition-fast);
-  backdrop-filter: blur(4px);
+background: #0f172a;
+border: 1px solid var(--surface-border);
+color: var(--text-muted);
+padding: 0.4rem 0.8rem;
+font-size: 0.8rem;
+font-weight: 600;
+border-radius: 8px;
+cursor: pointer;
+display: flex;
+align-items: center;
+gap: 0.35rem;
+white-space: nowrap;
+transition: all 0.2s;
 }
-
 .icon-btn:hover {
-  color: #fff;
-  border-color: var(--primary);
-  background: rgba(14, 165, 233, 0.1);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+color: #fff;
+border-color: var(--primary);
+box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.25);
 }
 
-.icon-btn:active {
-  transform: translateY(0);
-}
+/* ================= MAIN CONTENT ================= */
 
-/* ============================================
-   MAIN CONTENT - Table
-   ============================================ */
 .content-wrapper {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+flex: 1;
+position: relative;
+overflow: hidden;
+display: flex;
+flex-direction: column;
 }
 
-/* Loading State */
-.loading-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(2, 6, 23, 0.9);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-md);
-  z-index: 40;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--transition-normal);
-}
-
-.loading-overlay.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.spinner {
-  width: 48px;
-  height: 48px;
-  border: 3px solid rgba(14, 165, 233, 0.2);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.loading-text {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
-/* Scroll Area */
 .table-scroll-area {
-  flex: 1;
-  overflow-y: auto;
-  padding: 0 var(--space-xl);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(14, 165, 233, 0.3) transparent;
+flex: 1;
+overflow-y: auto;
+padding: 0 2rem;
+scrollbar-width: thin;
+scrollbar-color: rgba(14, 165, 233, 0.3) transparent;
 }
 
-.table-scroll-area::-webkit-scrollbar { 
-  width: 8px; 
-}
-
-.table-scroll-area::-webkit-scrollbar-track { 
-  background: transparent; 
-  margin: 4px;
-}
-
+.table-scroll-area::-webkit-scrollbar { width: 6px; }
+.table-scroll-area::-webkit-scrollbar-track { background: transparent; }
 .table-scroll-area::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, rgba(14, 165, 233, 0.3), rgba(14, 165, 233, 0.5));
-  border-radius: var(--radius-full);
-  border: 2px solid transparent;
-  background-clip: content-box;
+background-color: rgba(14, 165, 233, 0.3);
+border-radius: 20px;
 }
-
 .table-scroll-area::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, rgba(14, 165, 233, 0.5), rgba(14, 165, 233, 0.7));
+background-color: rgba(14, 165, 233, 0.6);
 }
 
-/* Table Styles */
 table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin-top: var(--space-md);
+width: 100%;
+border-collapse: collapse;
+margin-top: 1rem;
 }
 
 thead th {
-  position: sticky;
-  top: 0;
-  background: linear-gradient(to bottom, var(--bg-dark), rgba(2, 6, 23, 0.95));
-  z-index: 10;
-  text-align: left;
-  padding: var(--space-md);
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-  border-bottom: 2px solid var(--surface-border);
-  cursor: pointer;
-  user-select: none;
-  transition: all var(--transition-fast);
-  white-space: nowrap;
+position: sticky;
+top: 0;
+background: var(--bg-dark);
+z-index: 10;
+text-align: left;
+padding: 1rem 1rem;
+font-size: 0.8rem;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.1em;
+color: var(--text-muted);
+border-bottom: 1px solid var(--surface-border);
+cursor: pointer;
+user-select: none;
 }
-
-thead th:hover {
-  color: var(--primary);
-  background: linear-gradient(to bottom, rgba(14, 165, 233, 0.05), rgba(2, 6, 23, 0.98));
-}
-
-thead th.sortable::after {
-  content: '↕';
-  margin-left: 6px;
-  opacity: 0.3;
-  font-size: 0.8em;
-  transition: all var(--transition-fast);
-}
-
-thead th.sortable:hover::after {
-  opacity: 0.6;
-}
-
-thead th.sort-asc::after {
-  content: '↑';
-  opacity: 1;
-  color: var(--primary);
-}
-
-thead th.sort-desc::after {
-  content: '↓';
-  opacity: 1;
-  color: var(--primary);
-}
+thead th:hover { color: var(--primary); }
 
 tbody tr {
-  transition: all var(--transition-fast);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+transition: background 0.15s;
 }
-
 tbody tr:hover {
-  background: linear-gradient(90deg, rgba(30, 41, 59, 0.4), rgba(30, 41, 59, 0.2));
-  transform: scale(1.002);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+background: rgba(30, 41, 59, 0.4);
 }
 
 td {
-  padding: var(--space-md);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
-  vertical-align: middle;
+padding: 1rem 1rem;
+border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+vertical-align: middle;
 }
 
-/* Cell Components */
+/* Cell Styles */
 .cat-pill {
-  display: inline-flex;
-  align-items: center;
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(30, 41, 59, 0.6));
-  color: #cbd5e1;
-  padding: 0.4rem 0.8rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.8rem;
-  font-weight: 600;
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-fast);
-}
-
-.cat-pill:hover {
-  border-color: rgba(14, 165, 233, 0.4);
-  transform: translateY(-1px);
+display: inline-block;
+background: rgba(30, 41, 59, 0.7);
+color: #cbd5e1;
+padding: 0.3rem 0.6rem;
+border-radius: 6px;
+font-size: 0.8rem;
+font-weight: 600;
 }
 
 .svc-name {
-  font-weight: 600;
-  color: #f3f4f6;
-  font-size: 1rem;
-  letter-spacing: 0.01em;
+font-weight: 600;
+color: #f3f4f6;
+font-size: 1rem;
 }
 
 .ext-box {
-  display: inline-flex;
-  align-items: center;
-  font-family: 'SF Mono', monospace;
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: var(--primary);
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(14, 165, 233, 0.05));
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(14, 165, 233, 0.25);
-  box-shadow: 0 0 15px rgba(14, 165, 233, 0.1);
-  transition: all var(--transition-fast);
-  cursor: pointer;
-}
-
-.ext-box:hover {
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.25), rgba(14, 165, 233, 0.1));
-  box-shadow: 0 0 20px rgba(14, 165, 233, 0.2);
-  transform: scale(1.05);
+display: inline-block;
+font-family: monospace;
+font-weight: 700;
+font-size: 1rem;
+color: var(--primary);
+background: rgba(14, 165, 233, 0.1);
+padding: 0.4rem 0.8rem;
+border-radius: 6px;
+border: 1px solid rgba(14, 165, 233, 0.2);
 }
 
 .fav-btn {
-  background: none;
-  border: none;
-  font-size: 1.3rem;
-  color: #4b5563;
-  cursor: pointer;
-  padding: var(--space-sm);
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
+background: none;
+border: none;
+font-size: 1.2rem;
+color: #4b5563;
+cursor: pointer;
+padding: 0;
 }
+.fav-btn.active { color: #facc15; text-shadow: 0 0 10px rgba(250, 204, 21, 0.5); }
+.fav-btn:hover { transform: scale(1.1); }
 
-.fav-btn:hover {
-  background: rgba(250, 204, 21, 0.1);
-  transform: scale(1.15);
-}
+/* ================= FOOTER ================= */
 
-.fav-btn.active {
-  color: #facc15;
-  text-shadow: 0 0 15px rgba(250, 204, 21, 0.6);
-  animation: starPop 0.3s ease;
-}
-
-@keyframes starPop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); }
-}
-
-/* Empty State */
-.empty-state {
-  text-align: center;
-  padding: 4rem 2rem;
-  color: var(--text-muted);
-}
-
-.empty-state-icon {
-  font-size: 3rem;
-  margin-bottom: var(--space-md);
-  opacity: 0.5;
-}
-
-/* ============================================
-   FOOTER
-   ============================================ */
 footer {
-  flex-shrink: 0;
-  padding: var(--space-md) var(--space-xl);
-  border-top: 1px solid var(--surface-border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  background: rgba(2, 6, 23, 0.95);
-  backdrop-filter: blur(10px);
+flex-shrink: 0;
+padding: 0.8rem 2rem;
+border-top: 1px solid var(--surface-border);
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-size: 0.8rem;
+color: var(--text-muted);
+background: rgba(2, 6, 23, 0.9);
 }
 
-.footer-left {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-}
+/* ================= PRINTER OVERLAY ================= */
 
-.footer-actions {
-  display: flex;
-  gap: var(--space-sm);
-}
-
-.footer-btn {
-  background: transparent;
-  border: 1px solid var(--surface-border);
-  color: var(--text-dark);
-  padding: 0.3rem 0.8rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.75rem;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.footer-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  background: rgba(14, 165, 233, 0.1);
-}
-
-.live-indicator {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 500;
-}
-
-.live-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--success);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--success);
-  animation: livePulse 2s infinite;
-}
-
-@keyframes livePulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(0.9); }
-}
-
-.live-dot.syncing {
-  background: var(--warning);
-  box-shadow: 0 0 8px var(--warning);
-  animation: spin 1s linear infinite;
-  border-radius: 0;
-  border: 2px solid var(--warning);
-  border-top-color: transparent;
-  width: 12px;
-  height: 12px;
-}
-
-/* ============================================
-   MODALS & OVERLAYS
-   ============================================ */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(2, 6, 23, 0.9);
-  backdrop-filter: blur(8px);
+.printer-overlay {
+position: fixed;
+inset: 0;
+background: rgba(15, 23, 42, 0.96);
+backdrop-filter: blur(10px);
+  display: none;           /* مخفي افتراضياً */
   display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  opacity: 0;
-  transition: opacity var(--transition-normal);
-  padding: var(--space-md);
+align-items: center;
+justify-content: center;
+z-index: 80;
 }
 
-.modal-overlay.active {
-  display: flex;
-  opacity: 1;
+.printer-card {
+width: min(1000px, 95vw);
+height: min(600px, 80vh);
+background: rgba(15, 23, 42, 0.98);
+border-radius: 16px;
+border: 1px solid rgba(148, 163, 184, 0.35);
+box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+display: flex;
+flex-direction: column;
+overflow: hidden;
 }
 
-.modal-card {
-  width: min(900px, 95vw);
-  max-height: 85vh;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.95));
-  border-radius: var(--radius-xl);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  box-shadow: var(--shadow-lg), 0 0 40px rgba(0,0,0,0.5);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transform: scale(0.95) translateY(20px);
-  transition: transform var(--transition-normal);
+.printer-card-header {
+padding: 0.8rem 1.2rem;
+border-bottom: 1px solid rgba(51, 65, 85, 0.9);
+display: flex;
+align-items: center;
+justify-content: space-between;
+background: radial-gradient(circle at top left, rgba(15, 118, 110, 0.35), rgba(15, 23, 42, 0.95));
 }
 
-.modal-overlay.active .modal-card {
-  transform: scale(1) translateY(0);
+.printer-card-title {
+display: flex;
+align-items: center;
+gap: 0.5rem;
+font-size: 0.95rem;
+font-weight: 600;
+color: #e5e7eb;
 }
 
-.modal-header {
-  padding: var(--space-md) var(--space-lg);
-  border-bottom: 1px solid var(--surface-border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(90deg, rgba(14, 165, 233, 0.1), transparent);
+.printer-card-title span.icon {
+font-size: 1.1rem;
 }
 
-.modal-title {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-main);
+.printer-close-btn {
+background: transparent;
+border: 1px solid rgba(148, 163, 184, 0.6);
+color: #9ca3af;
+border-radius: 999px;
+padding: 0.25rem 0.7rem;
+font-size: 0.8rem;
+cursor: pointer;
+display: flex;
+align-items: center;
+gap: 0.25rem;
+}
+.printer-close-btn:hover {
+color: #e5e7eb;
+border-color: #e5e7eb;
 }
 
-.modal-title .icon {
-  font-size: 1.3rem;
-}
-
-.modal-close {
-  background: rgba(148, 163, 184, 0.1);
-  border: 1px solid var(--surface-border);
-  color: var(--text-muted);
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  transition: all var(--transition-fast);
-}
-
-.modal-close:hover {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.5);
-  color: #ef4444;
-  transform: rotate(90deg);
-}
-
-.modal-body {
-  flex: 1;
+.printer-frame-wrapper {
+flex: 1;
+background: #020617;
   overflow: auto;
-  padding: var(--space-md);
 }
 
-/* Printer Table */
+.printer-frame-wrapper iframe {
+/* جدول البرنترات داخل الأوفرلاي */
 .printer-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+width: 100%;
+  height: 100%;
+  border: none;
+  border-collapse: collapse;
   font-size: 0.9rem;
 }
 
-.printer-table th {
+.printer-table thead th {
   text-align: left;
-  padding: var(--space-md);
-  background: rgba(2, 6, 23, 0.8);
-  border-bottom: 2px solid var(--surface-border);
-  color: var(--text-muted);
+  padding: 0.8rem 1rem;
+  background: #020617;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+  color: #9ca3af;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 0.75rem;
-  font-weight: 700;
-  position: sticky;
-  top: 0;
-  z-index: 5;
 }
 
-.printer-table td {
-  padding: var(--space-md);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-  vertical-align: middle;
+.printer-table tbody td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(30, 41, 59, 0.7);
 }
 
-.printer-table tr:hover td {
-  background: rgba(30, 41, 59, 0.4);
+.printer-table tbody tr:hover {
+  background: rgba(15, 23, 42, 0.9);
 }
 
-.printer-device {
-  font-family: 'SF Mono', monospace;
-  font-weight: 600;
-  color: var(--primary);
-  background: rgba(14, 165, 233, 0.1);
-  padding: 0.3rem 0.6rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(14, 165, 233, 0.2);
-  font-size: 0.9rem;
-}
+/* ================= MOBILE / HIGH ZOOM ADAPTATION ================= */
 
-/* ============================================
-   TOAST NOTIFICATIONS
-   ============================================ */
-.toast-container {
-  position: fixed;
-  bottom: 80px;
-  right: var(--space-xl);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  z-index: 200;
-  pointer-events: none;
-}
-
-.toast {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.95));
-  border: 1px solid var(--surface-border);
-  border-left: 4px solid var(--primary);
-  padding: var(--space-md) var(--space-lg);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  font-size: 0.9rem;
-  color: var(--text-main);
-  transform: translateX(120%);
-  transition: transform var(--transition-normal);
-  pointer-events: all;
-  min-width: 280px;
-  backdrop-filter: blur(10px);
-}
-
-.toast.show {
-  transform: translateX(0);
-}
-
-.toast.success { border-left-color: var(--success); }
-.toast.error { border-left-color: var(--alert-red); }
-.toast.warning { border-left-color: var(--warning); }
-
-.toast-icon {
-  font-size: 1.2rem;
-}
-
-/* ============================================
-   KEYBOARD SHORTCUTS HINT
-   ============================================ */
-.kbd {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.2rem 0.5rem;
-  background: rgba(148, 163, 184, 0.15);
-  border: 1px solid rgba(148, 163, 184, 0.3);
-  border-radius: var(--radius-sm);
-  font-family: 'SF Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  min-width: 24px;
-}
-
-.shortcuts-hint {
-  position: fixed;
-  bottom: var(--space-md);
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(2, 6, 23, 0.9);
-  border: 1px solid var(--surface-border);
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-full);
-  font-size: 0.75rem;
-  color: var(--text-dark);
-  display: flex;
-  gap: var(--space-md);
-  opacity: 0;
-  transition: opacity var(--transition-normal);
-  pointer-events: none;
-  backdrop-filter: blur(10px);
-}
-
-.shortcuts-hint.visible {
-  opacity: 1;
-}
-
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
 @media (max-width: 1100px) {
-  header {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    gap: var(--space-md);
-    padding: var(--space-md);
-    text-align: center;
-  }
-  
-  .brand-area, .mid-section, .controls-area {
-    justify-self: center;
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .titles h1 {
-    font-size: 1.2rem;
-  }
-  
-  .rrt-card {
-    padding: var(--space-sm) var(--space-md);
-    gap: var(--space-md);
-  }
-  
-  .rrt-item {
-    font-size: 0.85rem;
-  }
-  
-  .rrt-item strong {
-    font-size: 1rem;
-    padding: 2px 6px;
-  }
-  
-  .controls-area {
-    flex-wrap: wrap;
-  }
-  
-  .search-box {
-    max-width: 100%;
-    order: -1;
-  }
-  
-  .table-scroll-area {
-    padding: 0 var(--space-md);
-  }
-  
-  td, th {
-    padding: var(--space-sm);
-  }
-  
-  .cat-pill, .ext-box {
-    font-size: 0.75rem;
-    padding: 0.3rem 0.5rem;
-  }
-  
-  .svc-name {
-    font-size: 0.9rem;
-  }
-  
-  footer {
-    flex-direction: column;
-    gap: var(--space-sm);
-    text-align: center;
-    padding: var(--space-sm);
-  }
-  
-  .toast-container {
-    right: var(--space-md);
-    left: var(--space-md);
-    bottom: 100px;
-  }
-  
-  .toast {
-    min-width: auto;
-    width: 100%;
-  }
+header {
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 1rem;
+gap: 1rem;
+text-align: center;
 }
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  :root {
-    --surface-border: rgba(148, 163, 184, 0.5);
-    --text-muted: #d1d5db;
-  }
+.brand-area { justify-content: center; width: 100%; }
+
+.rrt-badge {
+margin: 0.2rem 0;
+font-size: 1.2rem;
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+.controls-area {
+flex-direction: column;
+align-items: stretch;
+gap: 0.8rem;
+width: 100%;
 }
 
-/* Print styles */
-@media print {
-  header, footer, .controls-area, .fav-btn, .modal-overlay, .toast-container {
-    display: none !important;
-  }
-  
-  body {
-    background: white;
-    color: black;
-    overflow: visible;
-  }
-  
-  .table-scroll-area {
-    overflow: visible;
-    padding: 0;
-  }
-  
-  table {
-    font-size: 12pt;
-  }
-  
-  td, th {
-    border: 1px solid #ccc;
-    padding: 8px;
-  }
+.search-box { max-width: none; }
+.btn-group, .resizer { justify-content: center; }
+.table-scroll-area { padding: 0 0.5rem; }
+td, th { padding: 0.8rem 0.5rem; }
+
+.printer-card {
+width: 95vw;
+height: 80vh;
+}
+}
+
+.mid-section {
+display: flex;
+flex-direction: column;
+gap: 0.8rem;
+align-items: center;
+justify-content: center;
+}
+
+.rrt-card {
+display: flex;
+align-items: center;
+gap: 1.5rem;
+background: rgba(17, 24, 39, 0.7);
+border: 1px solid rgba(255, 255, 255, 0.08);
+padding: 0.6rem 1.2rem;
+border-radius: 99px;
+backdrop-filter: blur(8px);
+box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.rrt-item {
+display: flex;
+align-items: center;
+gap: 0.5rem;
+font-size: 0.9rem;
+color: #94a3b8;
+}
+
+.rrt-item strong {
+color: #f43f5e;
+font-weight: 700;
+font-family: 'monospace', sans-serif;
+font-size: 1rem;
+background: rgba(244, 63, 94, 0.1);
+padding: 2px 6px;
+border-radius: 4px;
+}
+
+.pulse-dot {
+width: 9px;
+height: 9px;
+border-radius: 50%;
+animation: policeBlink 1.5s infinite;
+background: red;
+}
+
+@keyframes policeBlink {
+0%   { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+50%  { background: #3b82f6; box-shadow: 0 0 8px #3b82f6; }
+100% { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
 }
 </style>
 </head>
@@ -1079,832 +565,321 @@ footer {
 
 <div class="app-container">
 
-  <!-- Header -->
-  <header>
-    <div class="brand-area">
-      <div class="logo-box">
-        <img src="logo.png" alt="A3 Logo">
-      </div>
-      <div class="titles">
-        <h1>A3 Internal Extensions</h1>
-        <p>King Faisal Specialist Hospital</p>
-        <p class="author">Created by F1520110 — Nawaf Alshammari</p>
-      </div>
-    </div>
+<header>
+<div class="brand-area">
+<div class="logo-box">
+<img src="logo.png" alt="A3">
+</div>
+<div class="titles">
+<h1>A3 INTERNAL EXTENSIONS</h1>
+<p>For internal A3 use at King Faisal Specialist Hospital</p>
+<p>Created by F1520110 — Nawaf Alshammari</p>
+</div>
+</div>
 
-    <div class="mid-section">
-      <div class="rrt-card">
-        <div class="pulse-dot"></div>
-        <div class="rrt-item">
-          <span>Adult</span>
-          <strong>49337</strong>
-        </div>
-        <div class="rrt-item" style="border-left:1px solid rgba(51, 65, 85, 0.5); padding-left:1rem;">
-          <span>Pediatric</span>
-          <strong>45381</strong>
-        </div>
-      </div>
-    </div>
+<div class="mid-section">
+<div class="rrt-card">
+<div class="pulse-dot"></div>
+<div class="rrt-item">Adult <strong>49337</strong></div>
+<div class="rrt-item" style="border-left:1px solid #334155; padding-left:1rem;">Pediatric <strong>45381</strong></div>
+</div>
+</div>
 
-    <div class="controls-area">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input id="search" type="text" placeholder="Search extensions..." autocomplete="off" aria-label="Search">
-      </div>
+<div class="controls-area">
+<div class="search-box">
+<span class="search-icon">🔍</span>
+<input id="search" type="text" placeholder="Search..." autocomplete="off">
+</div>
 
-      <div style="display:flex; gap:10px; align-items:center;">
-        <div class="btn-group">
-          <button id="filter-all" class="btn active" aria-pressed="true">All</button>
-          <button id="filter-fav" class="btn" aria-pressed="false">Favorites</button>
-        </div>
+<div style="display:flex; gap:10px; justify-content: center; align-items:center;">
+<div class="btn-group">
+<button id="filter-all" class="btn active">All</button>
+<button id="filter-fav" class="btn">Favorites</button>
+</div>
 
-        <div class="resizer" role="group" aria-label="Text size">
-          <button onclick="app.resize(-1)" title="Decrease font size" aria-label="Decrease font size">A-</button>
-          <button onclick="app.resize(1)" title="Increase font size" aria-label="Increase font size">A+</button>
-        </div>
+<div class="resizer">
+<button onclick="resize(-1)">A-</button>
+<button onclick="resize(1)">A+</button>
+</div>
 
-        <button class="icon-btn" onclick="app.openPrinterModal()" aria-label="Open printer list">
-          <span>🖨️</span>
-          <span>Printers</span>
-        </button>
-      </div>
-    </div>
-  </header>
+<!-- زر الطابعة الواحد -->
+<button class="icon-btn" onclick="openPrinterSheet()">
+🖨️ Printer
+</button>
+</div>
+</div>
+</header>
 
-  <!-- Main Content -->
-  <div class="content-wrapper">
-    <!-- Loading Overlay -->
-    <div id="loading" class="loading-overlay">
-      <div class="spinner"></div>
-      <div class="loading-text">Loading directory data...</div>
-    </div>
+<div class="content-wrapper">
+<div class="table-scroll-area">
+<table>
+<thead>
+<tr>
+<th width="40" style="text-align:center">★</th>
+<th class="sortable" data-col="category">Category</th>
+<th class="sortable" data-col="service">Service</th>
+<th class="sortable" data-col="extension" style="text-align:right">Extensions</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+</div>
 
-    <div class="table-scroll-area">
-      <table role="grid" aria-label="Staff directory">
-        <thead>
-          <tr>
-            <th width="50" style="text-align:center" scope="col">
-              <span aria-label="Favorites">★</span>
-            </th>
-            <th class="sortable" data-col="category" scope="col">Category</th>
-            <th class="sortable" data-col="service" scope="col">Service</th>
-            <th class="sortable" data-col="extension" style="text-align:right" scope="col">Extension</th>
-          </tr>
-        </thead>
-        <tbody id="tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-left">
-      <span>Personal initiative — Not an official hospital system</span>
-      <div class="footer-actions">
-        <button class="footer-btn" onclick="app.exportFavorites()" title="Export favorites to file">Export</button>
-        <button class="footer-btn" onclick="app.importFavorites()" title="Import favorites from file">Import</button>
-      </div>
-    </div>
-    <div class="live-indicator">
-      <span>LIVE</span>
-      <span id="sync-dot" class="live-dot" aria-label="Sync status"></span>
-    </div>
-  </footer>
+<footer>
+<span>This project is a personal initiative and is not an official hospital system.</span>
+<span style="display:flex; align-items:center; gap:6px;">
+LIVE <span id="sync-dot" style="width:8px; height:8px; background:#22c55e; border-radius:50%; box-shadow:0 0 5px #22c55e;"></span>
+</span>
+</footer>
 
 </div>
 
-<!-- Printer Modal -->
-<div id="printer-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="printer-title">
-  <div class="modal-card">
-    <div class="modal-header">
-      <div class="modal-title" id="printer-title">
-        <span class="icon">🖨️</span>
-        <span>Network Printers</span>
-      </div>
-      <button class="modal-close" onclick="app.closePrinterModal()" aria-label="Close printer list">✕</button>
-    </div>
-    <div class="modal-body">
+<!-- ======= PRINTER OVERLAY (داخل نفس الصفحة) ======= -->
+<div id="printer-overlay" class="printer-overlay">
+<div class="printer-card">
+<div class="printer-card-header">
+<div class="printer-card-title">
+<span class="icon">🖨️</span>
+<span>Printers — Device / Device Name</span>
+</div>
+<button class="printer-close-btn" onclick="closePrinterSheet()">
+✕ Close
+</button>
+</div>
+<div class="printer-frame-wrapper">
+      <iframe id="printer-frame" src=""></iframe>
       <table class="printer-table">
         <thead>
           <tr>
-            <th style="width: 40%;">Device ID</th>
-            <th>Device Name / Location</th>
+            <th style="width: 35%;">Device</th>
+            <th>Device Name</th>
           </tr>
         </thead>
         <tbody id="printer-tbody"></tbody>
       </table>
-    </div>
-  </div>
 </div>
-
-<!-- Toast Container -->
-<div id="toast-container" class="toast-container" role="status" aria-live="polite"></div>
-
-<!-- Keyboard Shortcuts Hint -->
-<div id="shortcuts-hint" class="shortcuts-hint">
-  <span><span class="kbd">Ctrl</span> + <span class="kbd">K</span> Search</span>
-  <span><span class="kbd">Esc</span> Close</span>
-  <span><span class="kbd">↑</span><span class="kbd">↓</span> Navigate</span>
+</div>
 </div>
 
 <script>
-/**
- * A3 Directory Pro - Main Application
- * Secure, accessible, and feature-rich staff directory
- */
-const app = (function() {
-  'use strict';
+// --- CONFIG & STATE ---
+const STORAGE_KEY_DATA = 'a3_data_v4';
+const STORAGE_KEY_FAV  = 'a3_fav_v4';
+const STORAGE_KEY_SIZE = 'a3_size_v4';
 
-  // ==========================================
-  // CONFIGURATION
-  // ==========================================
-  const CONFIG = {
-    storage: {
-      data: 'a3_data_v5',
-      favorites: 'a3_fav_v5',
-      size: 'a3_size_v5',
-      printers: 'a3_printers_v5'
-    },
-    googleScriptUrl: 'https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec',
-    debounceDelay: 150,
-    minFontSize: 12,
-    maxFontSize: 24
-  };
+let data = [];
+let favorites = new Set();
+let currentView = 'all';
+let sortState = { col: null, dir: 1 };
+let baseSize = 14;
 
-  // Default printer data (can be overridden by Google Sheet)
-  const DEFAULT_PRINTERS = [
-    { device: 'RINPA0301B', name: 'Label Printer A - Nursing Station' },
-    { device: 'RNURB0202B', name: 'Label Printer B - Pharmacy' },
-    { device: 'RNURA0301Z', name: 'Main Printer (A3) - Central' },
-    { device: 'NURSE_A3', name: 'A3 Workstation Login' },
-    { device: 'KFSH#3709', name: 'System Access Password' }
-  ];
+// بيانات الطابعات (عدلها على كيفك)
+const printers = [
+  { device: 'RINPA0301B',  name: 'Label Printer A' },
+  { device: 'RNURB0202B',  name: 'Label Printer B' },
+  { device: 'RNURA0301Z',  name: 'Printer (A3)' },
+  { device: 'nurse_a3',    name: 'A3 PC Login' },
+  { device: 'KFSH#3709',    name: 'PC Password' }
+];
 
-  // ==========================================
-  // STATE
-  // ==========================================
-  const state = {
-    data: [],
-    printers: [],
-    favorites: new Set(),
-    currentView: 'all',
-    sort: { column: null, direction: 'asc' },
-    fontSize: 14,
-    searchQuery: '',
-    isLoading: false
-  };
+// --- ELEMENTS ---
+const tbody = document.getElementById('tbody');
+const searchInput = document.getElementById('search');
+const btnAll = document.getElementById('filter-all');
+const btnFav = document.getElementById('filter-fav');
+const syncDot = document.getElementById('sync-dot');
+const printerOverlay = document.getElementById('printer-overlay');
+const printerFrame = document.getElementById('printer-frame');
+const printerTbody = document.getElementById('printer-tbody');
 
-  // ==========================================
-  // DOM ELEMENTS
-  // ==========================================
-  const elements = {};
-
-  // ==========================================
-  // UTILITY FUNCTIONS
-  // ==========================================
-  
-  /**
-   * Escape HTML to prevent XSS
-   */
-  function escapeHtml(text) {
-    if (text == null) return '';
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
-
-  /**
-   * Debounce function calls
-   */
-  function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  }
-
-  /**
-   * Generate unique key for row
-   */
-  function getRowKey(row) {
-    return `${row.category}|${row.service}|${row.extension}`;
-  }
-
-  /**
-   * Show toast notification
-   */
-  function showToast(message, type = 'info', duration = 3000) {
-    const container = elements.toastContainer;
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    
-    const icons = {
-      success: '✓',
-      error: '✕',
-      warning: '⚠',
-      info: 'ℹ'
-    };
-    
-    toast.innerHTML = `
-      <span class="toast-icon">${icons[type] || icons.info}</span>
-      <span>${escapeHtml(message)}</span>
-    `;
-    
-    container.appendChild(toast);
-    
-    // Trigger animation
-    requestAnimationFrame(() => {
-      toast.classList.add('show');
-    });
-    
-    // Auto remove
-    setTimeout(() => {
-      toast.classList.remove('show');
-      setTimeout(() => toast.remove(), 300);
-    }, duration);
-  }
-
-  // ==========================================
-  // DATA MANAGEMENT
-  // ==========================================
-
-  /**
-   * Load data from localStorage
-   */
-  function loadLocalData() {
-    try {
-      // Load font size
-      const savedSize = localStorage.getItem(CONFIG.storage.size);
-      if (savedSize) {
-        state.fontSize = parseInt(savedSize, 10);
-        applyFontSize();
-      }
-
-      // Load favorites
-      const savedFavs = localStorage.getItem(CONFIG.storage.favorites);
-      if (savedFavs) {
-        state.favorites = new Set(JSON.parse(savedFavs));
-      }
-
-      // Load cached data
-      const savedData = localStorage.getItem(CONFIG.storage.data);
-      if (savedData) {
-        state.data = JSON.parse(savedData);
-        renderTable();
-      }
-
-      // Load printers
-      const savedPrinters = localStorage.getItem(CONFIG.storage.printers);
-      if (savedPrinters) {
-        state.printers = JSON.parse(savedPrinters);
-      } else {
-        state.printers = [...DEFAULT_PRINTERS];
-      }
-
-    } catch (e) {
-      console.error('Error loading local data:', e);
-      showToast('Error loading saved data', 'error');
-    }
-  }
-
-  /**
-   * Fetch fresh data from Google Sheets
-   */
-  async function fetchData() {
-    setLoading(true);
-    updateSyncStatus('syncing');
-
-    try {
-      // Create script element for JSONP
-      const script = document.createElement('script');
-      const callbackName = 'a3Callback_' + Date.now();
-      
-      // Global callback
-      window[callbackName] = function(response) {
-        handleFetchResponse(response);
-        cleanup();
-      };
-
-      script.src = `${CONFIG.googleScriptUrl}?callback=${callbackName}`;
-      script.onerror = () => {
-        showToast('Failed to sync data. Using cached version.', 'warning');
-        setLoading(false);
-        updateSyncStatus('error');
-        cleanup();
-      };
-
-      // Timeout fallback
-      const timeout = setTimeout(() => {
-        showToast('Sync timeout. Using cached data.', 'warning');
-        setLoading(false);
-        updateSyncStatus('error');
-        cleanup();
-      }, 10000);
-
-      function cleanup() {
-        clearTimeout(timeout);
-        if (script.parentNode) script.parentNode.removeChild(script);
-        delete window[callbackName];
-      }
-
-      document.body.appendChild(script);
-
-    } catch (e) {
-      console.error('Fetch error:', e);
-      setLoading(false);
-      updateSyncStatus('error');
-      showToast('Sync failed. Check connection.', 'error');
-    }
-  }
-
-  /**
-   * Handle successful data fetch
-   */
-  function handleFetchResponse(response) {
-    setLoading(false);
-    updateSyncStatus('online');
-
-    if (!response || !Array.isArray(response)) {
-      showToast('Invalid data received', 'error');
-      return;
-    }
-
-    // Check if data changed
-    const newDataStr = JSON.stringify(response);
-    const oldDataStr = JSON.stringify(state.data);
-
-    if (newDataStr !== oldDataStr) {
-      state.data = response;
-      localStorage.setItem(CONFIG.storage.data, newDataStr);
-      renderTable();
-      showToast('Directory updated successfully', 'success');
-    }
-  }
-
-  /**
-   * Update sync indicator
-   */
-  function updateSyncStatus(status) {
-    const dot = elements.syncDot;
-    dot.className = 'live-dot';
-    
-    switch(status) {
-      case 'syncing':
-        dot.classList.add('syncing');
-        dot.setAttribute('aria-label', 'Syncing data...');
-        break;
-      case 'error':
-        dot.style.background = 'var(--alert-red)';
-        dot.style.boxShadow = '0 0 8px var(--alert-red)';
-        dot.setAttribute('aria-label', 'Sync error');
-        break;
-      default:
-        dot.setAttribute('aria-label', 'Connected');
-    }
-  }
-
-  /**
-   * Set loading state
-   */
-  function setLoading(isLoading) {
-    state.isLoading = isLoading;
-    elements.loadingOverlay.classList.toggle('active', isLoading);
-  }
-
-  // ==========================================
-  // RENDERING
-  // ==========================================
-
-  /**
-   * Render main table
-   */
-  function renderTable() {
-    const tbody = elements.tbody;
-    tbody.innerHTML = '';
-
-    // Filter data
-    let filtered = state.data.filter(row => {
-      // View filter
-      if (state.currentView === 'fav') {
-        const key = getRowKey(row);
-        if (!state.favorites.has(key)) return false;
-      }
-
-      // Search filter
-      if (state.searchQuery) {
-        const query = state.searchQuery.toLowerCase();
-        const cat = String(row.category || '').toLowerCase();
-        const svc = String(row.service || '').toLowerCase();
-        const ext = String(row.extension || '').toLowerCase();
-        
-        // Word boundary matching for better search
-        const matchCat = cat.includes(query);
-        const matchSvc = svc.includes(query);
-        const matchExt = ext.includes(query);
-        
-        if (!matchCat && !matchSvc && !matchExt) return false;
-      }
-
-      return true;
-    });
-
-    // Sort data
-    if (state.sort.column) {
-      const col = state.sort.column;
-      const dir = state.sort.direction === 'asc' ? 1 : -1;
-      
-      filtered.sort((a, b) => {
-        let va = a[col] ?? '';
-        let vb = b[col] ?? '';
-        
-        if (col === 'extension') {
-          // Numeric sort for extensions
-          va = parseInt(va, 10) || 0;
-          vb = parseInt(vb, 10) || 0;
-          return (va - vb) * dir;
-        }
-        
-        // String sort
-        va = String(va).toLowerCase();
-        vb = String(vb).toLowerCase();
-        return va.localeCompare(vb) * dir;
-      });
-    }
-
-    // Empty state
-    if (filtered.length === 0) {
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="4" class="empty-state">
-            <div class="empty-state-icon">🔍</div>
-            <div>No results found</div>
-            <div style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7;">
-              ${state.currentView === 'fav' ? 'No favorites saved yet' : 'Try a different search term'}
-            </div>
-          </td>
-        </tr>
-      `;
-      return;
-    }
-
-    // Render rows using DocumentFragment for performance
-    const fragment = document.createDocumentFragment();
-    
-    filtered.forEach(row => {
-      const key = getRowKey(row);
-      const isFav = state.favorites.has(key);
-      
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td style="text-align:center">
-          <button class="fav-btn ${isFav ? 'active' : ''}" 
-                  onclick="app.toggleFavorite('${escapeHtml(key)}')"
-                  aria-label="${isFav ? 'Remove from favorites' : 'Add to favorites'}"
-                  aria-pressed="${isFav}">
-            ★
-          </button>
-        </td>
-        <td><span class="cat-pill">${escapeHtml(row.category)}</span></td>
-        <td><span class="svc-name">${escapeHtml(row.service)}</span></td>
-        <td style="text-align:right">
-          <span class="ext-box" onclick="app.copyToClipboard('${escapeHtml(row.extension)}')" title="Click to copy">
-            ${escapeHtml(row.extension)}
-          </span>
-        </td>
-      `;
-      fragment.appendChild(tr);
-    });
-    
-    tbody.appendChild(fragment);
-    updateSortIndicators();
-  }
-
-  /**
-   * Update sort indicator arrows
-   */
-  function updateSortIndicators() {
-    document.querySelectorAll('thead th.sortable').forEach(th => {
-      th.classList.remove('sort-asc', 'sort-desc');
-      if (th.dataset.col === state.sort.column) {
-        th.classList.add(state.sort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
-      }
-    });
-  }
-
-  /**
-   * Render printer table
-   */
-  function renderPrinters() {
-    const tbody = elements.printerTbody;
-    tbody.innerHTML = '';
-
-    if (state.printers.length === 0) {
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="2" style="text-align:center; padding:3rem; color:var(--text-muted)">
-            No printers configured
-          </td>
-        </tr>
-      `;
-      return;
-    }
-
-    const fragment = document.createDocumentFragment();
-    state.printers.forEach(printer => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>
-          <span class="printer-device" onclick="app.copyToClipboard('${escapeHtml(printer.device)}')" style="cursor:pointer" title="Click to copy">
-            ${escapeHtml(printer.device)}
-          </span>
-        </td>
-        <td>${escapeHtml(printer.name)}</td>
-      `;
-      fragment.appendChild(tr);
-    });
-    tbody.appendChild(fragment);
-  }
-
-  // ==========================================
-  // ACTIONS
-  // ==========================================
-
-  /**
-   * Toggle favorite status
-   */
-  function toggleFavorite(key) {
-    if (state.favorites.has(key)) {
-      state.favorites.delete(key);
-      showToast('Removed from favorites', 'info');
-    } else {
-      state.favorites.add(key);
-      showToast('Added to favorites', 'success');
-    }
-    
-    localStorage.setItem(CONFIG.storage.favorites, JSON.stringify([...state.favorites]));
-    renderTable();
-  }
-
-  /**
-   * Change font size
-   */
-  function resize(delta) {
-    const newSize = state.fontSize + delta;
-    if (newSize < CONFIG.minFontSize || newSize > CONFIG.maxFontSize) return;
-    
-    state.fontSize = newSize;
-    localStorage.setItem(CONFIG.storage.size, newSize);
-    applyFontSize();
-    showToast(`Font size: ${newSize}px`, 'info', 1500);
-  }
-
-  function applyFontSize() {
-    document.documentElement.style.setProperty('--base-size', state.fontSize + 'px');
-  }
-
-  /**
-   * Copy text to clipboard
-   */
-  async function copyToClipboard(text) {
-    try {
-      await navigator.clipboard.writeText(text);
-      showToast(`Copied: ${text}`, 'success', 2000);
-    } catch (err) {
-      // Fallback
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
-      showToast(`Copied: ${text}`, 'success', 2000);
-    }
-  }
-
-  /**
-   * Handle sort click
-   */
-  function handleSort(column) {
-    if (state.sort.column === column) {
-      state.sort.direction = state.sort.direction === 'asc' ? 'desc' : 'asc';
-    } else {
-      state.sort.column = column;
-      state.sort.direction = 'asc';
-    }
-    renderTable();
-  }
-
-  /**
-   * Export favorites to JSON file
-   */
-  function exportFavorites() {
-    const data = {
-      favorites: [...state.favorites],
-      exportedAt: new Date().toISOString(),
-      version: '1.0'
-    };
-    
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `a3-favorites-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    showToast('Favorites exported', 'success');
-  }
-
-  /**
-   * Import favorites from JSON file
-   */
-  function importFavorites() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const data = JSON.parse(event.target.result);
-          if (data.favorites && Array.isArray(data.favorites)) {
-            state.favorites = new Set(data.favorites);
-            localStorage.setItem(CONFIG.storage.favorites, JSON.stringify([...state.favorites]));
-            renderTable();
-            showToast(`Imported ${data.favorites.length} favorites`, 'success');
-          } else {
-            throw new Error('Invalid file format');
-          }
-        } catch (err) {
-          showToast('Failed to import: Invalid file', 'error');
-        }
-      };
-      reader.readAsText(file);
-    };
-    
-    input.click();
-  }
-
-  /**
-   * Modal controls
-   */
-  function openPrinterModal() {
-    renderPrinters();
-    elements.printerModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closePrinterModal() {
-    elements.printerModal.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  // ==========================================
-  // KEYBOARD SHORTCUTS
-  // ==========================================
-  
-  function initKeyboardShortcuts() {
-    document.addEventListener('keydown', (e) => {
-      // Ctrl/Cmd + K = Focus search
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        elements.searchInput.focus();
-        elements.searchInput.select();
-      }
-      
-      // Escape = Close modal or clear search
-      if (e.key === 'Escape') {
-        if (elements.printerModal.classList.contains('active')) {
-          closePrinterModal();
-        } else if (document.activeElement === elements.searchInput) {
-          elements.searchInput.blur();
-          elements.searchInput.value = '';
-          state.searchQuery = '';
-          renderTable();
-        }
-      }
-      
-      // Ctrl/Cmd + P = Open printers (override print)
-      if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
-        e.preventDefault();
-        openPrinterModal();
-      }
-    });
-
-    // Show shortcuts hint on first load
-    setTimeout(() => {
-      elements.shortcutsHint.classList.add('visible');
-      setTimeout(() => {
-        elements.shortcutsHint.classList.remove('visible');
-      }, 5000);
-    }, 1000);
-  }
-
-  // ==========================================
-  // INITIALIZATION
-  // ==========================================
-  
-  function init() {
-    // Cache DOM elements
-    elements.tbody = document.getElementById('tbody');
-    elements.searchInput = document.getElementById('search');
-    elements.btnAll = document.getElementById('filter-all');
-    elements.btnFav = document.getElementById('filter-fav');
-    elements.syncDot = document.getElementById('sync-dot');
-    elements.loadingOverlay = document.getElementById('loading');
-    elements.printerModal = document.getElementById('printer-modal');
-    elements.printerTbody = document.getElementById('printer-tbody');
-    elements.toastContainer = document.getElementById('toast-container');
-    elements.shortcutsHint = document.getElementById('shortcuts-hint');
-
-    // Event listeners
-    elements.searchInput.addEventListener('input', debounce((e) => {
-      state.searchQuery = e.target.value.trim();
-      renderTable();
-    }, CONFIG.debounceDelay));
-
-    elements.btnAll.addEventListener('click', () => {
-      state.currentView = 'all';
-      elements.btnAll.classList.add('active');
-      elements.btnAll.setAttribute('aria-pressed', 'true');
-      elements.btnFav.classList.remove('active');
-      elements.btnFav.setAttribute('aria-pressed', 'false');
-      renderTable();
-    });
-
-    elements.btnFav.addEventListener('click', () => {
-      state.currentView = 'fav';
-      elements.btnFav.classList.add('active');
-      elements.btnFav.setAttribute('aria-pressed', 'true');
-      elements.btnAll.classList.remove('active');
-      elements.btnAll.setAttribute('aria-pressed', 'false');
-      renderTable();
-    });
-
-    // Sort headers
-    document.querySelectorAll('thead th.sortable').forEach(th => {
-      th.addEventListener('click', () => handleSort(th.dataset.col));
-    });
-
-    // Close modal on backdrop click
-    elements.printerModal.addEventListener('click', (e) => {
-      if (e.target === elements.printerModal) {
-        closePrinterModal();
-      }
-    });
-
-    // Initialize
-    loadLocalData();
-    fetchData();
-    initKeyboardShortcuts();
-
-    // Periodic sync every 5 minutes
-    setInterval(fetchData, 300000);
-  }
-
-  // ==========================================
-  // PUBLIC API
-  // ==========================================
-  return {
-    init,
-    toggleFavorite,
-    resize,
-    copyToClipboard,
-    openPrinterModal,
-    closePrinterModal,
-    exportFavorites,
-    importFavorites
-  };
-
-})();
-
-// Start app when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', app.init);
-} else {
-  app.init();
+// --- HELPER FOR REGEX ---
+function escapeRegex(str) {
+return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-// Global callback for Google Sheets JSONP
+// --- INIT ---
+function init() {
+const s = localStorage.getItem(STORAGE_KEY_SIZE);
+if(s) baseSize = parseInt(s);
+applySize();
+
+const f = localStorage.getItem(STORAGE_KEY_FAV);
+if(f) favorites = new Set(JSON.parse(f));
+
+const d = localStorage.getItem(STORAGE_KEY_DATA);
+if(d) {
+try { data = JSON.parse(d)||[]; } catch(e){ data=[]; }
+render();
+}
+
+fetchData();
+}
+
+// --- LOGIC ---
+function resize(delta) {
+baseSize += delta;
+if(baseSize < 12) baseSize = 12;
+if(baseSize > 24) baseSize = 24;
+applySize();
+localStorage.setItem(STORAGE_KEY_SIZE, baseSize);
+}
+
+function applySize() {
+document.documentElement.style.setProperty('--base-size', baseSize + 'px');
+}
+
+function fetchData() {
+syncDot.style.opacity = '0.4';
+const script = document.createElement('script');
+script.src = "https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec";
+document.body.appendChild(script);
+}
+
 function callback(response) {
-  // This will be handled by the fetchData function
-  if (window.a3Callback) {
-    window.a3Callback(response);
-  }
+syncDot.style.opacity = '1';
+const prev = localStorage.getItem(STORAGE_KEY_DATA);
+const next = JSON.stringify(response);
+if(prev !== next) {
+localStorage.setItem(STORAGE_KEY_DATA, next);
+data = response;
+render();
+} else if (data.length === 0) {
+data = response;
+render();
 }
+}
+
+function render() {
+tbody.innerHTML = '';
+const q = searchInput.value.toLowerCase().trim();
+let re = null;
+if (q) {
+re = new RegExp('\\b' + escapeRegex(q));
+}
+
+let list = data.filter(row => {
+const key = makeKey(row);
+if(currentView === 'fav' && !favorites.has(key)) return false;
+if(!q) return true;
+
+const cat = String(row.category || '').toLowerCase();
+const svc = String(row.service || '').toLowerCase();
+const ext = String(row.extension || '').toLowerCase();
+
+return re.test(cat) || re.test(svc) || re.test(ext);
+});
+
+if(sortState.col) {
+const col = sortState.col;
+const dir = sortState.dir;
+list.sort((a,b) => {
+let va = a[col]||''; let vb = b[col]||'';
+if(col==='extension') { va=parseInt(va)||0; vb=parseInt(vb)||0; }
+else { va=va.toString().toLowerCase(); vb=vb.toString().toLowerCase(); }
+return (va < vb ? -1 : 1) * dir;
+});
+}
+
+if(list.length === 0) {
+tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:3rem; color:var(--text-muted)">No results found</td></tr>`;
+return;
+}
+
+const frag = document.createDocumentFragment();
+list.forEach(row => {
+const key = makeKey(row);
+const isFav = favorites.has(key);
+const tr = document.createElement('tr');
+tr.innerHTML = `
+     <td style="text-align:center">
+       <button class="fav-btn ${isFav?'active':''}" onclick="toggleFav('${key}')">★</button>
+     </td>
+     <td><span class="cat-pill">${row.category||''}</span></td>
+     <td><span class="svc-name">${row.service||''}</span></td>
+     <td style="text-align:right"><span class="ext-box">${row.extension||''}</span></td>
+   `;
+frag.appendChild(tr);
+});
+tbody.appendChild(frag);
+}
+
+function toggleFav(key) {
+if(favorites.has(key)) favorites.delete(key);
+else favorites.add(key);
+localStorage.setItem(STORAGE_KEY_FAV, JSON.stringify([...favorites]));
+render();
+}
+
+function makeKey(r) { return `${r.category}|${r.service}|${r.extension}`; }
+
+// فتح شيت الطابعات (device / device name) داخل نفس الصفحة
+// فتح شيت الطابعات (device / device name) داخل نفس الصفحة
+function openPrinterSheet() {
+  if (!printerFrame.src) {
+    // هذا رابط الـ "Publish to web" الصحيح اللي انت أعطيتني إياه
+    printerFrame.src =
+      'https://docs.google.com/spreadsheets/d/e/2PACX-1vRlEJD8qiZVDM0OlqwGsrNquO3n1ui-wNgf5QWKyOx2UlvIPdPUAo0QII424h7Y_XrmS3puM-mtPtyS/pubhtml?widget=true&headers=false';
+// رسم جدول الطابعات داخل الأوفرلاي
+function renderPrinters() {
+  printerTbody.innerHTML = '';
+
+  if (!printers.length) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td colspan="2" style="padding:2rem; text-align:center; color:#9ca3af;">
+        No printers defined yet.
+      </td>
+    `;
+    printerTbody.appendChild(tr);
+    return;
+}
+
+  const frag = document.createDocumentFragment();
+
+  printers.forEach(p => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="ext-box">${p.device || ''}</span></td>
+      <td><span class="svc-name">${p.name || ''}</span></td>
+    `;
+    frag.appendChild(tr);
+  });
+
+  printerTbody.appendChild(frag);
+}
+
+// فتح لوحة الطابعات داخل نفس الصفحة
+function openPrinterSheet() {
+  renderPrinters();
+printerOverlay.style.display = 'flex';
+}
+
+// إغلاق لوحة الطابعات
+function closePrinterSheet() {
+printerOverlay.style.display = 'none';
+}
+
+// --- EVENTS ---
+searchInput.addEventListener('input', render);
+
+btnAll.addEventListener('click', () => {
+currentView='all'; btnAll.classList.add('active'); btnFav.classList.remove('active'); render();
+});
+btnFav.addEventListener('click', () => {
+currentView='fav'; btnFav.classList.add('active'); btnAll.classList.remove('active'); render();
+});
+
+document.querySelectorAll('.sortable').forEach(th => {
+th.addEventListener('click', () => {
+const col = th.dataset.col;
+if(sortState.col === col) sortState.dir *= -1;
+else { sortState.col = col; sortState.dir = 1; }
+render();
+});
+});
+
+init();
 </script>
 
 </body>
