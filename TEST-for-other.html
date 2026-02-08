@@ -6,6 +6,16 @@
 <title>A3 Directory</title>
 <link rel="icon" type="image/png" href="logo.png">
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4FMC0Z3BFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4FMC0Z3BFP');
+</script>
+
 <style>
 /* --- ORIGINAL COLOR PALETTE & VARIABLES --- */
 :root {
@@ -560,21 +570,313 @@ footer {
 <body>
 
 <div class="app-container">
-<!-- ... entire body content unchanged ... -->
+
+  <header>
+    <div class="brand-area">
+      <div class="logo-box">
+        <img src="logo.png" alt="A3">
+      </div>
+      <div class="titles">
+        <h1>A3 INTERNAL EXTENSIONS</h1>
+        <p>For internal A3 use at King Faisal Specialist Hospital</p>
+        <p>Created by F1520110 — Nawaf Alshammari</p>
+      </div>
+    </div>
+
+    <div class="mid-section">
+      <div class="rrt-card">
+        <div class="pulse-dot"></div>
+        <div class="rrt-item">Adult <strong>49337</strong></div>
+        <div class="rrt-item" style="border-left:1px solid #334155; padding-left:1rem;">Pediatric <strong>45381</strong></div>
+      </div>
+    </div>
+
+    <div class="controls-area">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input id="search" type="text" placeholder="Search..." autocomplete="off">
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content: center; align-items:center;">
+        <div class="btn-group">
+          <button id="filter-all" class="btn active">All</button>
+          <button id="filter-fav" class="btn">Favorites</button>
+        </div>
+
+        <div class="resizer">
+          <button onclick="resize(-1)">A-</button>
+          <button onclick="resize(1)">A+</button>
+        </div>
+
+        <!-- زر الطابعة الواحد -->
+        <button class="icon-btn" onclick="openPrinterSheet()">
+          🖨️ Printer
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="content-wrapper">
+    <div class="table-scroll-area">
+      <table>
+        <thead>
+          <tr>
+            <th width="40" style="text-align:center">★</th>
+            <th class="sortable" data-col="category">Category</th>
+            <th class="sortable" data-col="service">Service</th>
+            <th class="sortable" data-col="extension" style="text-align:right">Extensions</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <span>This project is a personal initiative and is not an official hospital system.</span>
+    <span style="display:flex; align-items:center; gap:6px;">
+      LIVE <span id="sync-dot" style="width:8px; height:8px; background:#22c55e; border-radius:50%; box-shadow:0 0 5px #22c55e;"></span>
+    </span>
+  </footer>
+
 </div>
 
-<!-- ===== GOOGLE TAG ADDED SAFELY ===== -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4FMC0Z3BFP"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-4FMC0Z3BFP');
-</script>
+<!-- ======= PRINTER OVERLAY (داخل نفس الصفحة) ======= -->
+<div id="printer-overlay" class="printer-overlay">
+  <div class="printer-card">
+    <div class="printer-card-header">
+      <div class="printer-card-title">
+        <span class="icon">🖨️</span>
+        <span>Printers — Device / Device Name</span>
+      </div>
+      <button class="printer-close-btn" onclick="closePrinterSheet()">
+        ✕ Close
+      </button>
+    </div>
+    <div class="printer-frame-wrapper">
+      <table class="printer-table">
+        <thead>
+          <tr>
+            <th style="width: 35%;">Device</th>
+            <th>Device Name</th>
+          </tr>
+        </thead>
+        <tbody id="printer-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 <script>
-// --- ORIGINAL JS (unchanged) ---
-/* ... all your previous <script> code for init(), render(), etc. ... */
+// --- CONFIG & STATE ---
+const STORAGE_KEY_DATA = 'a3_data_v4';
+const STORAGE_KEY_FAV  = 'a3_fav_v4';
+const STORAGE_KEY_SIZE = 'a3_size_v4';
+
+let data = [];
+let favorites = new Set();
+let currentView = 'all';
+let sortState = { col: null, dir: 1 };
+let baseSize = 14;
+
+// بيانات الطابعات (عدلها على كيفك)
+const printers = [
+  { device: 'RINPA0301B',  name: 'Label Printer A' },
+  { device: 'RNURB0202B',  name: 'Label Printer B' },
+  { device: 'RNURA0301Z',  name: 'Printer (A3)' },
+  { device: 'nurse_a3',    name: 'A3 PC Login' },
+  { device: 'KFSH#3709',    name: 'PC Password' }
+];
+
+// --- ELEMENTS ---
+const tbody = document.getElementById('tbody');
+const searchInput = document.getElementById('search');
+const btnAll = document.getElementById('filter-all');
+const btnFav = document.getElementById('filter-fav');
+const syncDot = document.getElementById('sync-dot');
+const printerOverlay = document.getElementById('printer-overlay');
+const printerTbody = document.getElementById('printer-tbody');
+
+// --- HELPER FOR REGEX ---
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// --- INIT ---
+function init() {
+  const s = localStorage.getItem(STORAGE_KEY_SIZE);
+  if(s) baseSize = parseInt(s);
+  applySize();
+
+  const f = localStorage.getItem(STORAGE_KEY_FAV);
+  if(f) favorites = new Set(JSON.parse(f));
+
+  const d = localStorage.getItem(STORAGE_KEY_DATA);
+  if(d) {
+    try { data = JSON.parse(d)||[]; } catch(e){ data=[]; }
+    render();
+  }
+
+  fetchData();
+}
+
+// --- LOGIC ---
+function resize(delta) {
+  baseSize += delta;
+  if(baseSize < 12) baseSize = 12;
+  if(baseSize > 24) baseSize = 24;
+  applySize();
+  localStorage.setItem(STORAGE_KEY_SIZE, baseSize);
+}
+
+function applySize() {
+  document.documentElement.style.setProperty('--base-size', baseSize + 'px');
+}
+
+function fetchData() {
+  syncDot.style.opacity = '0.4';
+  const script = document.createElement('script');
+  script.src = "https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec ";
+  document.body.appendChild(script);
+}
+
+function callback(response) {
+  syncDot.style.opacity = '1';
+  const prev = localStorage.getItem(STORAGE_KEY_DATA);
+  const next = JSON.stringify(response);
+  if(prev !== next) {
+    localStorage.setItem(STORAGE_KEY_DATA, next);
+    data = response;
+    render();
+  } else if (data.length === 0) {
+    data = response;
+    render();
+  }
+}
+
+function render() {
+  tbody.innerHTML = '';
+  const q = searchInput.value.toLowerCase().trim();
+  let re = null;
+  if (q) {
+    re = new RegExp('\\b' + escapeRegex(q));
+  }
+  
+  let list = data.filter(row => {
+    const key = makeKey(row);
+    if(currentView === 'fav' && !favorites.has(key)) return false;
+    if(!q) return true;
+    
+    const cat = String(row.category || '').toLowerCase();
+    const svc = String(row.service || '').toLowerCase();
+    const ext = String(row.extension || '').toLowerCase();
+
+    return re.test(cat) || re.test(svc) || re.test(ext);
+  });
+
+  if(sortState.col) {
+    const col = sortState.col;
+    const dir = sortState.dir;
+    list.sort((a,b) => {
+      let va = a[col]||''; let vb = b[col]||'';
+      if(col==='extension') { va=parseInt(va)||0; vb=parseInt(vb)||0; }
+      else { va=va.toString().toLowerCase(); vb=vb.toString().toLowerCase(); }
+      return (va < vb ? -1 : 1) * dir;
+    });
+  }
+
+  if(list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:3rem; color:var(--text-muted)">No results found</td></tr>`;
+    return;
+  }
+
+  const frag = document.createDocumentFragment();
+  list.forEach(row => {
+    const key = makeKey(row);
+    const isFav = favorites.has(key);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="text-align:center">
+        <button class="fav-btn ${isFav?'active':''}" onclick="toggleFav('${key}')">★</button>
+      </td>
+      <td><span class="cat-pill">${row.category||''}</span></td>
+      <td><span class="svc-name">${row.service||''}</span></td>
+      <td style="text-align:right"><span class="ext-box">${row.extension||''}</span></td>
+    `;
+    frag.appendChild(tr);
+  });
+  tbody.appendChild(frag);
+}
+
+function toggleFav(key) {
+  if(favorites.has(key)) favorites.delete(key);
+  else favorites.add(key);
+  localStorage.setItem(STORAGE_KEY_FAV, JSON.stringify([...favorites]));
+  render();
+}
+
+function makeKey(r) { return `${r.category}|${r.service}|${r.extension}`; }
+
+// رسم جدول الطابعات داخل الأوفرلاي
+function renderPrinters() {
+  printerTbody.innerHTML = '';
+
+  if (!printers.length) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td colspan="2" style="padding:2rem; text-align:center; color:#9ca3af;">
+        No printers defined yet.
+      </td>
+    `;
+    printerTbody.appendChild(tr);
+    return;
+  }
+
+  const frag = document.createDocumentFragment();
+
+  printers.forEach(p => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="ext-box">${p.device || ''}</span></td>
+      <td><span class="svc-name">${p.name || ''}</span></td>
+    `;
+    frag.appendChild(tr);
+  });
+
+  printerTbody.appendChild(frag);
+}
+
+// فتح لوحة الطابعات داخل نفس الصفحة
+function openPrinterSheet() {
+  renderPrinters();
+  printerOverlay.style.display = 'flex';
+}
+
+// إغلاق لوحة الطابعات
+function closePrinterSheet() {
+  printerOverlay.style.display = 'none';
+}
+
+// --- EVENTS ---
+searchInput.addEventListener('input', render);
+
+btnAll.addEventListener('click', () => {
+  currentView='all'; btnAll.classList.add('active'); btnFav.classList.remove('active'); render();
+});
+btnFav.addEventListener('click', () => {
+  currentView='fav'; btnFav.classList.add('active'); btnAll.classList.remove('active'); render();
+});
+
+document.querySelectorAll('.sortable').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if(sortState.col === col) sortState.dir *= -1;
+    else { sortState.col = col; sortState.dir = 1; }
+    render();
+  });
+});
+
+init();
 </script>
 
 </body>
