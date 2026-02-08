@@ -2,879 +2,578 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>A3 Directory</title>
 <link rel="icon" type="image/png" href="logo.png">
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4FMC0Z3BFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4FMC0Z3BFP');
+</script>
+
 <style>
+/* --- ORIGINAL COLOR PALETTE & VARIABLES --- */
 :root {
-  /* Dark Professional Theme */
-  --bg-primary: #0B0F19;
-  --bg-secondary: #151B2B;
-  --bg-card: #1E2538;
-  --bg-hover: #252D42;
+  --bg-dark: #020617;
+  --bg-gradient: radial-gradient(circle at top, #1f2937 0, #020617 55%, #020617 100%);
+  --surface: rgba(15, 23, 42, 0.6);
+  --surface-border: rgba(148, 163, 184, 0.15);
   
-  /* Accents */
-  --accent-cyan: #00D4AA;
-  --accent-blue: #0EA5E9;
-  --accent-purple: #8B5CF6;
-  --accent-rrt: #EF4444;
+  --primary: #0ea5e9;
+  --primary-glow: rgba(14, 165, 233, 0.15);
   
-  /* Text */
-  --text-primary: #F1F5F9;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
+  --alert-red: #ff4d4d;
   
-  /* Spacing */
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
   
-  /* Radius */
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.25rem;
+  --font-stack: system-ui, -apple-system, "Segoe UI", sans-serif;
+  
+  /* Initial Base Size */
+  --base-size: 10px;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
+* { box-sizing: border-box; }
 
 html {
-  font-size: 16px;
-  background: var(--bg-primary);
+  margin: 0;
+  padding: 0;
+  width: 100%;
   height: 100%;
   overflow: hidden;
+  font-size: var(--base-size);
+  transition: font-size 0.2s ease;
+  background-color: var(--bg-dark);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  width: 100%;
   height: 100%;
-  overflow: hidden;
-  line-height: 1.5;
+  font-family: var(--font-stack);
+  background: transparent;
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
 }
 
-/* ================= APP CONTAINER ================= */
-.app {
+/* ================= APP SHELL ================= */
+
+.app-container {
+  width: 100%;
+  max-width: 1600px;
   height: 100%;
   display: flex;
   flex-direction: column;
-  max-width: 600px;
-  margin: 0 auto;
-  background: var(--bg-primary);
-}
-
-/* ================= COMPACT HEADER ================= */
-.header {
-  padding: var(--space-md) var(--space-md) var(--space-sm);
-  background: var(--bg-secondary);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-md);
-}
-
-.logo-section {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.logo-box {
-  width: 2.25rem;
-  height: 2.25rem;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-box img {
-  width: 1.5rem;
-  height: 1.5rem;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-}
-
-.title h1 {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.01em;
-}
-
-.title p {
-  font-size: 0.6875rem;
-  color: var(--text-muted);
-}
-
-/* ================= EMERGENCY BAR ================= */
-.emergency-bar {
-  display: flex;
-  gap: var(--space-md);
-  padding: var(--space-sm);
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: var(--radius-lg);
-  margin-bottom: var(--space-sm);
-}
-
-.emergency-item {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
-  padding: var(--space-xs) var(--space-sm);
-  background: rgba(239, 68, 68, 0.15);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: all 150ms ease;
-}
-
-.emergency-item:active {
-  transform: scale(0.98);
-  background: rgba(239, 68, 68, 0.25);
-}
-
-.emergency-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--accent-rrt);
-  border-radius: 50%;
-  animation: blink 1.5s infinite;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-
-.emergency-item span {
-  font-size: 0.625rem;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-.emergency-item strong {
-  font-family: 'SF Mono', monospace;
-  font-size: 0.875rem;
-  color: #fff;
-  font-weight: 700;
-}
-
-/* ================= SEARCH SECTION ================= */
-.search-section {
-  padding: var(--space-sm) var(--space-md);
-  background: var(--bg-secondary);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.search-box {
   position: relative;
-  display: flex;
-  align-items: center;
-  background: var(--bg-card);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: var(--radius-xl);
-  padding: var(--space-sm) var(--space-md);
-  transition: all 150ms ease;
-}
-
-.search-box:focus-within {
-  border-color: var(--accent-cyan);
-  box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
-}
-
-.search-icon {
-  color: var(--text-muted);
-  margin-right: var(--space-sm);
-  font-size: 1rem;
-}
-
-.search-input {
-  flex: 1;
-  background: none;
-  border: none;
-  color: var(--text-primary);
-  font-size: 0.9375rem;
-  outline: none;
-}
-
-.search-input::placeholder {
-  color: var(--text-muted);
-}
-
-.search-clear {
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 50%;
-  background: var(--text-muted);
-  border: none;
-  color: var(--bg-card);
-  font-size: 0.625rem;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 150ms ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.search-box.has-value .search-clear {
-  opacity: 1;
-}
-
-/* ================= FILTER TABS ================= */
-.filter-bar {
-  display: flex;
-  gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-md);
-  background: var(--bg-secondary);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.filter-bar::-webkit-scrollbar {
-  display: none;
-}
-
-.filter-tab {
-  flex-shrink: 0;
-  padding: var(--space-xs) var(--space-md);
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: var(--radius-xl);
-  color: var(--text-secondary);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 150ms ease;
-  white-space: nowrap;
 }
 
-.filter-tab.active {
-  background: var(--accent-cyan);
-  border-color: var(--accent-cyan);
-  color: var(--bg-primary);
-  font-weight: 600;
+/* ================= HEADER SECTION ================= */
+
+header {
+  flex-shrink: 0;
+  padding: 1.2rem 2rem;
+  border-bottom: 1px solid var(--surface-border);
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 50;
+  
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
 }
 
-.filter-tab:active {
-  transform: scale(0.95);
-}
-
-/* ================= CONTENT LIST ================= */
-.content {
-  flex: 1;
-  overflow-y: auto;
-  padding: var(--space-sm);
-}
-
-.content::-webkit-scrollbar {
-  width: 0;
-}
-
-.results-count {
-  padding: var(--space-sm) var(--space-md);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-/* Contact Card */
-.contact-card {
+/* Left: Identity */
+.brand-area {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-md);
-  margin-bottom: var(--space-xs);
-  background: var(--bg-card);
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: var(--radius-lg);
-  cursor: pointer;
-  transition: all 150ms ease;
+  gap: 1rem;
+  justify-self: start;
 }
-
-.contact-card:active {
-  background: var(--bg-hover);
-  transform: scale(0.995);
-}
-
-.contact-icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  background: linear-gradient(135deg, rgba(0, 212, 170, 0.2), rgba(14, 165, 233, 0.2));
-  border-radius: var(--radius-md);
+.logo-box {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 12px;
+  background: radial-gradient(circle at 30% 0, #1e293b 0, #020617 70%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  flex-shrink: 0;
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.15);
 }
+.logo-box img { width: 180%; height: 180%; object-fit: contain; }
 
-.contact-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.contact-category {
-  font-size: 0.6875rem;
-  color: var(--accent-cyan);
-  text-transform: uppercase;
+.titles h1 {
+  margin: 0;
+  font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: 0.05em;
-  margin-bottom: var(--space-xs);
-}
-
-.contact-name {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.contact-ext {
-  font-family: 'SF Mono', monospace;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--accent-cyan);
-  background: rgba(0, 212, 170, 0.1);
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-sm);
-  flex-shrink: 0;
-}
-
-.contact-fav {
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 1.125rem;
-  cursor: pointer;
-  transition: all 150ms ease;
-  flex-shrink: 0;
-}
-
-.contact-fav.active {
-  color: #FBBF24;
-}
-
-.contact-fav:active {
-  transform: scale(0.9);
-}
-
-/* Empty State */
-.empty-state {
-  text-align: center;
-  padding: var(--space-xl) var(--space-md);
-  color: var(--text-muted);
-}
-
-.empty-icon {
-  width: 4rem;
-  height: 4rem;
-  margin: 0 auto var(--space-md);
-  background: var(--bg-card);
-  border-radius: var(--radius-xl);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  opacity: 0.5;
-}
-
-.empty-text {
-  font-size: 0.875rem;
-}
-
-/* ================= PRINTER BUTTON ================= */
-.printer-btn {
-  position: fixed;
-  bottom: calc(var(--space-md) + env(safe-area-inset-bottom));
-  right: var(--space-md);
-  width: 3rem;
-  height: 3rem;
-  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
-  border: none;
-  border-radius: 50%;
+  text-transform: uppercase;
   color: #fff;
-  font-size: 1.25rem;
+  white-space: nowrap;
+}
+.titles p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Middle: RRT Badge */
+.rrt-badge {
+  position: static;
+  transform: none;
+  justify-self: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 1.1rem;
+  color: var(--alert-red);
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  color: #c21010;
+}
+.rrt-badge strong {
+  color: #c21010;
+  font-weight: 900;
+}
+
+/* Right: Controls */
+.controls-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-self: end;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+/* Search Bar */
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+}
+.search-box input {
+  width: 100%;
+  background: #0f172a;
+  border: 1px solid var(--surface-border);
+  border-radius: 8px;
+  padding: 0.6rem 1rem 0.6rem 2.4rem;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+.search-box input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
+}
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Button Group */
+.btn-group {
+  display: flex;
+  background: #0f172a;
+  border: 1px solid var(--surface-border);
+  border-radius: 8px;
+  padding: 4px;
+}
+.btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
-  transition: all 150ms ease;
-  z-index: 50;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn:hover { color: #fff; }
+.btn.active {
+  background: rgba(30, 41, 59, 0.8);
+  color: var(--primary);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Text Resizer */
+.resizer {
+  display: flex;
+  gap: 2px;
+}
+.resizer button {
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: bold;
+}
+.resizer button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
-.printer-btn:active {
-  transform: scale(0.9);
-}
-
-/* ================= MODAL ================= */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 100;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 200ms ease;
+/* زر الايقونة (Printer) */
+.icon-btn {
+  background: #0f172a;
+  border: 1px solid var(--surface-border);
+  color: var(--text-muted);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.icon-btn:hover {
+  color: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.25);
 }
 
-.modal.active {
-  opacity: 1;
-  visibility: visible;
-}
+/* ================= MAIN CONTENT ================= */
 
-.modal-sheet {
-  width: 100%;
-  max-height: 70vh;
-  background: var(--bg-secondary);
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-  transform: translateY(100%);
-  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+.content-wrapper {
+  flex: 1;
+  position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
-.modal.active .modal-sheet {
-  transform: translateY(0);
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-md) var(--space-md) var(--space-sm);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.modal-title {
-  font-size: 1rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.modal-close {
-  width: 2rem;
-  height: 2rem;
-  border-radius: var(--radius-md);
-  background: var(--bg-card);
-  border: none;
-  color: var(--text-secondary);
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.modal-content {
+.table-scroll-area {
   flex: 1;
   overflow-y: auto;
-  padding: var(--space-sm);
+  padding: 0 2rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(14, 165, 233, 0.3) transparent;
 }
 
-.printer-item {
+.table-scroll-area::-webkit-scrollbar { width: 6px; }
+.table-scroll-area::-webkit-scrollbar-track { background: transparent; }
+.table-scroll-area::-webkit-scrollbar-thumb {
+  background-color: rgba(14, 165, 233, 0.3);
+  border-radius: 20px;
+}
+.table-scroll-area::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(14, 165, 233, 0.6);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--bg-dark);
+  z-index: 10;
+  text-align: left;
+  padding: 1rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--surface-border);
+  cursor: pointer;
+  user-select: none;
+}
+thead th:hover { color: var(--primary); }
+
+tbody tr {
+  transition: background 0.15s;
+}
+tbody tr:hover {
+  background: rgba(30, 41, 59, 0.4);
+}
+
+td {
+  padding: 1rem 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  vertical-align: middle;
+}
+
+/* Cell Styles */
+.cat-pill {
+  display: inline-block;
+  background: rgba(30, 41, 59, 0.7);
+  color: #cbd5e1;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.svc-name {
+  font-weight: 600;
+  color: #f3f4f6;
+  font-size: 1rem;
+}
+
+.ext-box {
+  display: inline-block;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--primary);
+  background: rgba(14, 165, 233, 0.1);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+.fav-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #4b5563;
+  cursor: pointer;
+  padding: 0;
+}
+.fav-btn.active { color: #facc15; text-shadow: 0 0 10px rgba(250, 204, 21, 0.5); }
+.fav-btn:hover { transform: scale(1.1); }
+
+/* ================= FOOTER ================= */
+
+footer {
+  flex-shrink: 0;
+  padding: 0.8rem 2rem;
+  border-top: 1px solid var(--surface-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: rgba(2, 6, 23, 0.9);
+}
+
+/* ================= PRINTER OVERLAY ================= */
+
+.printer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 80;
+}
+
+.printer-card {
+  width: min(1000px, 95vw);
+  height: min(600px, 80vh);
+  background: rgba(15, 23, 42, 0.98);
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.printer-card-header {
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.9);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-md);
-  background: var(--bg-card);
-  border-radius: var(--radius-md);
-  margin-bottom: var(--space-xs);
-  cursor: pointer;
+  background: radial-gradient(circle at top left, rgba(15, 118, 110, 0.35), rgba(15, 23, 42, 0.95));
 }
 
-.printer-item:active {
-  background: var(--bg-hover);
-}
-
-.printer-name {
-  font-size: 0.875rem;
+.printer-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--space-xs);
+  color: #e5e7eb;
 }
 
-.printer-loc {
+.printer-card-title span.icon {
+  font-size: 1.1rem;
+}
+
+.printer-close-btn {
+  background: transparent;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  color: #9ca3af;
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.printer-close-btn:hover {
+  color: #e5e7eb;
+  border-color: #e5e7eb;
+}
+
+.printer-frame-wrapper {
+  flex: 1;
+  background: #020617;
+  overflow: auto;
+}
+
+/* جدول البرنترات داخل الأوفرلاي */
+.printer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.printer-table thead th {
+  text-align: left;
+  padding: 0.8rem 1rem;
+  background: #020617;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   font-size: 0.75rem;
-  color: var(--text-muted);
 }
 
-.printer-code {
-  font-family: 'SF Mono', monospace;
-  font-size: 0.8125rem;
-  color: var(--accent-purple);
-  background: rgba(139, 92, 246, 0.1);
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-sm);
+.printer-table tbody td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(30, 41, 59, 0.7);
 }
 
-/* ================= TOAST ================= */
-.toast {
-  position: fixed;
-  top: var(--space-md);
-  left: 50%;
-  transform: translateX(-50%) translateY(-100%);
-  background: var(--bg-card);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-left: 3px solid var(--accent-cyan);
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
-  font-size: 0.875rem;
-  color: var(--text-primary);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  opacity: 0;
-  transition: all 300ms ease;
-  z-index: 200;
-  pointer-events: none;
+.printer-table tbody tr:hover {
+  background: rgba(15, 23, 42, 0.9);
 }
 
-.toast.show {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
+/* ================= MOBILE / HIGH ZOOM ADAPTATION ================= */
+
+@media (max-width: 1100px) {
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .brand-area { justify-content: center; width: 100%; }
+  
+  .rrt-badge {
+    margin: 0.2rem 0;
+    font-size: 1.2rem;
+  }
+  
+  .controls-area {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+    width: 100%;
+  }
+  
+  .search-box { max-width: none; }
+  .btn-group, .resizer { justify-content: center; }
+  .table-scroll-area { padding: 0 0.5rem; }
+  td, th { padding: 0.8rem 0.5rem; }
+
+  .printer-card {
+    width: 95vw;
+    height: 80vh;
+  }
 }
 
-.toast.success {
-  border-left-color: var(--accent-cyan);
+.mid-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.rrt-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.6rem 1.2rem;
+  border-radius: 99px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.rrt-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.rrt-item strong {
+  color: #f43f5e;
+  font-weight: 700;
+  font-family: 'monospace', sans-serif;
+  font-size: 1rem;
+  background: rgba(244, 63, 94, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.pulse-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  animation: policeBlink 1.5s infinite;
+  background: red;
+}
+
+@keyframes policeBlink {
+  0%   { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+  50%  { background: #3b82f6; box-shadow: 0 0 8px #3b82f6; }
+  100% { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
 }
 </style>
 </head>
 <body>
 
-<div class="app">
-  <!-- Header -->
-  <header class="header">
-    <div class="header-top">
-      <div class="logo-section">
-        <div class="logo-box">
-          <img src="logo.png" alt="A3">
-        </div>
-        <div class="title">
-          <h1>A3 Directory</h1>
-          <p>KFSH Internal Extensions</p>
-        </div>
+<div class="app-container">
+
+  <header>
+    <div class="brand-area">
+      <div class="logo-box">
+        <img src="logo.png" alt="A3">
       </div>
-    </div>
-    
-    <!-- Emergency -->
-    <div class="emergency-bar">
-      <div class="emergency-item" onclick="copyToClipboard('49337')">
-        <div class="emergency-dot"></div>
-        <span>Adult</span>
-        <strong>49337</strong>
-      </div>
-      <div class="emergency-item" onclick="copyToClipboard('45381')">
-        <div class="emergency-dot"></div>
-        <span>Pediatric</span>
-        <strong>45381</strong>
-      </div>
-    </div>
-  </header>
-
-  <!-- Search -->
-  <div class="search-section">
-    <div class="search-box" id="searchBox">
-      <span class="search-icon">🔍</span>
-      <input type="text" class="search-input" id="searchInput" placeholder="Search name or extension..." autocomplete="off">
-      <button class="search-clear" id="clearSearch">✕</button>
-    </div>
-  </div>
-
-  <!-- Filters -->
-  <div class="filter-bar">
-    <button class="filter-tab active" data-filter="all">All</button>
-    <button class="filter-tab" data-filter="fav">⭐ Favorites</button>
-  </div>
-
-  <!-- Content -->
-  <main class="content" id="content">
-    <div class="results-count" id="resultsCount">Loading...</div>
-    <div id="directoryList"></div>
-  </main>
-
-  <!-- Printer Button -->
-  <button class="printer-btn" onclick="openPrinterModal()">🖨️</button>
-
-  <!-- Printer Modal -->
-  <div class="modal" id="printerModal">
-    <div class="modal-sheet">
-      <div class="modal-header">
-        <div class="modal-title">🖨️ Printers</div>
-        <button class="modal-close" onclick="closePrinterModal()">✕</button>
-      </div>
-      <div class="modal-content" id="printerList"></div>
-    </div>
-  </div>
-
-  <!-- Toast -->
-  <div class="toast" id="toast"></div>
-</div>
-
-<script>
-// ================= DATA =================
-const STORAGE = {
-  data: 'a3_data_v9',
-  favorites: 'a3_fav_v9'
-};
-
-let state = {
-  data: [],
-  favorites: new Set(),
-  filter: 'all',
-  search: ''
-};
-
-const printers = [
-  { code: 'RINPA0301B', name: 'Label Printer A', loc: 'Nursing Station' },
-  { code: 'RNURB0202B', name: 'Label Printer B', loc: 'Pharmacy' },
-  { code: 'RNURA0301Z', name: 'Main Printer A3', loc: 'Central' },
-  { code: 'NURSE_A3', name: 'Workstation Login', loc: 'A3 PC' },
-  { code: 'KFSH#3709', name: 'System Password', loc: 'Access' }
-];
-
-// ================= INIT =================
-function init() {
-  loadLocal();
-  setupEvents();
-  fetchData();
-}
-
-function loadLocal() {
-  const favs = localStorage.getItem(STORAGE.favorites);
-  if (favs) state.favorites = new Set(JSON.parse(favs));
-  
-  const data = localStorage.getItem(STORAGE.data);
-  if (data) {
-    state.data = JSON.parse(data);
-    render();
-  }
-}
-
-// ================= FETCH (ORIGINAL METHOD) =================
-function fetchData() {
-  const script = document.createElement('script');
-  script.src = "https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec";
-  document.body.appendChild(script);
-}
-
-function callback(response) {
-  if (!response || !Array.isArray(response)) return;
-  
-  const newData = JSON.stringify(response);
-  const oldData = JSON.stringify(state.data);
-  
-  if (newData !== oldData) {
-    state.data = response;
-    localStorage.setItem(STORAGE.data, newData);
-    render();
-    showToast(`Updated ${response.length} contacts`);
-  }
-}
-
-// ================= RENDER =================
-function render() {
-  const list = document.getElementById('directoryList');
-  const count = document.getElementById('resultsCount');
-  
-  let filtered = state.data.filter(item => {
-    if (state.filter === 'fav' && !state.favorites.has(makeKey(item))) return false;
-    
-    if (state.search) {
-      const q = state.search.toLowerCase();
-      return (
-        (item.category || '').toLowerCase().includes(q) ||
-        (item.service || '').toLowerCase().includes(q) ||
-        (item.extension || '').toLowerCase().includes(q)
-      );
-    }
-    return true;
-  });
-  
-  count.textContent = `${filtered.length} result${filtered.length !== 1 ? 's' : ''}`;
-  
-  if (filtered.length === 0) {
-    list.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">🔍</div>
-        <div class="empty-text">No results found</div>
-      </div>
-    `;
-    return;
-  }
-  
-  list.innerHTML = filtered.map(item => {
-    const key = makeKey(item);
-    const isFav = state.favorites.has(key);
-    const icon = getCategoryIcon(item.category);
-    
-    return `
-      <div class="contact-card" onclick="copyToClipboard('${escape(item.extension)}')">
-        <div class="contact-icon">${icon}</div>
-        <div class="contact-info">
-          <div class="contact-category">${escape(item.category || 'General')}</div>
-          <div class="contact-name">${escape(item.service || 'Unknown')}</div>
-        </div>
-        <div class="contact-ext">${escape(item.extension)}</div>
-        <button class="contact-fav ${isFav ? 'active' : ''}" 
-                onclick="event.stopPropagation(); toggleFav('${escape(key)}', this)">
-          ${isFav ? '★' : '☆'}
-        </button>
-      </div>
-    `;
-  }).join('');
-}
-
-function getCategoryIcon(cat) {
-  const icons = {
-    'Nursing': '👨‍⚕️',
-    'Admin': '📋',
-    'Tech': '🔧',
-    'Pharmacy': '💊',
-    'Lab': '🧪',
-    'ER': '🚨'
-  };
-  return icons[cat] || '🏥';
-}
-
-// ================= ACTIONS =================
-function toggleFav(key, btn) {
-  key = unescape(key);
-  
-  if (state.favorites.has(key)) {
-    state.favorites.delete(key);
-    btn.classList.remove('active');
-    btn.textContent = '☆';
-  } else {
-    state.favorites.add(key);
-    btn.classList.add('active');
-    btn.textContent = '★';
-    showToast('Added to favorites');
-  }
-  
-  localStorage.setItem(STORAGE.favorites, JSON.stringify([...state.favorites]));
-  
-  if (state.filter === 'fav') setTimeout(render, 200);
-}
-
-function copyToClipboard(text) {
-  if (!text) return;
-  navigator.clipboard.writeText(text).then(() => {
-    showToast(`Copied: ${text}`);
-  });
-}
-
-// ================= PRINTER MODAL =================
-function openPrinterModal() {
-  const modal = document.getElementById('printerModal');
-  const list = document.getElementById('printerList');
-  
-  list.innerHTML = printers.map(p => `
-    <div class="printer-item" onclick="copyToClipboard('${p.code}')">
-      <div>
-        <div class="printer-name">${p.name}</div>
-        <div class="printer-loc">${p.loc}</div>
-      </div>
-      <div class="printer-code">${p.code}</div>
-    </div>
-  `).join('');
-  
-  modal.classList.add('active');
-}
-
-function closePrinterModal() {
-  document.getElementById('printerModal').classList.remove('active');
-}
-
-// ================= TOAST =================
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
-}
-
-// ================= UTILS =================
-function makeKey(item) {
-  return `${item.category}|${item.service}|${item.extension}`;
-}
-
-function escape(str) {
-  if (!str) return '';
-  return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]));
-}
-
-function unescape(str) {
-  if (!str) return '';
-  const textarea = document.createElement('textarea');
-  textarea.innerHTML = str;
-  return textarea.value;
-}
-
-// ================= EVENTS =================
-function setupEvents() {
-  const searchInput = document.getElementById('searchInput');
-  const searchBox = document.getElementById('searchBox');
-  const clearBtn = document.getElementById('clearSearch');
-  
-  searchInput.addEventListener('input', (e) => {
-    state.search = e.target.value;
-    searchBox.classList.toggle('has-value', !!e.target.value);
-    render();
-  });
-  
-  clearBtn.addEventListener('click', () => {
-    searchInput.value = '';
-    state.search = '';
-    searchBox.classList.remove('has-value');
-    render();
-    searchInput.focus();
-  });
-  
-  document.querySelectorAll('.filter-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      state.filter = tab.dataset.filter;
-      render();
-    });
-  });
-  
-  document.getElementById('printerModal').addEventListener('click', (e) => {
-    if (e.target.id === 'printerModal') closePrinterModal();
-  });
-}
-
-// Start
-init();
-</script>
-
-</body>
-</html>
+      <div
