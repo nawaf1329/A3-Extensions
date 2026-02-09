@@ -697,6 +697,18 @@ const syncDot = document.getElementById('sync-dot');
 const printerOverlay = document.getElementById('printer-overlay');
 const printerTbody = document.getElementById('printer-tbody');
 
+// ========== 🔒 SECURITY FIX: Prevent XSS attacks ==========
+function escapeHtml(unsafe) {
+  if (!unsafe) return '';
+  return String(unsafe)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+// ==========================================================
+
 // --- HELPER FOR REGEX ---
 function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -736,7 +748,7 @@ function applySize() {
 function fetchData() {
   syncDot.style.opacity = '0.4';
   const script = document.createElement('script');
-  script.src = "https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec ";
+  script.src = "https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec";
   document.body.appendChild(script);
 }
 
@@ -794,14 +806,21 @@ function render() {
   list.forEach(row => {
     const key = makeKey(row);
     const isFav = favorites.has(key);
+    
+    // 🔒 SECURITY: Sanitize all user data
+    const safeKey = escapeHtml(key);
+    const safeCategory = escapeHtml(row.category||'');
+    const safeService = escapeHtml(row.service||'');
+    const safeExtension = escapeHtml(row.extension||'');
+    
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td style="text-align:center">
-        <button class="fav-btn ${isFav?'active':''}" onclick="toggleFav('${key}')">★</button>
+        <button class="fav-btn ${isFav?'active':''}" data-key="${safeKey}">★</button>
       </td>
-      <td><span class="cat-pill">${row.category||''}</span></td>
-      <td><span class="svc-name">${row.service||''}</span></td>
-      <td style="text-align:right"><span class="ext-box">${row.extension||''}</span></td>
+      <td><span class="cat-pill">${safeCategory}</span></td>
+      <td><span class="svc-name">${safeService}</span></td>
+      <td style="text-align:right"><span class="ext-box">${safeExtension}</span></td>
     `;
     frag.appendChild(tr);
   });
@@ -835,10 +854,14 @@ function renderPrinters() {
   const frag = document.createDocumentFragment();
 
   printers.forEach(p => {
+    // 🔒 SECURITY: Sanitize printer data too
+    const safeDevice = escapeHtml(p.device || '');
+    const safeName = escapeHtml(p.name || '');
+    
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><span class="ext-box">${p.device || ''}</span></td>
-      <td><span class="svc-name">${p.name || ''}</span></td>
+      <td><span class="ext-box">${safeDevice}</span></td>
+      <td><span class="svc-name">${safeName}</span></td>
     `;
     frag.appendChild(tr);
   });
@@ -865,6 +888,14 @@ btnAll.addEventListener('click', () => {
 });
 btnFav.addEventListener('click', () => {
   currentView='fav'; btnFav.classList.add('active'); btnAll.classList.remove('active'); render();
+});
+
+// 🔒 SECURITY: Event delegation for favorite buttons (safer than inline onclick)
+tbody.addEventListener('click', (e) => {
+  if (e.target.classList.contains('fav-btn')) {
+    const key = e.target.dataset.key;
+    toggleFav(key);
+  }
 });
 
 document.querySelectorAll('.sortable').forEach(th => {
