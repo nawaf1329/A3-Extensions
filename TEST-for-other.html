@@ -334,8 +334,8 @@
       border-radius: 14px;
       padding: 14px 14px 14px 18px;
       display: flex; align-items: center; justify-content: space-between;
-      gap: 10px; cursor: pointer; user-select: none;
-      transition: background 0.2s, border-color 0.2s, transform 0.1s;
+      gap: 10px; user-select: none;
+      transition: background 0.2s, border-color 0.2s;
       position: relative; overflow: hidden;
       box-shadow: 0 2px 10px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
       min-height: 64px; /* comfortable touch target */
@@ -347,14 +347,8 @@
       position:absolute; left:0; top:20%; bottom:20%;
       width:2.5px;
       background:linear-gradient(to bottom,transparent,var(--gold),transparent);
-      border-radius:2px; opacity:0; transition:opacity 0.2s;
+      border-radius:2px; opacity:0;
     }
-
-    .card:active {
-      transform: scale(0.98);
-      background: var(--glass-hover);
-    }
-    .card:active::before { opacity:1; }
 
     .card.is-emg { border-color:var(--red-border); background:rgba(251,113,133,0.04); }
     .card.is-emg::before { background:linear-gradient(to bottom,transparent,var(--red),transparent); }
@@ -685,7 +679,7 @@ function processData(rows) {
     const cat = String(r.category||'').trim();
     const svc = String(r.service||'').trim();
     const ext = String(r.extension||'').trim();
-    return { cat, svc, ext, searchText:[cat,svc,ext].join(' ').toLowerCase(), key:`${cat}|${svc}|${ext}` };
+    return { cat, svc, ext, searchText:[svc,ext].join(' ').toLowerCase(), key:`${cat}|${svc}|${ext}` };
   });
   const prio = ['EMERGENCY & SUPPORT','EMERGENCY / SUPPORT (HOSPITAL WIDE)',
     'STAT NUMBERS','STAT','SSCU & CRITICAL CARE','CRITICAL CARE',
@@ -714,7 +708,7 @@ function buildEmgBar() {
   bar.style.display='flex';
   bar.innerHTML = '<span class="emg-label">🚨 Critical</span>' +
     pills.map(e =>
-      `<div class="e-pill" onclick="copyExt('${esc(e.ext)}')">
+      `<div class="e-pill">
         <span class="en">${escHtml(e.svc)}</span>
         <span class="ee">${escHtml(e.ext)}</span>
       </div>`).join('');
@@ -753,7 +747,7 @@ function render() {
   }
 
   const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
-  let res = pool.filter(e=>tokens.every(t=>e.searchText.includes(t)));
+  let res = pool.filter(e=>tokens.every(t=>wordStartMatch(e.searchText,t)));
   res.sort((a,b) => scoreOf(b,query.toLowerCase()) - scoreOf(a,query.toLowerCase()));
 
   info.textContent = res.length ? `${res.length} result${res.length!==1?'s':''} for "${query}"` : '';
@@ -786,7 +780,7 @@ function card(e, query) {
   const cat = query ? hl(escHtml(e.cat),query) : escHtml(e.cat);
   const ext = query ? hl(escHtml(e.ext),query) : escHtml(e.ext);
 
-  return `<div class="${cls}" onclick="copyExt('${esc(e.ext)}')">
+  return `<div class="${cls}">
     <div class="card-left">
       <div class="card-service">${svc}</div>
       <div class="card-cat">${cat}</div>
@@ -863,6 +857,9 @@ function hl(text,q) {
     r=r.replace(new RegExp(`(${escRe(t)})`,'gi'),'<mark>$1</mark>');
   });
   return r;
+}
+function wordStartMatch(text, token) {
+  return new RegExp('(?:^|\\s|-)' + escRe(token), 'i').test(text);
 }
 function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function esc(s){ return String(s).replace(/'/g,'&#39;').replace(/"/g,'&quot;'); }
