@@ -690,6 +690,8 @@ a { text-decoration: none; color: inherit; }
 }
 
 .count-pill {
+  display: none;
+}
   padding: 0.35rem 0.75rem;
   background: var(--glass-2);
   border: 1px solid var(--glass-border);
@@ -1295,7 +1297,7 @@ function render() {
 
   let list = data.filter(row => {
     if (currentView === 'fav' && !favorites.has(makeKey(row))) return false;
-    if (categoryFilter !== null && (row.category || '') !== categoryFilter) return false;
+    if (!q && categoryFilter !== null && (row.category || '') !== categoryFilter) return false;
     if (!q) return true;
     if (!re) return true;
     return re.test(row.category || '') ||
