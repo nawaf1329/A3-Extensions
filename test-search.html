@@ -1190,7 +1190,7 @@ function showToast(msg, ok = true) {
 /* ---------- Init ---------- */
 function init() {
   const s = parseInt(localStorage.getItem(KEY_SIZE), 10);
-  if (!isNaN(s) && s >= 13 && s <= 20) baseSize = s;
+  if (!isNaN(s) && s >= 11 && s <= 20) baseSize = s;
   applySize();
 
   try {
