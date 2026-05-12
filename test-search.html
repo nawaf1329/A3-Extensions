@@ -339,6 +339,19 @@ a { text-decoration: none; color: inherit; }
   flex-shrink: 0;
 }
 
+.hospital-action {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hospital-icon.hospital-action:active,
+.hospital-cta.hospital-action:active {
+  transform: scale(0.96);
+}
+
 /* ========== SEARCH ========== */
 .search-wrap {
   flex-shrink: 0;
@@ -1020,15 +1033,17 @@ a { text-decoration: none; color: inherit; }
 
   <!-- HOSPITAL SWITCHBOARD — the ONLY callable number -->
   <div class="hospital-bar" role="region" aria-label="Hospital switchboard">
-    <a class="hospital-call" href="tel:0112162919" aria-label="Call hospital switchboard 0112162919">
-      <span class="hospital-icon">📞</span>
-      <span class="hospital-info">
-        <span class="hospital-info-label">Hospital Switchboard</span>
-        <span class="hospital-info-num">011 216 2919</span>
-      </span>
-      <span class="hospital-cta">Call</span>
-    </a>
+  <div class="hospital-call">
+    <a class="hospital-action hospital-icon" href="tel:0112162919" aria-label="Call hospital switchboard 0112162919">📞</a>
+
+    <span class="hospital-info">
+      <span class="hospital-info-label">Hospital Switchboard</span>
+      <span class="hospital-info-num">011 216 2919</span>
+    </span>
+
+    <a class="hospital-action hospital-cta" href="tel:0112162919" aria-label="Call hospital switchboard 0112162919">Call</a>
   </div>
+</div>
 
   <!-- SEARCH + FILTERS -->
   <div class="search-wrap">
