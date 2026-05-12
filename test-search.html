@@ -1057,11 +1057,6 @@ a { text-decoration: none; color: inherit; }
     <div class="filter-row">
       <button class="chip active" id="chipAll">All <span class="chip-count" id="countAll">0</span></button>
       <button class="chip" id="chipFav">★ Favorites <span class="chip-count" id="countFav">0</span></button>
-      <select class="sort-select" id="sortSelect" aria-label="Sort by">
-        <option value="category">Sort: Category</option>
-        <option value="service">Sort: Service</option>
-        <option value="extension">Sort: Extension</option>
-      </select>
     </div>
     <div class="category-row" id="categoryRow"></div>
   </div>
@@ -1163,7 +1158,6 @@ const chipAll    = $('chipAll');
 const chipFav    = $('chipFav');
 const countAll   = $('countAll');
 const countFav   = $('countFav');
-const sortSelect = $('sortSelect');
 const livePill   = $('livePill');
 const footerCount= $('footerCount');
 const settingsPop= $('settingsPop');
@@ -1427,13 +1421,6 @@ chipFav.addEventListener('click', () => {
   chipAll.classList.remove('active');
   render();
 });
-
-/* ---------- Sort ---------- */
-sortSelect.addEventListener('change', (e) => {
-  sortBy = e.target.value;
-  render();
-});
-
 /* ---------- Settings popover ---------- */
 settingsBtn.addEventListener('click', (e) => {
   e.stopPropagation();
