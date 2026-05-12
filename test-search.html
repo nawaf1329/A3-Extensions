@@ -1431,7 +1431,7 @@ document.addEventListener('click', (e) => {
 $('sizeUp').addEventListener('click', () => resize(1));
 $('sizeDown').addEventListener('click', () => resize(-1));
 function resize(delta) {
-  baseSize = Math.max(13, Math.min(20, baseSize + delta));
+  baseSize = Math.max(11, Math.min(20, baseSize + delta));
   applySize();
   try { localStorage.setItem(KEY_SIZE, baseSize); } catch(e){}
 }
