@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#030a05">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
-<title>A3 Directory</title>
-<link rel="icon" type="image/png" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
+<title>Hospital Directory</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2048%2048%22%20fill%3D%22none%22%3E%3Crect%20width%3D%2248%22%20height%3D%2248%22%20rx%3D%2212%22%20fill%3D%22%2309140d%22/%3E%3Cg%20stroke%3D%22%23d4a843%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12%2038V12h24v26M8%2038h32M21%2038v-9h6v9M20%2017h8M24%2013v8M17%2025h2M29%2025h2%22/%3E%3C/g%3E%3C/svg%3E">
+
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4FMC0Z3BFP"></script>
@@ -27,7 +27,7 @@
 
 <style>
 /* ========================================================
-   A3 DIRECTORY — DARK LUXURY GLASSMORPHISM
+   HOSPITAL DIRECTORY — DARK LUXURY GLASSMORPHISM
    ======================================================== */
 
 :root {
@@ -701,9 +701,7 @@ a { text-decoration: none; color: inherit; }
   50%      { opacity: 1; }
 }
 
-.count-pill {
-  display: none;
-}
+.count-pill { color: var(--text-3); font-size: 0.8rem; }
 
 /* ========== FAB (Printer) ========== */
 .fab {
@@ -984,6 +982,41 @@ a { text-decoration: none; color: inherit; }
     border-right: 1px solid var(--glass-border);
   }
 }
+
+/* Hospital-wide controls, in the original visual style. */
+.unit-control { margin-top:.6rem; }
+.unit-control label { display:block; color:var(--gold); font-weight:700; font-size:.75rem; letter-spacing:.1em; margin-bottom:.4rem; }
+#departmentSelect { width:100%; min-height:42px; padding:.6rem .8rem; border-radius:12px; border:1px solid var(--gold-border); background:#102017; color:var(--text-1); font:600 1rem var(--font-display); }
+#departmentSelect:disabled { opacity:.5; }
+
+[hidden] { display: none !important; }
+.logo-mark svg { width: 100%; height: 100%; }
+.brand-text h1 { letter-spacing: .09em; line-height: 1.25; }
+.building-panel { flex-shrink:0; padding:.85rem 1rem .65rem; border-bottom:1px solid var(--glass-border); background:var(--glass-1); }
+.building-heading { display:flex; justify-content:space-between; gap:1rem; align-items:center; margin-bottom:.5rem; }
+.building-heading label { color:var(--gold); font-weight:700; font-size:.75rem; letter-spacing:.1em; }
+#savedHint { color:var(--text-3); font-size:.72rem; }
+#buildingSelect { width:100%; min-height:42px; padding:.6rem .8rem; border-radius:12px; border:1px solid var(--gold-border); background:#102017; color:var(--text-1); font:600 1rem var(--font-display); }
+.scope-toggle { display:flex; align-items:center; gap:.5rem; color:var(--text-2); font-size:.85rem; margin-top:.55rem; min-height:28px; }
+.scope-toggle input { width:18px; height:18px; accent-color:var(--gold); }
+.scope-toggle:has(input:disabled) { opacity:.5; }
+.data-notice { flex-shrink:0; padding:.55rem 1rem; color:var(--amber); font-size:.85rem; border-bottom:1px solid var(--gold-border); background:var(--gold-soft); }
+.data-notice button { color:inherit; text-decoration:underline; font-weight:700; min-height:30px; }
+.location-badge { display:block; width:fit-content; margin-top:.45rem; padding:.2rem .5rem; border-radius:6px; font-size:.7rem; color:var(--gold-bright); background:var(--gold-soft); border:1px solid var(--gold-border); }
+.location-badge.unassigned { color:var(--text-3); border-color:var(--glass-border); background:var(--glass-2); }
+.card-service,.card-ext { overflow-wrap:anywhere; }
+.card-ext { max-width:43%; }
+.card-fav { min-width:40px; min-height:40px; }
+.empty-state .retry-button { margin-top:1rem; padding:.8rem 1.4rem; color:var(--gold-bright); background:var(--gold-soft); border:1px solid var(--gold-border); border-radius:12px; min-height:44px; }
+.status-bar { position:relative; flex-shrink:0; right:auto; justify-content:space-between; background:var(--bg-base); border-top:1px solid var(--glass-border); }
+.list-scroll { min-height:0; padding-bottom:1rem; }
+.rrt-bar { flex-wrap:wrap; gap:.45rem; }
+.rrt-reference { color:var(--text-3); font-size:.7rem; }
+.rrt-numbers { flex-wrap:wrap; }
+:focus-visible { outline:2px solid var(--gold-bright); outline-offset:3px; }
+@media (max-height:660px) { .building-panel { padding-top:.45rem; padding-bottom:.35rem; } .hospital-bar { padding-top:.35rem; padding-bottom:.35rem; } }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; } }
+
 </style>
 </head>
 <body>
@@ -992,31 +1025,18 @@ a { text-decoration: none; color: inherit; }
   <header class="app-header">
     <div class="brand-row">
       <div class="logo-mark">
-        <img src="logo.png" alt="A3" onerror="this.style.display='none';this.parentNode.innerHTML='<span class=&quot;logo-fallback&quot;>A3</span>';">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="#09140d"/><g stroke="#d4a843" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 38V12h24v26M8 38h32M21 38v-9h6v9M20 17h8M24 13v8M17 25h2M29 25h2"/></g></svg>
       </div>
       <div class="brand-text">
-        <h1>A3 Extensions</h1>
-        <p>Internal · King Faisal Specialist Hospital</p>
+        <h1>Hospital Directory</h1>
+        <p>King Faisal Specialist Hospital · Riyadh</p>
       </div>
-      <button class="icon-button" id="settingsBtn" aria-label="Settings">⚙</button>
+      <button class="icon-button" id="settingsBtn" aria-label="Settings" aria-expanded="false" aria-controls="settingsPop">⚙</button>
     </div>
   </header>
 
-  <!-- RRT EMERGENCY (reference only — call switchboard below to reach them) -->
-  <div class="rrt-bar" role="region" aria-label="Emergency RRT extensions">
-    <span class="rrt-pulse" aria-hidden="true"></span>
-    <span class="rrt-label">RRT</span>
-    <div class="rrt-numbers">
-      <span class="rrt-call">
-        <span class="rrt-call-label">Adult</span>
-        <span class="rrt-call-num">49337</span>
-      </span>
-      <span class="rrt-call">
-        <span class="rrt-call-label">Peds</span>
-        <span class="rrt-call-num">45381</span>
-      </span>
-    </div>
-  </div>
+  <!-- RRT entries are read from the sheet and scoped to their building. -->
+  <div class="rrt-bar" id="rrtBar" role="region" aria-label="RRT extensions" hidden></div>
 
   <!-- HOSPITAL SWITCHBOARD — the ONLY callable number -->
   <div class="hospital-bar" role="region" aria-label="Hospital switchboard">
@@ -1032,13 +1052,26 @@ a { text-decoration: none; color: inherit; }
   </div>
 </div>
 
+  <section class="building-panel" aria-label="Directory location">
+    <div class="building-heading"><label for="buildingSelect">YOUR BUILDING</label><span id="savedHint" role="status">Saved on this device</span></div>
+    <select id="buildingSelect" aria-describedby="savedHint">
+      <option value="all">All buildings</option>
+      <option value="main">Main Hospital</option>
+      <option value="kacold">KACOLD</option>
+      <option value="east">East Wing</option>
+    </select>
+    <div class="unit-control"><label for="departmentSelect">YOUR DEPARTMENT</label>
+    <select id="departmentSelect" aria-describedby="savedHint"><option value="">Select a building first</option></select></div>
+    <label class="scope-toggle"><input type="checkbox" id="searchAll"> Search all buildings</label>
+  </section>
+  <div class="data-notice" id="dataNotice" role="status" hidden></div>
   <!-- SEARCH + FILTERS -->
   <div class="search-wrap">
     <div class="search-field" id="searchWrap">
       <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
       </svg>
-      <input id="search" type="search" placeholder="Search service, category or extension…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+      <input id="search" type="search" aria-label="Search directory" placeholder="Search service, category or extension…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
       <button class="search-clear" id="searchClear" aria-label="Clear search">✕</button>
     </div>
     <div class="filter-row">
@@ -1053,15 +1086,12 @@ a { text-decoration: none; color: inherit; }
 
   <!-- STATUS BAR -->
   <div class="status-bar">
-    <button class="live-pill" id="livePill" aria-label="Refresh data">F1520110 · Nawaf Alshammari</button>
+    <button class="live-pill" id="livePill" aria-label="Refresh data">Refresh directory</button>
     <span class="count-pill" id="footerCount">—</span>
   </div>
 
-  <!-- FAB: Printer sheet -->
-  <button class="fab" id="printerFab" aria-label="Open printer info">🖨️</button>
-
   <!-- SETTINGS POPOVER -->
-  <div class="settings-pop" id="settingsPop" role="dialog" aria-label="Settings">
+  <div class="settings-pop" id="settingsPop" role="dialog" aria-label="Settings" aria-expanded="false" aria-controls="settingsPop">
     <h4>Text size</h4>
     <div class="size-row">
       <button id="sizeDown" aria-label="Decrease text size">A−</button>
@@ -1069,448 +1099,224 @@ a { text-decoration: none; color: inherit; }
       <button id="sizeUp" aria-label="Increase text size">A+</button>
     </div>
     <div class="about-block">
-      <strong>A3 Internal Extensions</strong>
+      <strong>Hospital Directory</strong>
       Personal initiative — not an official hospital system.<br>
-      <span class="author">F1520110 · Nawaf Alshammari</span>
+      <span class="author">Developed by Nawaf Alshammari</span>
     </div>
   </div>
-
-  <!-- BOTTOM SHEET: Printer -->
-  <div class="sheet-backdrop" id="sheetBackdrop"></div>
-  <section class="sheet" id="printerSheet" role="dialog" aria-label="Printers">
-    <div class="sheet-handle"></div>
-    <div class="sheet-header">
-      <div class="sheet-title">
-        <span class="sheet-icon">🖨️</span>
-        <span>Printers &amp; Device Info</span>
-      </div>
-      <button class="sheet-close" id="printerClose" aria-label="Close">✕</button>
-    </div>
-    <div class="sheet-body" id="printerList"></div>
-  </section>
 
   <!-- TOAST -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* ==========================================================
-   A3 Directory — Mobile App Logic (luxury build)
-   ========================================================== */
-
-/* ---------- Config ---------- */
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec";
-
-const KEY_DATA = 'a3m_data_v1';
-const KEY_FAV  = 'a3m_fav_v1';
-const KEY_SIZE = 'a3m_size_v1';
-
-/* Migrate favorites & cache from previous v4 desktop build */
-(function migrate() {
-  try {
-    if (!localStorage.getItem(KEY_FAV)) {
-      const old = localStorage.getItem('a3_fav_v4');
-      if (old) localStorage.setItem(KEY_FAV, old);
-    }
-    if (!localStorage.getItem(KEY_DATA)) {
-      const old = localStorage.getItem('a3_data_v4');
-      if (old) localStorage.setItem(KEY_DATA, old);
-    }
-  } catch (e) {}
-})();
-
-/* ---------- Printer reference data ---------- */
-const printers = [
-  { device: 'RINPA0301B', name: 'Label Printer A' },
-  { device: 'RNURB0202B', name: 'Label Printer B' },
-  { device: 'RNURA0301Z', name: 'Printer (A3)' },
-  { device: 'nurse_a3',   name: 'A3 PC Login' },
-  { device: 'KFSH#3709',  name: 'PC Password' }
-];
-
-/* ---------- State ---------- */
-let data = [];
-let favorites = new Set();
-let currentView = 'all';       // 'all' | 'fav'
-let sortBy = 'category';       // 'category' | 'service' | 'extension'
-let baseSize = 11;
-let queryString = '';
-let categoryFilter = null;     // null = all categories
-
-/* ---------- Element refs ---------- */
-const $ = (id) => document.getElementById(id);
-const listEl     = $('list');
-const searchEl   = $('search');
-const searchWrap = $('searchWrap');
-const chipAll    = $('chipAll');
-const chipFav    = $('chipFav');
-const countAll   = $('countAll');
-const countFav   = $('countFav');
-const livePill   = $('livePill');
-const footerCount= $('footerCount');
-const settingsPop= $('settingsPop');
-const settingsBtn= $('settingsBtn');
-const sizeVal    = $('sizeVal');
-const toastEl    = $('toast');
-const sheetBackdrop = $('sheetBackdrop');
-const printerSheet  = $('printerSheet');
-const printerList   = $('printerList');
-const categoryRow   = $('categoryRow');
-
-/* ---------- Security utils ---------- */
-function escapeHtml(s) {
-  if (s == null) return '';
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+'use strict';
+// Keep this URL until the Apps Script deployment has been repaired or updated.
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9t71TVzAJyzRDczYYtLh7oIIq9J4jEvyddy7Bc-BAunFMTuYEwerlscLHjfKw0orA/exec';
+const KEY_DATA = 'hospital_directory_data_v1';
+const KEY_FAV = 'hospital_directory_favorites_v1';
+const KEY_SIZE = 'hospital_directory_text_size_v1';
+const KEY_BUILDING = 'hospital_directory_building_v1';
+const KEY_DEPARTMENTS = 'hospital_directory_departments_v1';
+const LABELS = { all:'All buildings', main:'Main Hospital', kacold:'KACOLD', east:'East Wing', shared:'Shared · All buildings', unassigned:'Building not set' };
+const $ = id => document.getElementById(id);
+let storageOK = true;
+function readStorage(key) { try { return localStorage.getItem(key); } catch (_) { storageOK = false; return null; } }
+function writeStorage(key, value) { try { localStorage.setItem(key, value); return true; } catch (_) { storageOK = false; return false; } }
+function parseJSON(raw, fallback) { try { return raw === null ? fallback : JSON.parse(raw); } catch (_) { return fallback; } }
+// Old keys are used ONLY to migrate existing users on the same domain.
+for (const [key, oldKeys] of [[KEY_DATA,['a3m_data_v1','a3_data_v4']], [KEY_FAV,['a3m_fav_v1','a3_fav_v4']], [KEY_SIZE,['a3m_size_v1']]]) {
+  if (readStorage(key) !== null) continue;
+  for (const oldKey of oldKeys) { const value=readStorage(oldKey); if(value!==null){writeStorage(key,value); break;} }
 }
-function escapeAttr(s) { return escapeHtml(s); }
-function escapeRegex(s) {
-  return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
+function normalizeSearch(s) { return String(s??'').normalize('NFKC').toLowerCase().replace(/[\u064B-\u065F\u0670]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/[٠-٩]/g,c=>String(c.charCodeAt(0)-1632)).trim(); }
+function buildingValues(value) {
+  const aliases = {main:'main','main hospital':'main','المبنى الرئيسي':'main','الرئيسي':'main',kacold:'kacold',kackold:'kacold','كاكولد':'kacold',east:'east','east wing':'east','الجناح الشرقي':'east',all:'shared',shared:'shared','all buildings':'shared','جميع المباني':'shared','مشترك':'shared'};
+  const tokens=String(value??'').split(/[,;|/،]+/).map(v=>normalizeSearch(v).replace(/[_-]+/g,' ').replace(/\s+/g,' ')).filter(Boolean);
+  const mapped=tokens.map(t=>aliases[t]||'unassigned');
+  if (!mapped.length || mapped.includes('unassigned')) return ['unassigned'];
+  return mapped.includes('shared') ? ['shared'] : [...new Set(mapped)].sort();
 }
-function makeKey(r) {
-  return (r.category||'') + '|' + (r.service||'') + '|' + (r.extension||'');
+function visibilityScope(raw, buildings, department, room) {
+  const values={hospital:'hospital',shared:'hospital',all:'hospital','المستشفى كامل':'hospital',building:'building','المبنى كامل':'building',department:'department',unit:'department','القسم فقط':'department'};
+  const text=normalizeSearch(raw); let scope=text ? (values[text]||'unassigned') : (department||room ? 'department' : buildings.includes('shared')?'hospital':buildings.includes('unassigned')?'unassigned':'building');
+  // Never broaden a room or department entry to building/hospital scope.
+  if((department||room)&&scope!=='department')return 'unassigned';
+  if(scope==='department'&&(!department||buildings.length!==1||['shared','unassigned'].includes(buildings[0])))return 'unassigned';
+  if(scope==='building'&&(buildings.includes('unassigned')||buildings.includes('shared')))return 'unassigned';
+  return scope;
 }
-
-/* ---------- Toast (refresh / error only) ---------- */
-let toastTimer;
-function showToast(msg, ok = true) {
-  toastEl.innerHTML =
-    '<span class="toast-icon' + (ok ? '' : ' error') + '">' + (ok ? '✓' : '✕') + '</span>' +
-    '<span>' + escapeHtml(msg) + '</span>';
-  toastEl.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1700);
-}
-
-/* ---------- Init ---------- */
-function init() {
-  const s = parseInt(localStorage.getItem(KEY_SIZE), 10);
-  if (!isNaN(s) && s >= 11 && s <= 20) baseSize = s;
-  applySize();
-
-  try {
-    const parsed = JSON.parse(localStorage.getItem(KEY_FAV) || '[]');
-    favorites = new Set(Array.isArray(parsed) ? parsed : []);
-  } catch (e) { favorites = new Set(); }
-
-  try {
-    const cached = JSON.parse(localStorage.getItem(KEY_DATA) || 'null');
-    if (Array.isArray(cached) && cached.length) {
-      data = cached;
-      renderCategoryChips();
-      render();
-    } else {
-      showSkeleton();
-    }
-  } catch (e) { showSkeleton(); }
-
-  fetchData();
-}
-
-function showSkeleton() {
-  let html = '';
-  for (let i = 0; i < 6; i++) html += '<div class="skeleton"></div>';
-  listEl.innerHTML = html;
-}
-
-/* ---------- JSONP fetch ---------- */
-let fetchScript;
-function fetchData() {
-  livePill.classList.add('syncing');
-  if (fetchScript && fetchScript.parentNode) {
-    fetchScript.parentNode.removeChild(fetchScript);
+function normalizeRows(rows) {
+  if (!Array.isArray(rows)) throw new Error('The data service did not return a directory.');
+  const clean=[];
+  for (const r of rows) {
+    if(!r || typeof r!=='object' || Array.isArray(r)) throw new Error('Invalid directory format.');
+    const service=String(r.service??'').trim(), extension=String(r.extension??'').trim();
+    if(!service && !extension) continue;
+    if(!service || !extension) throw new Error('A directory entry is missing its service or extension.');
+    const building=String(r.building??'').trim();
+    const buildings=buildingValues(building),department=String(r.department??r.unit??'').trim(),room=String(r.room??'').trim();
+    const scope=visibilityScope(r.scope??'',buildings,department,room);
+    clean.push({id:String(r.id??'').trim(), category:String(r.category??'General').trim()||'General', service, extension, building, aliases:String(r.aliases??'').trim(), buildings, department, room, scope});
   }
-  const s = document.createElement('script');
-  s.src = APPS_SCRIPT_URL + '?_=' + Date.now();
-  s.onerror = () => {
-    livePill.classList.remove('syncing');
-    showToast('Couldn\u2019t reach server', false);
-  };
-  s.onload = () => {
-    if (s.parentNode) s.parentNode.removeChild(s);
-  };
-  fetchScript = s;
-  document.body.appendChild(s);
-}
-
-window.callback = function(response) {
-  livePill.classList.remove('syncing');
-  if (!Array.isArray(response)) return;
-  const next = JSON.stringify(response);
-  const prev = localStorage.getItem(KEY_DATA);
-  if (prev !== next) {
-    try { localStorage.setItem(KEY_DATA, next); } catch (e) {}
-  }
-  data = response;
-  renderCategoryChips();
-  render();
-};
-
-/* ---------- Category chip row (dynamic from data) ---------- */
-function renderCategoryChips() {
   const seen = new Set();
-  const cats = [];
-  for (let i = 0; i < data.length; i++) {
-    const c = (data[i].category || '').trim();
-    if (c && !seen.has(c)) { seen.add(c); cats.push(c); }
-  }
-  cats.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-
-  const html = [
-    '<button class="cat-chip' + (categoryFilter === null ? ' active' : '') + '" data-cat="">All Categories</button>'
-  ];
-  for (let i = 0; i < cats.length; i++) {
-    const c = cats[i];
-    const active = (categoryFilter === c) ? ' active' : '';
-    html.push('<button class="cat-chip' + active + '" data-cat="' + escapeAttr(c) + '">' + escapeHtml(c) + '</button>');
-  }
-  categoryRow.innerHTML = html.join('');
+  return clean.filter(r=>{const k=JSON.stringify([r.id,r.category,r.service,r.extension,r.buildings,r.department,r.room,r.scope]);if(seen.has(k))return false;seen.add(k);return true;});
+}
+let data=[], favorites=new Set(), currentView='all', categoryFilter=null, queryString='', baseSize=11;
+let selectedBuilding=readStorage(KEY_BUILDING)||'all';
+if(!['all','main','kacold','east'].includes(selectedBuilding)) selectedBuilding='all';
+let departmentPreferences=parseJSON(readStorage(KEY_DEPARTMENTS),{});
+if(!departmentPreferences||typeof departmentPreferences!=='object'||Array.isArray(departmentPreferences))departmentPreferences={};
+let selectedDepartment=typeof departmentPreferences[selectedBuilding]==='string'?departmentPreferences[selectedBuilding]:'';
+let loadState='loading', lastUpdated=0, requestToken=0, activeRequest=null, retryTimer=null;
+const listEl=$('list'), searchEl=$('search'), searchWrap=$('searchWrap'), livePill=$('livePill'), settingsPop=$('settingsPop');
+function locationLabel(r) {
+  const parts=[r.scope==='hospital'?LABELS.shared:r.buildings.map(b=>LABELS[b]).join(' · ')];
+  if(r.department)parts.push(r.department);
+  if(r.room)parts.push('Room '+r.room);
+  if(r.scope==='unassigned'&&!r.buildings.includes('unassigned'))parts.push('Location needs review');
+  return parts.join(' · ');
+}
+function makeKey(r) { return r.id ? 'id:'+r.id : JSON.stringify([r.category,r.service,r.extension,r.buildings,...(r.department||r.room?[r.department,r.room]:[])]); }
+function oldKey(r) { return r.category+'|'+r.service+'|'+r.extension; }
+function migrateFavorites() {
+  let changed=false;
+  for(const r of data){const old=oldKey(r);if(favorites.has(old) && data.filter(x=>oldKey(x)===old).length===1){favorites.delete(old);favorites.add(makeKey(r));changed=true;}}
+  if(changed)writeStorage(KEY_FAV,JSON.stringify([...favorites]));
+}
+function matchesBuilding(r, building=selectedBuilding, department=selectedDepartment) {
+  if(building==='all')return true;
+  if(r.scope==='unassigned')return false;
+  if(r.scope==='hospital')return true;
+  if(!r.buildings.includes(building))return false;
+  if(r.scope==='building')return true;
+  return !department||normalizeSearch(r.department)===normalizeSearch(department);
+}
+function scopedRows() { const across=queryString && $('searchAll').checked; return data.filter(r=>matchesBuilding(r,across?'all':selectedBuilding,across?'':selectedDepartment)); }
+function syncDepartmentControls(){
+  const select=$('departmentSelect');select.disabled=selectedBuilding==='all';
+  if(select.disabled){select.innerHTML='<option value="">Select a building first</option>';return;}
+  const names=new Map();
+  for(const r of data)if(r.scope==='department'&&r.buildings.includes(selectedBuilding))names.set(normalizeSearch(r.department),r.department);
+  const saved=normalizeSearch(selectedDepartment);
+  if(saved&&!names.has(saved))names.set(saved,selectedDepartment);
+  select.innerHTML='<option value="">All departments</option>'+[...names].sort((a,b)=>a[1].localeCompare(b[1],undefined,{numeric:true})).map(([key,name])=>'<option value="'+escapeHtml(key)+'">'+escapeHtml(name)+'</option>').join('');
+  select.value=saved;
 }
 
-categoryRow.addEventListener('click', (e) => {
-  const chip = e.target.closest('.cat-chip');
-  if (!chip) return;
-  const c = chip.dataset.cat || '';
-  categoryFilter = c === '' ? null : c;
-  renderCategoryChips();
-  render();
-});
-
-/* ---------- Render ---------- */
-function render() {
-  const q = queryString;
-  let re = null;
-  if (q) {
-    try { re = new RegExp('\\b' + escapeRegex(q), 'i'); }
-    catch (e) { re = null; }
-  }
-
-  countAll.textContent = data.length;
-  countFav.textContent = favorites.size;
-
-  let list = data.filter(row => {
-    if (currentView === 'fav' && !favorites.has(makeKey(row))) return false;
-    if (!q && categoryFilter !== null && (row.category || '') !== categoryFilter) return false;
-    if (!q) return true;
-    if (!re) return true;
-    return re.test(row.category || '') ||
-           re.test(row.service  || '') ||
-           re.test(String(row.extension || ''));
-  });
-
-  list.sort((a, b) => {
-    if (sortBy === 'extension') {
-      const na = parseInt(a.extension, 10);
-      const nb = parseInt(b.extension, 10);
-      if (!isNaN(na) && !isNaN(nb)) return na - nb;
-    }
-    const va = String(a[sortBy] || '').toLowerCase();
-    const vb = String(b[sortBy] || '').toLowerCase();
-    return va.localeCompare(vb);
-  });
-
-  footerCount.textContent = list.length + ' / ' + data.length;
-
-  if (list.length === 0) {
-    if (data.length === 0) {
-      showSkeleton();
-      return;
-    }
-    const isFavView = currentView === 'fav';
-    listEl.innerHTML =
-      '<div class="empty-state">' +
-        '<div class="ico">' + (isFavView ? '☆' : '🔍') + '</div>' +
-        '<h3>' + (isFavView ? 'No favorites yet' : 'No results') + '</h3>' +
-        '<p>' + (isFavView
-          ? 'Tap the star on any entry to save it here.'
-          : 'Try a different word or extension.') +
-        '</p>' +
-      '</div>';
-    return;
-  }
-
-  /* group by category only when sort is "category", no search, and no single-category filter */
-  const showGroups = sortBy === 'category' && !q && categoryFilter === null;
-  const html = [];
-  let lastCat = null;
-
-  for (let i = 0; i < list.length; i++) {
-    const row = list[i];
-    const cat = row.category || '';
-    if (showGroups && cat !== lastCat) {
-      html.push('<div class="section-label">' + escapeHtml(cat) + '</div>');
-      lastCat = cat;
-    }
-    const key = makeKey(row);
-    const isFav = favorites.has(key);
-    const safeCat = escapeHtml(cat);
-    const safeSvc = escapeHtml(row.service || '');
-    const safeExt = escapeHtml(row.extension || '');
-    const safeKey = escapeAttr(key);
-
-    html.push(
-      '<div class="card">' +
-        '<button class="card-fav' + (isFav ? ' active' : '') + '" data-key="' + safeKey + '" aria-label="Toggle favorite">★</button>' +
-        '<div class="card-body">' +
-          '<div class="card-service">' + safeSvc + '</div>' +
-          (showGroups ? '' : '<span class="card-category">' + safeCat + '</span>') +
-        '</div>' +
-        '<span class="card-ext">' + safeExt + '</span>' +
-      '</div>'
-    );
-  }
-
-  listEl.innerHTML = html.join('');
+let toastTimer;
+function showToast(msg,ok=true){$('toast').innerHTML='<span class="toast-icon'+(ok?'':' error')+'">'+(ok?'✓':'✕')+'</span><span>'+escapeHtml(msg)+'</span>';$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2800);}
+function syncBuildingControls(){
+  $('buildingSelect').value=selectedBuilding;
+  syncDepartmentControls();
+  $('searchAll').disabled=selectedBuilding==='all';
+  $('savedHint').textContent=storageOK?'Saved on this device':'Saving unavailable in this browser';
+  searchEl.placeholder=selectedBuilding==='all'?'Search service, category or extension…':'Search '+(selectedDepartment?$('departmentSelect').selectedOptions[0].textContent+' · ':'')+LABELS[selectedBuilding]+'…';
 }
-
-/* ---------- List interactions (favorite toggle only — extensions are not clickable) ---------- */
-listEl.addEventListener('click', (e) => {
-  const favBtn = e.target.closest('.card-fav');
-  if (!favBtn) return;
-  const key = favBtn.dataset.key;
-  if (favorites.has(key)) favorites.delete(key);
-  else favorites.add(key);
-  try { localStorage.setItem(KEY_FAV, JSON.stringify([...favorites])); } catch(e){}
-  render();
-});
-
-/* ---------- Search ---------- */
-let searchTimer;
-searchEl.addEventListener('input', (e) => {
-  queryString = e.target.value.toLowerCase().trim();
-  searchWrap.classList.toggle('has-text', queryString.length > 0);
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(render, 50);
-});
-$('searchClear').addEventListener('click', () => {
-  searchEl.value = '';
-  queryString = '';
-  searchWrap.classList.remove('has-text');
-  render();
-  searchEl.focus();
-});
-
-/* ---------- Filter chips ---------- */
-chipAll.addEventListener('click', () => {
-  if (currentView === 'all') return;
-  currentView = 'all';
-  chipAll.classList.add('active');
-  chipFav.classList.remove('active');
-  render();
-});
-chipFav.addEventListener('click', () => {
-  if (currentView === 'fav') return;
-  currentView = 'fav';
-  chipFav.classList.add('active');
-  chipAll.classList.remove('active');
-  render();
-});
-/* ---------- Settings popover ---------- */
-settingsBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  settingsPop.classList.toggle('open');
-});
-document.addEventListener('click', (e) => {
-  if (!settingsPop.contains(e.target) && e.target !== settingsBtn && !settingsBtn.contains(e.target)) {
-    settingsPop.classList.remove('open');
+function renderStatus(){
+  livePill.classList.toggle('syncing',loadState==='loading');
+  livePill.textContent=loadState==='loading'?'Updating…':loadState==='error'?(data.length?'Saved data · Retry':'Connection failed · Retry'):'Refresh directory';
+  livePill.title=lastUpdated?'Last successful update: '+new Date(lastUpdated).toLocaleString():'No successful update yet';
+  const messages=[];
+  if(loadState==='error') messages.push(data.length?'Update failed. Showing saved data'+(lastUpdated?' from '+new Date(lastUpdated).toLocaleString():'')+'.':'Could not load the directory. Check your connection and try again.');
+  else if(loadState==='loading'&&data.length)messages.push('Showing saved data while checking for updates.');
+  const n=data.filter(r=>r.scope==='unassigned').length;
+  if(n)messages.push(n+(n===1?' entry has':' entries have')+' no complete location listed'+(selectedBuilding==='all'?'.':'; find them in All buildings.'));
+  $('dataNotice').hidden=!messages.length;
+  $('dataNotice').textContent=messages.join(' ');
+  if(loadState==='error'){const b=document.createElement('button');b.textContent='Retry';b.addEventListener('click',()=>fetchData());$('dataNotice').append(' ',b);}
+}
+function renderRRT(){
+  const rows=data.filter(r=>matchesBuilding(r)&&r.scope!=='unassigned'&&/\brrt\b/i.test(r.category+' '+r.service));
+  $('rrtBar').hidden=!rows.length;
+  $('rrtBar').innerHTML=rows.length?'<span class="rrt-pulse" aria-hidden="true"></span><span class="rrt-label">RRT</span><div class="rrt-numbers">'+rows.map(r=>'<span class="rrt-call"><span class="rrt-call-label">'+escapeHtml(r.service)+' · '+escapeHtml(locationLabel(r))+'</span><span class="rrt-call-num">'+escapeHtml(r.extension)+'</span></span>').join('')+'</div>':'';
+}
+function renderCategoryChips(){
+  const cats=[...new Set(scopedRows().map(r=>r.category))].sort((a,b)=>a.localeCompare(b));
+  if(categoryFilter!==null&&!cats.includes(categoryFilter))categoryFilter=null;
+  $('categoryRow').innerHTML=[null,...cats].map(c=>'<button class="cat-chip'+(categoryFilter===c?' active':'')+'" data-cat="'+escapeHtml(c??'')+'" aria-pressed="'+(categoryFilter===c)+'">'+escapeHtml(c??'All Categories')+'</button>').join('');
+}
+function render(){
+  syncDepartmentControls();renderStatus();renderRRT();renderCategoryChips();
+  const rows=scopedRows();
+  $('countAll').textContent=rows.length;
+  $('countFav').textContent=rows.filter(r=>favorites.has(makeKey(r))).length;
+  $('chipAll').classList.toggle('active',currentView==='all');$('chipFav').classList.toggle('active',currentView==='fav');
+  $('chipAll').setAttribute('aria-pressed',String(currentView==='all'));$('chipFav').setAttribute('aria-pressed',String(currentView==='fav'));
+  const words=normalizeSearch(queryString).split(/\s+/).filter(Boolean);
+  const list=rows.filter(r=>{
+    if(currentView==='fav'&&!favorites.has(makeKey(r)))return false;
+    if(categoryFilter!==null&&r.category!==categoryFilter)return false;
+    const text=normalizeSearch([r.category,r.service,r.extension,r.aliases,r.department,r.room,locationLabel(r)].join(' '));
+    return words.every(w=>text.includes(w));
+  }).sort((a,b)=>a.category.localeCompare(b.category)||a.service.localeCompare(b.service)||locationLabel(a).localeCompare(locationLabel(b)));
+  $('footerCount').textContent=list.length+' / '+rows.length;
+  if(!data.length&&loadState==='loading'){listEl.innerHTML='<div class="skeleton"></div>'.repeat(5);listEl.setAttribute('aria-busy','true');return;}
+  listEl.setAttribute('aria-busy','false');
+  if(!list.length){
+    const failed=!data.length&&loadState==='error';
+    const title=failed?'Directory unavailable':!data.length?'No entries yet':currentView==='fav'?'No matching favorites':'No results';
+    const description=failed?'The data service could not be reached.':!data.length?'The connected sheet returned an empty directory.':currentView==='fav'?'Tap a star to save an entry. Favorites follow your building and search filters.':selectedBuilding!=='all'?'Try All buildings, or enable Search all buildings and enter a search.':'Try another name, extension or category.';
+    listEl.innerHTML='<div class="empty-state"><div class="ico">'+(failed?'↻':'⌕')+'</div><h3>'+title+'</h3><p>'+description+'</p>'+(failed?'<button class="retry-button" data-action="retry">Try again</button>':'')+'</div>';return;
   }
-});
-
-$('sizeUp').addEventListener('click', () => resize(1));
-$('sizeDown').addEventListener('click', () => resize(-1));
-function resize(delta) {
-  baseSize = Math.max(11, Math.min(20, baseSize + delta));
-  applySize();
-  try { localStorage.setItem(KEY_SIZE, baseSize); } catch(e){}
-}
-function applySize() {
-  document.documentElement.style.setProperty('--base-size', baseSize + 'px');
-  sizeVal.textContent = baseSize + 'px';
-}
-
-/* ---------- Live pill: tap to refresh ---------- */
-livePill.addEventListener('click', () => {
-  if (livePill.classList.contains('syncing')) return;
-  fetchData();
-  showToast('Refreshing…');
-});
-
-/* ---------- Printer sheet ---------- */
-$('printerFab').addEventListener('click', openPrinter);
-$('printerClose').addEventListener('click', closePrinter);
-sheetBackdrop.addEventListener('click', closePrinter);
-
-function openPrinter() {
-  renderPrinters();
-  sheetBackdrop.classList.add('open');
-  requestAnimationFrame(() => printerSheet.classList.add('open'));
-}
-function closePrinter() {
-  printerSheet.classList.remove('open');
-  sheetBackdrop.classList.remove('open');
-  printerSheet.style.transform = '';
-}
-
-function renderPrinters() {
-  if (!printers.length) {
-    printerList.innerHTML =
-      '<div class="empty-state"><div class="ico">🖨️</div><h3>No printers</h3><p>None defined yet.</p></div>';
-    return;
+  const groups=!words.length&&categoryFilter===null;let last=null;const html=[];
+  for(const r of list){if(groups&&last!==r.category){html.push('<div class="section-label">'+escapeHtml(r.category)+'</div>');last=r.category;}
+    const fav=favorites.has(makeKey(r));
+    html.push('<div class="card"><button class="card-fav'+(fav?' active':'')+'" data-key="'+escapeHtml(makeKey(r))+'" aria-label="'+(fav?'Remove':'Add')+' favorite: '+escapeHtml(r.service)+'" aria-pressed="'+fav+'">★</button><div class="card-body"><div class="card-service">'+escapeHtml(r.service)+'</div>'+(groups?'':'<span class="card-category">'+escapeHtml(r.category)+'</span>')+'<span class="location-badge'+(r.scope==='unassigned'?' unassigned':'')+'">'+escapeHtml(locationLabel(r))+'</span></div><span class="card-ext">'+escapeHtml(r.extension)+'</span></div>');
   }
-  const html = printers.map(p => {
-    const dev  = escapeHtml(p.device || '');
-    const name = escapeHtml(p.name || '');
-    return (
-      '<div class="printer-row">' +
-        '<span class="printer-code">' + dev + '</span>' +
-        '<div class="printer-name">' + name + '</div>' +
-      '</div>'
-    );
-  }).join('');
-  printerList.innerHTML = html;
+  listEl.innerHTML=html.join('');
 }
-
-/* ---------- Drag-down to close bottom sheet ---------- */
-let touchY0 = 0, touchY1 = 0, dragging = false;
-printerSheet.addEventListener('touchstart', (e) => {
-  if (e.target.closest('.sheet-body')) return;
-  touchY0 = touchY1 = e.touches[0].clientY;
-  dragging = true;
-  printerSheet.style.transition = 'none';
-}, { passive: true });
-
-printerSheet.addEventListener('touchmove', (e) => {
-  if (!dragging) return;
-  touchY1 = e.touches[0].clientY;
-  const dy = Math.max(0, touchY1 - touchY0);
-  printerSheet.style.transform = 'translateY(' + dy + 'px)';
-}, { passive: true });
-
-printerSheet.addEventListener('touchend', () => {
-  if (!dragging) return;
-  dragging = false;
-  printerSheet.style.transition = '';
-  const dy = touchY1 - touchY0;
-  if (dy > 90) {
-    closePrinter();
-  } else {
-    printerSheet.style.transform = '';
+function cancelRequest(){if(!activeRequest)return;clearTimeout(activeRequest.timer);activeRequest.script.remove();delete window[activeRequest.callbackName];activeRequest=null;}
+function fetchData(attempt=0){
+  clearTimeout(retryTimer);cancelRequest();
+  const token=++requestToken;loadState='loading';render();
+  const script=document.createElement('script'), callbackName='hospitalDirectoryResponse_'+token;
+  function fail(message){if(!activeRequest||activeRequest.token!==token)return;cancelRequest();
+    if(attempt===0){retryTimer=setTimeout(()=>fetchData(1),900);return;}
+    loadState='error';render();showToast(message||'Could not load directory',false);
   }
-});
-
-/* ---------- Esc closes overlays (desktop debug) ---------- */
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    settingsPop.classList.remove('open');
-    if (printerSheet.classList.contains('open')) closePrinter();
+  function accept(response){if(!activeRequest||activeRequest.token!==token)return;
+    try {
+      if(response&&response.error)throw new Error('The data service reported an error.');
+      const next=normalizeRows(Array.isArray(response)?response:response?.rows);
+      cancelRequest();data=next;lastUpdated=Date.now();loadState='ready';migrateFavorites();
+      writeStorage(KEY_DATA,JSON.stringify({rows:data,updatedAt:lastUpdated}));syncBuildingControls();render();
+    } catch(e){fail(e.message);}
   }
-});
-
-/* ---------- Kick off ---------- */
+  activeRequest={token,script,callbackName,accept,timer:setTimeout(()=>fail('The data service timed out'),12000)};
+  window[callbackName]=accept;
+  try {const url=new URL(APPS_SCRIPT_URL);url.searchParams.set('callback',callbackName);url.searchParams.set('_',String(Date.now()));script.src=url.href;}catch(_){fail('Invalid data service URL');return;}
+  script.async=true;script.onerror=()=>fail('Could not reach the data service');
+  script.onload=()=>{if(activeRequest?.token===token)fail('The data service returned an invalid response');};
+  document.body.appendChild(script);
+}
+// Supports the previous Apps Script, which always responds with callback([...]).
+window.callback=response=>{if(activeRequest && document.currentScript===activeRequest.script)activeRequest.accept(response);};
+$('buildingSelect').addEventListener('change',e=>{selectedBuilding=e.target.value;selectedDepartment=typeof departmentPreferences[selectedBuilding]==='string'?departmentPreferences[selectedBuilding]:'';categoryFilter=null;$('searchAll').checked=false;writeStorage(KEY_BUILDING,selectedBuilding);syncBuildingControls();render();listEl.scrollTop=0;});
+$('departmentSelect').addEventListener('change',e=>{selectedDepartment=e.target.value;departmentPreferences[selectedBuilding]=selectedDepartment;writeStorage(KEY_DEPARTMENTS,JSON.stringify(departmentPreferences));categoryFilter=null;$('searchAll').checked=false;syncBuildingControls();render();listEl.scrollTop=0;});
+$('searchAll').addEventListener('change',()=>{categoryFilter=null;render();});
+$('categoryRow').addEventListener('click',e=>{const b=e.target.closest('[data-cat]');if(b){categoryFilter=b.dataset.cat||null;render();}});
+listEl.addEventListener('click',e=>{if(e.target.closest('[data-action="retry"]')){fetchData();return;}const b=e.target.closest('[data-key]');if(!b)return;const key=b.dataset.key;if(favorites.has(key))favorites.delete(key);else favorites.add(key);if(!writeStorage(KEY_FAV,JSON.stringify([...favorites])))showToast('Favorites could not be saved on this device',false);render();});
+searchEl.addEventListener('input',e=>{queryString=e.target.value.trim();searchWrap.classList.toggle('has-text',!!queryString);render();});
+$('searchClear').addEventListener('click',()=>{searchEl.value='';queryString='';searchWrap.classList.remove('has-text');render();searchEl.focus();});
+$('chipAll').addEventListener('click',()=>{currentView='all';render();});$('chipFav').addEventListener('click',()=>{currentView='fav';render();});
+$('settingsBtn').addEventListener('click',e=>{e.stopPropagation();settingsPop.classList.toggle('open');$('settingsBtn').setAttribute('aria-expanded',String(settingsPop.classList.contains('open')));});
+function closeSettings(){settingsPop.classList.remove('open');$('settingsBtn').setAttribute('aria-expanded','false');}
+document.addEventListener('click',e=>{if(!settingsPop.contains(e.target)&&!$('settingsBtn').contains(e.target))closeSettings();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSettings();});
+function applySize(){document.documentElement.style.setProperty('--base-size',baseSize+'px');$('sizeVal').textContent=baseSize+'px';}
+function resize(delta){baseSize=Math.max(11,Math.min(20,baseSize+delta));applySize();writeStorage(KEY_SIZE,String(baseSize));}
+$('sizeUp').addEventListener('click',()=>resize(1));$('sizeDown').addEventListener('click',()=>resize(-1));
+livePill.addEventListener('click',()=>fetchData());
+window.addEventListener('online',()=>{if(loadState==='error')fetchData();});
+function init(){
+  const savedSize=Number(readStorage(KEY_SIZE));if(savedSize>=11&&savedSize<=20)baseSize=savedSize;applySize();
+  const fav=parseJSON(readStorage(KEY_FAV),[]);favorites=new Set(Array.isArray(fav)?fav.filter(v=>typeof v==='string'):[]);
+  const cached=parseJSON(readStorage(KEY_DATA),null);
+  if(cached){try{data=normalizeRows(Array.isArray(cached)?cached:cached.rows);lastUpdated=Number(cached.updatedAt)||0;}catch(_){data=[];}}
+  migrateFavorites();syncBuildingControls();fetchData();
+}
 init();
+
 </script>
 </body>
 </html>
