@@ -1007,6 +1007,15 @@ a { text-decoration: none; color: inherit; }
 .card-fav { min-width:40px; min-height:40px; }
 .empty-state .retry-button { margin-top:1rem; padding:.8rem 1.4rem; color:var(--gold-bright); background:var(--gold-soft); border:1px solid var(--gold-border); border-radius:12px; min-height:44px; }
 .status-bar { position:relative; flex-shrink:0; right:auto; justify-content:space-between; background:var(--bg-base); border-top:1px solid var(--glass-border); }
+.status-bar { gap:10px; flex-wrap:nowrap; }
+.status-actions { display:flex; align-items:center; gap:10px; min-width:0; }
+.status-actions .live-pill { flex-shrink:0; white-space:nowrap; font-size:clamp(8px,.72rem,10px); padding:5px 8px; letter-spacing:.04em; }
+.developer-credit { display:inline-flex; align-items:baseline; gap:4px; white-space:nowrap; direction:ltr; font:400 10px/1.4 var(--font-display); color:var(--text-3); }
+.developer-credit .developer-name { color:var(--gold); font-weight:600; }
+.developer-credit .developer-id { font-family:var(--font-mono); font-size:9px; }
+.count-pill { flex-shrink:0; white-space:nowrap; }
+@media (max-width:600px) { .status-bar .count-pill { display:none; } }
+@media (max-width:359px) { .status-bar { padding-left:8px; padding-right:8px; } .status-actions { gap:6px; } .developer-credit { gap:3px; font-size:9px; } .developer-credit .developer-id { font-size:8px; } .status-actions .live-pill { letter-spacing:.04em; padding-left:.5rem; padding-right:.5rem; } }
 .list-scroll { min-height:0; padding-bottom:1rem; }
 .rrt-bar { flex-wrap:wrap; gap:.45rem; }
 .rrt-reference { color:var(--text-3); font-size:.7rem; }
@@ -1085,7 +1094,10 @@ a { text-decoration: none; color: inherit; }
 
   <!-- STATUS BAR -->
   <div class="status-bar">
-    <button class="live-pill" id="livePill" aria-label="Refresh data">Refresh directory</button>
+    <div class="status-actions">
+      <button class="live-pill" id="livePill" aria-label="Refresh data">Refresh directory</button>
+      <span class="developer-credit" aria-label="Developed by نواف الشمري، 1520110"><span>Developed by</span><bdi class="developer-name" lang="ar">نواف الشمري</bdi><span aria-hidden="true">·</span><span class="developer-id">1520110</span></span>
+    </div>
     <span class="count-pill" id="footerCount">—</span>
   </div>
 
@@ -1099,8 +1111,7 @@ a { text-decoration: none; color: inherit; }
     </div>
     <div class="about-block">
       <strong>Hospital Directory</strong>
-      Personal initiative — not an official hospital system.<br>
-      <span class="author">Developed by Nawaf Alshammari</span>
+      Personal initiative — not an official hospital system.
     </div>
   </div>
 
@@ -1136,6 +1147,7 @@ for (const [key, oldKeys] of [[KEY_FAV,['a3m_fav_v1','a3_fav_v4']], [KEY_SIZE,['
 }
 function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
 function normalizeSearch(s) { return String(s??'').normalize('NFKC').toLowerCase().replace(/[\u064B-\u065F\u0670]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/[٠-٩]/g,c=>String(c.charCodeAt(0)-1632)).trim(); }
+function searchTokens(value){return normalizeSearch(value).split(/[^\p{L}\p{N}]+/u).filter(Boolean);}
 function buildingValues(value) {
   const aliases = {main:'main','main hospital':'main','المبنى الرئيسي':'main','الرئيسي':'main',kacold:'kacold',kackold:'kacold','كاكولد':'kacold',east:'east','east wing':'east','الجناح الشرقي':'east',all:'shared',shared:'shared','all buildings':'shared','جميع المباني':'shared','مشترك':'shared'};
   const tokens=String(value??'').split(/[,;|/،]+/).map(v=>normalizeSearch(v).replace(/[_-]+/g,' ').replace(/\s+/g,' ')).filter(Boolean);
@@ -1293,7 +1305,8 @@ function renderRRT(){
  $('rrtBar').innerHTML='<span class="rrt-pulse" aria-hidden="true"></span><span class="rrt-label">RRT</span><div class="rrt-numbers">'+rows.map(r=>'<span class="rrt-call"><span class="rrt-call-label">'+escapeHtml(r.label)+'</span><span class="rrt-call-num">'+escapeHtml(r.extension)+'</span></span>').join('')+'</div>';
 }
 function renderCategoryChips(){
-  const cats=[...new Set(scopedRows().map(r=>r.category))].sort((a,b)=>a.localeCompare(b));
+  const contextRows=scopedRows().filter(r=>r.scope===(selectedDepartment?'department':'hospital'));
+  const cats=[...new Set(contextRows.map(r=>r.category))].sort((a,b)=>a.localeCompare(b));
   if(categoryFilter!==null&&!cats.includes(categoryFilter))categoryFilter=null;
   $('categoryRow').innerHTML=[null,...cats].map(c=>'<button class="cat-chip'+(categoryFilter===c?' active':'')+'" data-cat="'+escapeHtml(c??'')+'" aria-pressed="'+(categoryFilter===c)+'">'+escapeHtml(c??'All Categories')+'</button>').join('');
 }
@@ -1304,12 +1317,13 @@ function render(){
   $('countFav').textContent=rows.filter(r=>favorites.has(makeKey(r))).length;
   $('chipAll').classList.toggle('active',currentView==='all');$('chipFav').classList.toggle('active',currentView==='fav');
   $('chipAll').setAttribute('aria-pressed',String(currentView==='all'));$('chipFav').setAttribute('aria-pressed',String(currentView==='fav'));
-  const words=normalizeSearch(queryString).split(/\s+/).filter(Boolean);
+  const words=searchTokens(queryString);
   const list=rows.filter(r=>{
     if(currentView==='fav'&&!favorites.has(makeKey(r)))return false;
     if(categoryFilter!==null&&r.category!==categoryFilter)return false;
-    const text=normalizeSearch([r.category,r.service,r.extension,r.aliases,r.department,locationLabel(r)].join(' '));
-    return words.every(w=>text.includes(w));
+    const tokens=searchTokens([r.category,r.service,r.extension,r.aliases,r.department,locationLabel(r)].join(' '));
+    const digits=normalizeSearch(r.extension).replace(/[^0-9]/g,'');
+    return words.every(w=>tokens.some(token=>token.startsWith(w))||(/^[0-9]+$/.test(w)&&digits.includes(w)));
   }).sort((a,b)=>(a.scope==='department'?0:1)-(b.scope==='department'?0:1)||a.category.localeCompare(b.category)||a.service.localeCompare(b.service)||locationLabel(a).localeCompare(locationLabel(b)));
   $('footerCount').textContent=list.length+' / '+rows.length;
   if(!data.length&&loadState==='loading'){listEl.innerHTML='<div class="skeleton"></div>'.repeat(5);listEl.setAttribute('aria-busy','true');return;}
@@ -1398,3 +1412,4 @@ init();
 </script>
 </body>
 </html>
+
