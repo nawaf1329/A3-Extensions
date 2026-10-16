@@ -1148,6 +1148,105 @@ for (const [key, oldKeys] of [[KEY_FAV,['a3m_fav_v1','a3_fav_v4']], [KEY_SIZE,['
 function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
 function normalizeSearch(s) { return String(s??'').normalize('NFKC').toLowerCase().replace(/[\u064B-\u065F\u0670]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/[٠-٩]/g,c=>String(c.charCodeAt(0)-1632)).trim(); }
 function searchTokens(value){return normalizeSearch(value).split(/[^\p{L}\p{N}]+/u).filter(Boolean);}
+const SEARCH_ALIASES = {
+  "us": [
+    "ultrasound",
+    "ultrasonography",
+    "sonography"
+  ],
+  "ultrasound": [
+    "us",
+    "sonography"
+  ],
+  "sono": [
+    "ultrasound",
+    "sonography"
+  ],
+  "xray": [
+    "x ray",
+    "radiography"
+  ],
+  "xrays": [
+    "x ray",
+    "radiography"
+  ],
+  "ctscan": [
+    "ct scan",
+    "computed tomography"
+  ],
+  "ct": [
+    "ct scan",
+    "computed tomography"
+  ],
+  "mri": [
+    "magnetic resonance imaging"
+  ],
+  "ekg": [
+    "ecg",
+    "electrocardiogram"
+  ],
+  "ecg": [
+    "ekg",
+    "electrocardiogram"
+  ],
+  "er": [
+    "emergency room",
+    "emergency department"
+  ],
+  "ed": [
+    "emergency department"
+  ],
+  "icu": [
+    "intensive care unit"
+  ],
+  "pharm": [
+    "pharmacy"
+  ]
+};
+function boundedSearchDistance(a,b,maxDistance){
+  if (Math.abs(a.length-b.length)>maxDistance) return false;
+  let previous=Array.from({length:b.length+1},(_,i)=>i);
+  for(let i=1;i<=a.length;i++){
+    const row=[i]; let best=row[0];
+    for(let j=1;j<=b.length;j++){
+      const cost=a[i-1]===b[j-1]?0:1;
+      row[j]=Math.min(previous[j]+1,row[j-1]+1,previous[j-1]+cost);
+      if(row[j]<best)best=row[j];
+    }
+    if(best>maxDistance)return false;
+    previous=row;
+  }
+  return previous[b.length]<=maxDistance;
+}
+function searchRank(r,terms,allowTypo=false){
+  if(!terms.length)return 1;
+  const fields=[r.service,r.category,r.extension,r.aliases,r.department,locationLabel(r)];
+  const weights=[90,50,100,65,38,25];
+  let total=0;
+  for(const term of terms){
+    const variants=[term,...(SEARCH_ALIASES[term]||[]).map(a=>searchTokens(a).join(''))];
+    let best=0;
+    for(let i=0;i<fields.length;i++){
+      const tokens=searchTokens(fields[i]||'');
+      if(!tokens.length)continue;
+      const suffixes=tokens.map((_,at)=>tokens.slice(at).join(''));
+      for(let v=0;v<variants.length;v++){
+        const query=variants[v];const synonymPenalty=v?25:0;let value=0;
+        if(tokens.some(t=>t===query))value=weights[i]+55;
+        else if(tokens.some(t=>t.startsWith(query)))value=weights[i]+25;
+        else if(query.length>=3&&suffixes.some(x=>x.startsWith(query)))value=weights[i]+15;
+        if(value)best=Math.max(best,value-synonymPenalty);
+      }
+      if(allowTypo&&term.length>=5){
+        const limit=term.length>=9?2:1;
+        if(tokens.some(t=>t.length>=5&&boundedSearchDistance(term,t,limit)))best=Math.max(best,weights[i]-20);
+      }
+    }
+    if(!best)return 0;
+    total+=best;
+  }
+  return total;
+}
 function buildingValues(value) {
   const aliases = {main:'main','main hospital':'main','المبنى الرئيسي':'main','الرئيسي':'main',kacold:'kacold',kackold:'kacold','كاكولد':'kacold',east:'east','east wing':'east','الجناح الشرقي':'east',all:'shared',shared:'shared','all buildings':'shared','جميع المباني':'shared','مشترك':'shared'};
   const tokens=String(value??'').split(/[,;|/،]+/).map(v=>normalizeSearch(v).replace(/[_-]+/g,' ').replace(/\s+/g,' ')).filter(Boolean);
@@ -1317,14 +1416,11 @@ function render(){
   $('countFav').textContent=rows.filter(r=>favorites.has(makeKey(r))).length;
   $('chipAll').classList.toggle('active',currentView==='all');$('chipFav').classList.toggle('active',currentView==='fav');
   $('chipAll').setAttribute('aria-pressed',String(currentView==='all'));$('chipFav').setAttribute('aria-pressed',String(currentView==='fav'));
-  const words=searchTokens(queryString);
-  const list=rows.filter(r=>{
-    if(currentView==='fav'&&!favorites.has(makeKey(r)))return false;
-    if(categoryFilter!==null&&r.category!==categoryFilter)return false;
-    const tokens=searchTokens([r.category,r.service,r.extension,r.aliases,r.department,locationLabel(r)].join(' '));
-    const digits=normalizeSearch(r.extension).replace(/[^0-9]/g,'');
-    return words.every(w=>tokens.some(token=>token.startsWith(w))||(/^[0-9]+$/.test(w)&&digits.includes(w)));
-  }).sort((a,b)=>(a.scope==='department'?0:1)-(b.scope==='department'?0:1)||a.category.localeCompare(b.category)||a.service.localeCompare(b.service)||locationLabel(a).localeCompare(locationLabel(b)));
+  const words=searchTokens(queryString.replace(/\bu\s*\/\s*s\b/gi,'us'));
+  const candidates=rows.filter(r=>(currentView!=='fav'||favorites.has(makeKey(r)))&&(categoryFilter===null||r.category===categoryFilter));
+  let matches=candidates.map(r=>({r,score:searchRank(r,words,false)})).filter(x=>x.score>0);
+  if(words.length&&!matches.length)matches=candidates.map(r=>({r,score:searchRank(r,words,true)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,12);
+  const list=matches.sort((a,b)=>(a.r.scope==='department'?0:1)-(b.r.scope==='department'?0:1)||b.score-a.score||a.r.category.localeCompare(b.r.category)||a.r.service.localeCompare(b.r.service)||locationLabel(a.r).localeCompare(locationLabel(b.r))).map(x=>x.r);
   $('footerCount').textContent=list.length+' / '+rows.length;
   if(!data.length&&loadState==='loading'){listEl.innerHTML='<div class="skeleton"></div>'.repeat(5);listEl.setAttribute('aria-busy','true');return;}
   listEl.setAttribute('aria-busy','false');
