@@ -1222,10 +1222,12 @@ function searchRank(r,terms,allowTypo=false){
   if(!terms.length)return 1;
   const fields=[r.service,r.category,r.extension,r.aliases,r.department,locationLabel(r)];
   const weights=[90,50,100,65,38,25];
+  const extensionNumbers=String(r.extension??'').split(/[/,;|\n،]+/).map(number=>normalizeSearch(number).replace(/[^0-9]/g,'')).filter(Boolean);
   let total=0;
   for(const term of terms){
     const variants=[term,...(SEARCH_ALIASES[term]||[]).map(a=>searchTokens(a).join(''))];
-    let best=0;
+    const numeric=/^[0-9]+$/.test(term);
+    let best=numeric?Math.max(0,...extensionNumbers.map(number=>number===term?weights[2]+55:number.startsWith(term)?weights[2]+25:number.includes(term)?weights[2]+10:0)):0;
     for(let i=0;i<fields.length;i++){
       const tokens=searchTokens(fields[i]||'');
       if(!tokens.length)continue;
@@ -1237,7 +1239,7 @@ function searchRank(r,terms,allowTypo=false){
         else if(query.length>=3&&suffixes.some(x=>x.startsWith(query)))value=weights[i]+15;
         if(value)best=Math.max(best,value-synonymPenalty);
       }
-      if(allowTypo&&term.length>=5){
+      if(allowTypo&&!numeric&&term.length>=5){
         const limit=term.length>=9?2:1;
         if(tokens.some(t=>t.length>=5&&boundedSearchDistance(term,t,limit)))best=Math.max(best,weights[i]-20);
       }
